@@ -11,12 +11,12 @@ const challenges = [
 ];
 ---
 
-<section class="section problem" id="problem" aria-labelledby="problem-title">
+<section class="section section--grey problem" id="problem" aria-labelledby="problem-title">
   <div class="container">
     <div class="section-head" data-reveal>
       <p class="eyebrow">The problem</p>
       <h2 class="h2" id="problem-title">
-        Starting a business is hard. <span class="serif">Running it alone is harder.</span>
+        Starting a business is hard. <span class="soft">Running it alone is harder.</span>
       </h2>
     </div>
 
@@ -35,7 +35,7 @@ const challenges = [
     <blockquote class="problem__close" data-reveal>
       <p>
         Entrepreneurs don't lack ambition. They lack the resources, time and team to turn their
-        ambition into a <span class="gradient-text">sustainable business.</span>
+        ambition into a <span>sustainable business.</span>
       </p>
     </blockquote>
   </div>
@@ -54,7 +54,7 @@ const challenges = [
     grid-template-columns: 52px minmax(0, 1fr);
     gap: 8px;
     padding: 28px 0;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--border);
   }
 
   .problem__item p {
@@ -63,7 +63,7 @@ const challenges = [
   }
 
   .problem__num {
-    color: var(--indigo);
+    color: var(--text);
     font-size: 14px;
     font-weight: 600;
     font-variant-numeric: tabular-nums;

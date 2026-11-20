@@ -1,6 +1,5 @@
 ---
 import "@fontsource-variable/inter";
-import "@fontsource/instrument-serif/400-italic.css";
 import "../styles/global.css";
 
 interface Props {
@@ -23,8 +22,10 @@ const ogImage = new URL("/og.png", Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
-    <meta name="theme-color" content="#070a16" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#080808" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SoloFactory AI" />
@@ -47,7 +48,7 @@ const ogImage = new URL("/og.png", Astro.site);
       name: "SoloFactory AI",
       url: Astro.site?.toString(),
       description,
-      slogan: "One Entrepreneur. One Brain. An Entire AI Workforce.",
+      slogan: "One entrepreneur. One connected Brain. An entire AI workforce.",
     })} />
     <script is:inline>document.documentElement.classList.add("js");</script>
   </head>

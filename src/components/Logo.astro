@@ -1,6 +1,8 @@
 ---
-/* The SoloFactory AI wordmark with its mark: one centre (the entrepreneur) inside the orbit of
-   the Brain, with the workforce as points on the ring. */
+/* The SoloFactory AI logo: the V4 "Architectural" five-blade mark from the founder's logo deck,
+   chosen for the website on 2026-11-20, beside the wordmark. The mark is drawn from
+   /brand/mark.png as a mask, so it takes the colour of the text around it: white in the black
+   top bar, near-black on light backgrounds. */
 interface Props {
   class?: string;
 }
@@ -8,20 +10,8 @@ const { class: className } = Astro.props;
 ---
 
 <span class:list={["logo", className]}>
-  <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#6d7bff" />
-        <stop offset="1" stop-color="#a78bfa" />
-      </linearGradient>
-    </defs>
-    <circle cx="16" cy="16" r="12.5" fill="none" stroke="url(#logo-grad)" stroke-width="2" />
-    <circle cx="16" cy="16" r="4.5" fill="url(#logo-grad)" />
-    <circle cx="16" cy="3.5" r="2.2" fill="#fff" />
-    <circle cx="26.8" cy="22.3" r="2.2" fill="#fff" />
-    <circle cx="5.2" cy="22.3" r="2.2" fill="#fff" />
-  </svg>
-  <span class="logo__text">SoloFactory <span class="logo__ai">AI</span></span>
+  <span class="logo__mark" aria-hidden="true"></span>
+  <span class="logo__word">SoloFactory AI</span>
 </span>
 
 <style>
@@ -29,20 +19,21 @@ const { class: className } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 18px;
-    font-weight: 650;
-    letter-spacing: -0.02em;
     white-space: nowrap;
   }
 
   .logo__mark {
-    width: 28px;
-    height: 28px;
     flex: none;
+    width: 24px;
+    height: 24px;
+    background: currentColor;
+    -webkit-mask: url("/brand/mark.png") center / contain no-repeat;
+    mask: url("/brand/mark.png") center / contain no-repeat;
   }
 
-  .logo__ai {
-    font-weight: 500;
-    opacity: 0.85;
+  .logo__word {
+    font-size: 17px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
   }
 </style>

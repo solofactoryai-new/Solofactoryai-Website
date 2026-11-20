@@ -20,12 +20,12 @@ const ideas: { icon: IconName; name: string; text: string }[] = [
 ];
 ---
 
-<section class="section section--mist ecosystem" id="ecosystem" aria-labelledby="ecosystem-title">
+<section class="section section--grey ecosystem" id="ecosystem" aria-labelledby="ecosystem-title">
   <div class="container">
     <div class="section-head" data-reveal>
       <p class="eyebrow">More than software. An entrepreneur ecosystem.</p>
       <h2 class="h2" id="ecosystem-title">
-        We Want Entrepreneurs to Succeed. <span class="serif">Not Just Subscribe.</span>
+        We Want Entrepreneurs to Succeed. <span class="soft">Not Just Subscribe.</span>
       </h2>
       <p class="lead">
         Software alone does not keep a business alive. Over time, we want SoloFactory AI to become
@@ -58,9 +58,9 @@ const ideas: { icon: IconName; name: string; text: string }[] = [
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1px;
     overflow: hidden;
-    border: 1px solid var(--line);
+    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    background: var(--line);
+    background: var(--border);
   }
 
   .ecosystem__item {
@@ -69,7 +69,7 @@ const ideas: { icon: IconName; name: string; text: string }[] = [
     justify-items: start;
     gap: 14px;
     padding: clamp(28px, 3.5vw, 44px);
-    background: var(--paper);
+    background: var(--bg);
   }
 
   .ecosystem__icon {
@@ -78,9 +78,9 @@ const ideas: { icon: IconName; name: string; text: string }[] = [
     height: 52px;
     margin-bottom: 8px;
     place-items: center;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #eef0ff, #f3edff);
-    color: var(--indigo-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text);
   }
 
   .ecosystem__item .muted {
@@ -93,7 +93,7 @@ const ideas: { icon: IconName; name: string; text: string }[] = [
     gap: 10px;
     max-width: 70ch;
     margin-top: 28px;
-    color: var(--muted);
+    color: var(--text-secondary);
     font-size: 15px;
   }
 

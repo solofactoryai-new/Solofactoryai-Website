@@ -13,13 +13,12 @@ const steps: { name: string; text: string; icon: IconName }[] = [
 ];
 ---
 
-<section class="section dark journey" aria-labelledby="journey-title">
-  <div class="journey__glow" aria-hidden="true"></div>
+<section class="section section--grey journey" aria-labelledby="journey-title">
   <div class="container">
     <div class="section-head" data-reveal>
       <p class="eyebrow">The entrepreneur journey</p>
       <h2 class="h2" id="journey-title">
-        From Idea to a <span class="serif">Sustainable Business.</span>
+        From Idea to a <span class="soft">Sustainable Business.</span>
       </h2>
       <p class="lead">
         One connected path, whatever you are building. The Brain remembers every step, so each
@@ -31,7 +30,7 @@ const steps: { name: string; text: string; icon: IconName }[] = [
       {steps.map((step, i) => (
         <li class="journey__step" data-reveal style={`transition-delay:${i * 60}ms`}>
           <span class="journey__marker">
-            <Icon name={step.icon} size={20} />
+            <Icon name={step.icon} size={18} />
           </span>
           <div class="journey__body">
             <p class="journey__num">{String(i + 1).padStart(2, "0")}</p>
@@ -45,21 +44,6 @@ const steps: { name: string; text: string; icon: IconName }[] = [
 </section>
 
 <style>
-  .journey {
-    overflow: hidden;
-  }
-
-  .journey__glow {
-    position: absolute;
-    right: -10%;
-    bottom: -30%;
-    width: 60%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(139, 92, 246, 0.2), transparent);
-    pointer-events: none;
-  }
-
   .journey__steps {
     position: relative;
     display: grid;
@@ -70,42 +54,42 @@ const steps: { name: string; text: string; icon: IconName }[] = [
   .journey__steps::before {
     content: "";
     position: absolute;
-    top: 22px;
+    top: 20px;
     right: 6%;
     left: 6%;
-    height: 1px;
-    background: linear-gradient(90deg, #6d7bff, #a78bfa 60%, rgba(167, 139, 250, 0.2));
+    border-top: 1px solid #cfcfcf;
   }
 
   .journey__step {
     position: relative;
     display: grid;
     align-content: start;
-    gap: 18px;
+    gap: 16px;
   }
 
   .journey__marker {
     position: relative;
     display: grid;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     place-items: center;
-    border: 1px solid rgba(167, 139, 250, 0.45);
+    border: 1px solid var(--border);
     border-radius: 50%;
-    background: var(--ink);
-    color: #c7ccff;
+    background: var(--bg);
+    color: var(--text);
+    box-shadow: var(--shadow-1);
   }
 
   .journey__num {
-    color: #a5acff;
+    color: var(--text-secondary);
     font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-weight: 550;
+    font-variant-numeric: tabular-nums;
   }
 
   .journey__body {
     display: grid;
-    gap: 6px;
+    gap: 4px;
   }
 
   .journey__body .muted {
@@ -121,27 +105,22 @@ const steps: { name: string; text: string; icon: IconName }[] = [
     }
 
     .journey__steps::before {
-      top: 22px;
-      bottom: 22px;
-      left: 22px;
+      top: 20px;
+      bottom: 20px;
+      left: 20px;
       right: auto;
-      width: 1px;
-      height: auto;
-      background: linear-gradient(180deg, #6d7bff, #a78bfa 60%, rgba(167, 139, 250, 0.2));
+      border-top: 0;
+      border-left: 1px solid #cfcfcf;
     }
 
     .journey__step {
-      grid-template-columns: 44px minmax(0, 1fr);
-      gap: 20px;
-      padding-bottom: 32px;
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 18px;
+      padding-bottom: 28px;
     }
 
     .journey__step:last-child {
       padding-bottom: 0;
-    }
-
-    .journey__body {
-      padding-top: 2px;
     }
   }
 </style>

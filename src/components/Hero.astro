@@ -1,25 +1,32 @@
 ---
+/* The page opens with the founder's vision statement (SoloFactory AI Vision and Mission
+   Statements), then the brand line and the calls to action. */
 import HeroVisual from "./HeroVisual.astro";
 import Icon from "./Icon.astro";
 ---
 
-<section class="hero dark" id="top" aria-labelledby="hero-title">
-  <div class="hero__backdrop" aria-hidden="true"></div>
+<section class="hero" id="top" aria-labelledby="hero-title">
   <div class="container hero__inner">
     <div class="hero__copy">
-      <p class="hero__tag">One Entrepreneur. One Brain. An Entire AI Workforce.</p>
+      <p class="chip hero__tag">One entrepreneur. One connected Brain. An entire AI workforce.</p>
+      <p class="hero__label">Our vision</p>
       <h1 class="display hero__title" id="hero-title">
-        Build Your Business. <span class="hero__accent">Not Your Team.</span>
+        Imagine a world where anyone can own a company <span class="soft">that pays them.</span>
       </h1>
-      <p class="lead hero__lead">
-        Your AI-powered workforce to build, operate and grow a sustainable business. One
-        entrepreneur. One intelligent Brain. An entire AI workforce.
+      <p class="hero__lines">
+        <span>With or without a job.</span>
+        <span>With or without a team.</span>
+        <span>With the leverage of AI.</span>
       </p>
+      <p class="lead hero__lead">
+        So everyone has the freedom to spend more time living the life they love.
+      </p>
+      <p class="hero__brand">Build Your Business. Not Your Team.</p>
       <div class="hero__ctas">
-        <a class="button button--primary" href="#join">Get Early Access <Icon name="arrow-right" /></a>
-        <a class="button button--ghost" href="#problem">Discover SoloFactory</a>
+        <a class="button" href="#join">Get Early Access <Icon name="arrow-right" /></a>
+        <a class="button button--secondary" href="#problem">Discover SoloFactory</a>
       </div>
-      <p class="hero__for">
+      <p class="hero__for muted">
         For founders of software, AI, physical products, ecommerce, services, agencies and more.
       </p>
     </div>
@@ -31,36 +38,11 @@ import Icon from "./Icon.astro";
 
 <style>
   .hero {
-    position: relative;
-    overflow: hidden;
-    margin-top: -68px;
-    padding: calc(68px + clamp(56px, 8vw, 112px)) 0 clamp(72px, 9vw, 128px);
-  }
-
-  .hero__backdrop {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(60% 55% at 78% 45%, rgba(91, 108, 255, 0.26), transparent 70%),
-      radial-gradient(40% 40% at 92% 10%, rgba(139, 92, 246, 0.22), transparent 70%),
-      radial-gradient(50% 60% at 0% 100%, rgba(59, 130, 246, 0.12), transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero__backdrop::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(70% 70% at 60% 40%, #000 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(70% 70% at 60% 40%, #000 30%, transparent 75%);
+    padding: clamp(48px, 7vw, 96px) 0 clamp(64px, 8vw, 104px);
+    border-bottom: 1px solid var(--border);
   }
 
   .hero__inner {
-    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     align-items: center;
@@ -68,44 +50,55 @@ import Icon from "./Icon.astro";
   }
 
   .hero__tag {
-    display: inline-flex;
     margin-bottom: 28px;
-    padding: 6px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.04);
-    color: #c7ccff;
+    padding: 4px 12px;
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  .hero__label {
+    margin-bottom: 12px;
+    color: var(--text-secondary);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 550;
   }
 
   .hero__title {
-    max-width: 13ch;
-    font-size: clamp(42px, 6.2vw, 80px);
+    max-width: 16ch;
+    font-size: clamp(36px, 5vw, 62px);
   }
 
-  .hero__accent {
-    display: block;
-    background: var(--glow);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .hero__lines {
+    display: grid;
+    gap: 2px;
+    margin-top: 24px;
+    font-size: clamp(18px, 1.7vw, 21px);
+    font-weight: 550;
+    letter-spacing: -0.01em;
   }
 
   .hero__lead {
-    margin-top: 28px;
+    margin-top: 14px;
+  }
+
+  .hero__brand {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: clamp(20px, 2vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
 
   .hero__ctas {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 40px;
+    margin-top: 20px;
   }
 
   .hero__for {
-    margin-top: 28px;
-    color: var(--muted-on-dark);
+    margin-top: 20px;
     font-size: 14px;
   }
 
@@ -115,8 +108,8 @@ import Icon from "./Icon.astro";
     }
 
     .hero__visual {
-      max-width: 520px;
       width: 100%;
+      max-width: 520px;
       margin: 0 auto;
     }
   }

@@ -28,20 +28,11 @@ const placed = workers.map((worker, i) => {
   <svg class="orbit__lines" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
     <defs>
       <radialGradient id="brain-glow" cx="50%" cy="50%" r="50%">
-        <stop offset="0" stop-color="#6d7bff" stop-opacity="0.55" />
-        <stop offset="0.55" stop-color="#8b5cf6" stop-opacity="0.18" />
-        <stop offset="1" stop-color="#8b5cf6" stop-opacity="0" />
+        <stop offset="0" stop-color="#171717" stop-opacity="0.07" />
+        <stop offset="1" stop-color="#171717" stop-opacity="0" />
       </radialGradient>
-      <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#7c8bff" />
-        <stop offset="1" stop-color="#c4b5fd" />
-      </linearGradient>
-      <linearGradient id="link" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#7c8bff" stop-opacity="0.9" />
-        <stop offset="1" stop-color="#7c8bff" stop-opacity="0.15" />
-      </linearGradient>
     </defs>
-    <circle cx="50" cy="50" r="28" fill="url(#brain-glow)" class="orbit__glow" />
+    <circle cx="50" cy="50" r="30" fill="url(#brain-glow)" class="orbit__glow" />
     <circle cx="50" cy="50" r={RADIUS} class="orbit__path" />
     <circle cx="50" cy="50" r="19" class="orbit__brain" />
     <circle cx="50" cy="50" r="19" class="orbit__brain-dash" />
@@ -68,10 +59,11 @@ const placed = workers.map((worker, i) => {
 </figure>
 
 <style>
+  /* Drawn in the product's colours: black, white and greys. */
   .orbit {
     position: relative;
     width: 100%;
-    max-width: 560px;
+    max-width: 540px;
     aspect-ratio: 1 / 1;
     margin: 0 auto;
   }
@@ -86,23 +78,23 @@ const placed = workers.map((worker, i) => {
 
   .orbit__path {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.09);
+    stroke: var(--border);
     stroke-width: 0.3;
   }
 
   .orbit__brain {
-    fill: rgba(17, 26, 53, 0.65);
-    stroke: url(#ring);
-    stroke-width: 0.45;
+    fill: var(--bg-secondary);
+    stroke: var(--text);
+    stroke-width: 0.35;
   }
 
   .orbit__brain-dash {
     fill: none;
-    stroke: rgba(196, 181, 253, 0.55);
-    stroke-width: 0.6;
-    stroke-dasharray: 0.6 3.4;
+    stroke: #8a8a8a;
+    stroke-width: 0.5;
+    stroke-dasharray: 0.5 3.5;
     transform-origin: 50% 50%;
-    animation: spin 60s linear infinite;
+    animation: spin 80s linear infinite;
   }
 
   .orbit__glow {
@@ -111,10 +103,10 @@ const placed = workers.map((worker, i) => {
   }
 
   .orbit__link {
-    stroke: url(#link);
-    stroke-width: 0.28;
-    stroke-dasharray: 1.2 1.6;
-    animation: flow 3.2s linear infinite;
+    stroke: #b8b8b8;
+    stroke-width: 0.25;
+    stroke-dasharray: 1 1.6;
+    animation: flow 3.6s linear infinite;
   }
 
   .orbit__core {
@@ -129,35 +121,31 @@ const placed = workers.map((worker, i) => {
 
   .orbit__you {
     display: grid;
-    width: clamp(52px, 13%, 68px);
+    width: clamp(48px, 12%, 64px);
     aspect-ratio: 1 / 1;
     place-items: center;
     border-radius: 50%;
-    background: #fff;
-    color: var(--ink);
-    box-shadow:
-      0 0 0 6px rgba(124, 139, 255, 0.18),
-      0 12px 40px -6px rgba(124, 139, 255, 0.6);
+    background: var(--action);
+    color: #fff;
+    box-shadow: var(--shadow-2);
   }
 
   .orbit__core-label {
-    color: var(--text-on-dark);
     font-size: 13px;
     font-weight: 600;
   }
 
   .orbit__brain-label {
     position: absolute;
-    top: 28%;
+    top: 27.5%;
     left: 50%;
-    padding: 2px 10px;
+    padding: 1px 8px;
+    border: 1px solid var(--border);
     border-radius: 999px;
-    background: rgba(124, 139, 255, 0.14);
-    color: #c7ccff;
+    background: var(--bg);
+    color: var(--text-secondary);
     font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 550;
     transform: translate(-50%, -50%);
     white-space: nowrap;
   }
@@ -170,38 +158,42 @@ const placed = workers.map((worker, i) => {
     align-items: center;
     gap: 8px;
     max-width: 30%;
-    padding: 8px 12px 8px 8px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 6px 12px 6px 6px;
+    border: 1px solid var(--border);
     border-radius: 999px;
-    background: rgba(17, 26, 53, 0.92);
-    color: var(--text-on-dark);
+    background: var(--bg);
+    color: var(--text);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 550;
     line-height: 1.15;
     transform: translate(-50%, -50%);
-    box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.8);
+    box-shadow: var(--shadow-1);
     animation: float 7s ease-in-out infinite;
     animation-delay: calc(var(--d) * -1);
   }
 
   .orbit__worker-icon {
     display: grid;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     flex: none;
     place-items: center;
     border-radius: 50%;
-    background: rgba(124, 139, 255, 0.16);
-    color: #b9c0ff;
+    background: var(--bg-secondary);
+    color: var(--text);
+  }
+
+  .orbit__worker-icon :global(svg) {
+    width: 16px;
+    height: 16px;
   }
 
   .orbit__caption {
     position: absolute;
     right: 0;
-    bottom: -6px;
-    color: rgba(166, 174, 200, 0.7);
+    bottom: -8px;
+    color: var(--text-secondary);
     font-size: 12px;
-    letter-spacing: 0.04em;
   }
 
   @keyframes spin {
@@ -213,7 +205,7 @@ const placed = workers.map((worker, i) => {
   @keyframes breathe {
     0%,
     100% {
-      opacity: 0.75;
+      opacity: 0.7;
       transform: scale(0.96);
     }
     50% {
@@ -224,7 +216,7 @@ const placed = workers.map((worker, i) => {
 
   @keyframes flow {
     to {
-      stroke-dashoffset: -5.6;
+      stroke-dashoffset: -5.2;
     }
   }
 
@@ -234,7 +226,7 @@ const placed = workers.map((worker, i) => {
       transform: translate(-50%, -50%);
     }
     50% {
-      transform: translate(-50%, calc(-50% - 5px));
+      transform: translate(-50%, calc(-50% - 4px));
     }
   }
 
@@ -247,22 +239,21 @@ const placed = workers.map((worker, i) => {
     .orbit__worker {
       gap: 6px;
       max-width: 34%;
-      padding: 6px 9px 6px 6px;
+      padding: 5px 9px 5px 5px;
       font-size: 12px;
     }
 
     .orbit__worker-icon {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
     }
 
     .orbit__worker-icon :global(svg) {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
     }
 
     .orbit__brain-label {
-      top: 27%;
       font-size: 10px;
     }
   }

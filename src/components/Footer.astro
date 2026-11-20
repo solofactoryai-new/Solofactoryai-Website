@@ -11,11 +11,11 @@ const links = [
 ];
 ---
 
-<footer class="footer dark">
+<footer class="footer">
   <div class="container footer__inner">
     <div class="footer__brand">
       <Logo />
-      <p class="muted">One Entrepreneur. One Brain. An Entire AI Workforce.</p>
+      <p class="muted">One entrepreneur. One connected Brain. An entire AI workforce.</p>
     </div>
     <nav aria-label="Footer">
       <ul class="footer__links">
@@ -32,7 +32,8 @@ const links = [
 <style>
   .footer {
     padding: 64px 0 32px;
-    border-top: 1px solid var(--line-dark);
+    border-top: 1px solid var(--border);
+    background: var(--bg-secondary);
   }
 
   .footer__inner {
@@ -59,13 +60,13 @@ const links = [
   }
 
   .footer__links a {
-    color: var(--muted-on-dark);
+    color: var(--text-secondary);
     font-size: 15px;
     text-decoration: none;
   }
 
   .footer__links a:hover {
-    color: var(--text-on-dark);
+    color: var(--text);
   }
 
   .footer__base {
@@ -75,8 +76,8 @@ const links = [
     gap: 8px 24px;
     margin-top: 48px;
     padding-top: 24px;
-    border-top: 1px solid var(--line-dark);
-    color: var(--muted-on-dark);
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
     font-size: 13px;
   }
 </style>

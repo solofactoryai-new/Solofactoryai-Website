@@ -27,11 +27,25 @@ npm run preview    # serves dist/ to check the production build
 | `src/scripts/waitlist.ts` | The early-access form: validation and sending |
 | `src/layouts/Base.astro` | Page title, description, Open Graph and Twitter cards, structured data |
 | `src/pages/og-card.astro` | The source of `public/og.png`, the social sharing image |
-| `public/` | Favicon and the social image |
+| `public/` | The logo files (`brand/mark.png`, `brand/icon-512.png`), favicons and the social image |
 
-Icons are [Lucide](https://lucide.dev) shapes (ISC licence), inlined in `Icon.astro`. Fonts are
-Inter and Instrument Serif, served from the site itself through Fontsource (SIL Open Font Licence):
-no request goes to a third-party font service.
+Icons are [Lucide](https://lucide.dev) shapes (ISC licence), inlined in `Icon.astro`. The font is
+Inter, served from the site itself through Fontsource (SIL Open Font Licence): no request goes to a
+third-party font service.
+
+## Design
+
+The website looks exactly like the SoloFactory AI product (PRD 2.10). `global.css` uses the
+product's tokens: white and light grey (`#F1F1F1`) backgrounds, `#171717` text, `#636363`
+secondary text, `#E5E5E5` borders, black (`#080808`) buttons, 6/8/12 px corners, and Inter.
+The only black area is the top bar. Sections alternate white and light grey, as the product's
+pages do.
+
+The logo is the V4 "Architectural" five-blade mark from the founder's logo deck ("SoloFactory AI:
+Final Logo Refinement"), chosen for the website on 2026-11-20. The deck notes that no trademark
+search has been done yet. `Logo.astro` draws the mark from `public/brand/mark.png` as a mask, so
+it takes the text colour around it. To change the logo, replace the files in `public/brand/` and
+the favicons.
 
 ## Settings
 

@@ -54,15 +54,15 @@ const workers: { name: string; icon: IconName; text: string; stage: "early" | "r
     <div class="section-head workforce__head" data-reveal>
       <p class="eyebrow">The AI workforce</p>
       <h2 class="h2" id="workforce-title">
-        Every Entrepreneur <span class="serif">Deserves a Team.</span>
+        Every Entrepreneur <span class="soft">Deserves a Team.</span>
       </h2>
       <p class="lead">
         Specialised AI Workers, each focused on one part of the business, all guided by the same
         Brain. They prepare, research and execute the work you authorise. You make the calls.
       </p>
       <ul class="workforce__legend" aria-label="What the labels mean">
-        <li><span class="chip chip--live">In early access</span> A first version is available today.</li>
-        <li><span class="chip">On our roadmap</span> Where the platform is going. Not available yet.</li>
+        <li><span class="chip">In early access</span> A first version is available today.</li>
+        <li><span class="chip chip--dashed">On our roadmap</span> Where the platform is going. Not available yet.</li>
       </ul>
     </div>
 
@@ -73,7 +73,7 @@ const workers: { name: string; icon: IconName; text: string; stage: "early" | "r
           <div class="workforce__body">
             <div class="workforce__title">
               <h3 class="h3">{w.name}</h3>
-              <span class:list={["chip", { "chip--live": w.stage === "early" }]}>
+              <span class:list={["chip", { "chip--dashed": w.stage !== "early" }]}>
                 {w.stage === "early" ? "In early access" : "On our roadmap"}
               </span>
             </div>
@@ -102,7 +102,7 @@ const workers: { name: string; icon: IconName; text: string; stage: "early" | "r
   .workforce__legend {
     display: grid;
     gap: 10px;
-    color: var(--muted);
+    color: var(--text-secondary);
     font-size: 14px;
   }
 
@@ -122,11 +122,11 @@ const workers: { name: string; icon: IconName; text: string; stage: "early" | "r
     grid-template-columns: 48px minmax(0, 1fr);
     gap: 20px;
     padding: 28px 0;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--border);
   }
 
   .workforce__item:last-child {
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--border);
   }
 
   .workforce__icon {
@@ -135,8 +135,8 @@ const workers: { name: string; icon: IconName; text: string; stage: "early" | "r
     height: 48px;
     place-items: center;
     border-radius: 14px;
-    background: var(--indigo-soft);
-    color: var(--indigo-strong);
+    background: var(--bg-secondary);
+    color: var(--text);
   }
 
   .workforce__title {

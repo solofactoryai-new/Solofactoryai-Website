@@ -1,117 +1,126 @@
 ---
+/* Vision, mission and product promise, word for word from the founder's "SoloFactory AI:
+   Vision and Mission" statements. The vision also opens the page (Hero). */
 ---
 
-<section class="section dark vision" id="vision" aria-labelledby="vision-title">
-  <div class="vision__backdrop" aria-hidden="true"></div>
-  <div class="container vision__inner">
-    <p class="eyebrow" data-reveal>Our vision</p>
-    <h2 class="vision__title" id="vision-title" data-reveal>
-      A World Where Anyone Can Own a Company <span class="gradient-text">That Pays Them.</span>
-    </h2>
-    <p class="vision__lines" data-reveal>
-      <span>With or without a job.</span>
-      <span>With or without a team.</span>
-      <span>With the leverage of AI.</span>
-    </p>
-    <p class="lead vision__lead" data-reveal>
-      So everyone has the freedom to spend more time living the life they love.
-    </p>
-
-    <div class="vision__statements">
-      <div class="vision__statement" data-reveal>
-        <p class="vision__label">Vision</p>
-        <p>
-          A world where anyone can build, own and operate a sustainable company with the power of
-          AI, creating financial independence and the freedom to live life on their own terms.
-        </p>
-      </div>
-      <div class="vision__statement" data-reveal>
-        <p class="vision__label">Mission</p>
-        <p>
-          Empower entrepreneurs to discover opportunities, validate problems, build products,
-          acquire customers, generate sustainable revenue and grow independent businesses through
-          AI.
-        </p>
-      </div>
+<section class="section section--grey vision" id="vision" aria-labelledby="vision-title">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <p class="eyebrow">Vision and mission</p>
+      <h2 class="h2 vision__title" id="vision-title">
+        Make sustainable business ownership <span class="soft">accessible to everyone.</span>
+      </h2>
+      <p class="lead">
+        We empower people to build, validate, grow and operate sustainable businesses through AI,
+        making the capabilities of an entire team accessible to every entrepreneur.
+      </p>
     </div>
+
+    <div class="vision__grid">
+      <article class="panel vision__card" data-reveal>
+        <p class="vision__label">Vision</p>
+        <p class="vision__statement">
+          Imagine a world where anyone can own a company that pays them.
+        </p>
+        <p class="vision__lines">
+          With or without a job. With or without a team. With the leverage of AI.
+        </p>
+        <p class="muted">
+          So everyone has the freedom to spend more time living the life they love.
+        </p>
+      </article>
+
+      <article class="panel vision__card" data-reveal>
+        <p class="vision__label">Mission</p>
+        <p class="vision__statement">Make sustainable business ownership accessible to everyone.</p>
+        <p class="muted">
+          We empower people to build, validate, grow and operate sustainable businesses through
+          AI, making the capabilities of an entire team accessible to every entrepreneur.
+        </p>
+      </article>
+
+      <article class="panel vision__card" data-reveal>
+        <p class="vision__label">Product promise</p>
+        <p class="vision__statement">One entrepreneur. One connected Brain. An entire AI workforce.</p>
+        <ul class="vision__promise">
+          <li>A Founder Brain that understands the entrepreneur.</li>
+          <li>A dedicated Business Brain for every business.</li>
+          <li>An AI workforce that helps move each business forward.</li>
+        </ul>
+      </article>
+    </div>
+
+    <p class="vision__close" data-reveal>More leverage. More ownership. More freedom.</p>
   </div>
 </section>
 
 <style>
-  .vision {
-    overflow: hidden;
-    padding: clamp(112px, 14vw, 200px) 0;
-  }
-
-  .vision__backdrop {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(50% 60% at 50% 0%, rgba(91, 108, 255, 0.3), transparent 70%),
-      radial-gradient(45% 50% at 50% 100%, rgba(139, 92, 246, 0.22), transparent 70%);
-    pointer-events: none;
-  }
-
-  .vision__inner {
-    position: relative;
-    display: grid;
-    justify-items: center;
-    text-align: center;
-  }
-
   .vision__title {
-    max-width: 16ch;
-    font-size: clamp(40px, 6.4vw, 84px);
-    font-weight: 650;
-    line-height: 1.04;
-    letter-spacing: -0.035em;
+    max-width: 22ch;
   }
 
-  .vision__lines {
+  .vision__grid {
     display: grid;
-    gap: 4px;
-    margin-top: clamp(32px, 4vw, 48px);
-    font-family: var(--font-serif);
-    font-size: clamp(26px, 3vw, 38px);
-    font-style: italic;
-    line-height: 1.25;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
   }
 
-  .vision__lead {
-    margin-top: 28px;
-  }
-
-  .vision__statements {
+  .vision__card {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1px;
-    max-width: 980px;
-    margin-top: clamp(64px, 8vw, 104px);
-    overflow: hidden;
-    border: 1px solid var(--line-dark);
-    border-radius: var(--radius-lg);
-    background: var(--line-dark);
-    text-align: left;
-  }
-
-  .vision__statement {
-    padding: clamp(28px, 3.5vw, 40px);
-    background: rgba(11, 17, 36, 0.92);
-    color: var(--text-on-dark);
-    font-size: 17px;
+    align-content: start;
+    gap: 12px;
+    padding: clamp(24px, 3vw, 32px);
   }
 
   .vision__label {
-    margin-bottom: 12px;
-    color: #a5acff;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 550;
   }
 
-  @media (max-width: 760px) {
-    .vision__statements {
+  .vision__statement {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .vision__lines {
+    font-weight: 500;
+  }
+
+  .vision__promise {
+    display: grid;
+    gap: 8px;
+    color: var(--text-secondary);
+  }
+
+  .vision__promise li {
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .vision__promise li::before {
+    content: "";
+    position: absolute;
+    top: 0.7em;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text);
+  }
+
+  .vision__close {
+    margin-top: clamp(40px, 5vw, 64px);
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .vision__grid {
       grid-template-columns: 1fr;
     }
   }
