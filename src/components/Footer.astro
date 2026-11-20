@@ -27,6 +27,14 @@ const links = [
     <p>© {year} SoloFactory AI. All rights reserved.</p>
     <p>Illustrations on this page show concepts, not screenshots of the product.</p>
   </div>
+  <!-- A large, quiet sign-off logo at the very end of the page. Decorative: the logo above
+       already names the company for screen readers. -->
+  <div class="container footer__giant" aria-hidden="true">
+    <div class="footer__giant-row">
+      <span class="footer__giant-mark"></span>
+      <span class="footer__giant-word">SoloFactory AI</span>
+    </div>
+  </div>
 </footer>
 
 <style>
@@ -79,5 +87,33 @@ const links = [
     border-top: 1px solid var(--border);
     color: var(--text-secondary);
     font-size: 13px;
+  }
+
+  .footer__giant {
+    container-type: inline-size;
+    margin-top: clamp(40px, 6vw, 72px);
+    user-select: none;
+  }
+
+  /* Sized against the container's width (cqi), so the row fills it at every screen size. */
+  .footer__giant-row {
+    display: flex;
+    align-items: center;
+    gap: 0.16em;
+    color: #dcdcdc;
+    font-size: 13.2cqi;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .footer__giant-mark {
+    flex: none;
+    width: 0.86em;
+    height: 0.86em;
+    background: currentColor;
+    -webkit-mask: url("/brand/mark.png") center / contain no-repeat;
+    mask: url("/brand/mark.png") center / contain no-repeat;
   }
 </style>
