@@ -2,16 +2,36 @@
 /* The SoloFactory AI logo: the V4 "Architectural" five-blade mark from the founder's logo deck,
    chosen for the website on 2026-11-20, beside the wordmark. The mark is drawn from
    /brand/mark.png as a mask, so it takes the colour of the text around it: white in the black
-   top bar, near-black on light backgrounds. */
+   top bar, near-black on light backgrounds.
+
+   On hover (or keyboard focus of the link around it) the mark turns once and each letter rolls
+   up and back in, one after another. No motion for people who ask for reduced motion. */
 interface Props {
   class?: string;
 }
 const { class: className } = Astro.props;
+
+const word = "SoloFactory AI";
+const letters = [...word];
+// A scattered order, so the letters do not roll strictly left to right.
+const delay = (i: number) => ((i * 5) % letters.length) * 28;
 ---
 
 <span class:list={["logo", className]}>
   <span class="logo__mark" aria-hidden="true"></span>
-  <span class="logo__word">SoloFactory AI</span>
+  <span class="logo__word">
+    <span class="visually-hidden">{word}</span>
+    <span class="logo__letters" aria-hidden="true">
+      {letters.map((ch, i) => (
+        <span class="logo__ch" style={`--d:${delay(i)}ms`}>
+          <span class="logo__roll">
+            <span>{ch === " " ? " " : ch}</span>
+            <span>{ch === " " ? " " : ch}</span>
+          </span>
+        </span>
+      ))}
+    </span>
+  </span>
 </span>
 
 <style>
@@ -29,11 +49,56 @@ const { class: className } = Astro.props;
     background: currentColor;
     -webkit-mask: url("/brand/mark.png") center / contain no-repeat;
     mask: url("/brand/mark.png") center / contain no-repeat;
+    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
   }
 
   .logo__word {
     font-size: 17px;
     font-weight: 650;
     letter-spacing: -0.02em;
+  }
+
+  .logo__letters {
+    display: inline-flex;
+  }
+
+  /* Each letter is a window one line tall holding two copies; hover slides the second copy up
+     into view. The window is tall enough for descenders (the "y"). */
+  .logo__ch {
+    display: inline-block;
+    height: 1.3em;
+    overflow: hidden;
+    line-height: 1.3;
+  }
+
+  .logo__roll {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+    transition-delay: var(--d);
+  }
+
+  .logo:hover .logo__mark,
+  :global(a:focus-visible) .logo__mark {
+    transform: rotate(360deg);
+  }
+
+  .logo:hover .logo__roll,
+  :global(a:focus-visible) .logo__roll {
+    transform: translateY(-50%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo__mark,
+    .logo__roll {
+      transition: none;
+    }
+
+    .logo:hover .logo__mark,
+    .logo:hover .logo__roll,
+    :global(a:focus-visible) .logo__mark,
+    :global(a:focus-visible) .logo__roll {
+      transform: none;
+    }
   }
 </style>
