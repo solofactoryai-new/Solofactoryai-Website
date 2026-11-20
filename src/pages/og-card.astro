@@ -1,0 +1,121 @@
+---
+/* Source of public/og.png, the 1200 x 630 social sharing image (README, "The social
+   image"). Not linked from the site and not indexed. */
+import "@fontsource-variable/inter";
+import "@fontsource/instrument-serif/400-italic.css";
+import Logo from "../components/Logo.astro";
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>SoloFactory AI social card</title>
+  </head>
+  <body>
+    <div class="card">
+      <div class="glow" aria-hidden="true"></div>
+      <Logo class="brand" />
+      <h1>Build Your Business.<br /><span>Not Your Team.</span></h1>
+      <p class="tag">One Entrepreneur. One Brain. <em>An Entire AI Workforce.</em></p>
+      <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="r" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#6d7bff" /><stop offset="1" stop-color="#c4b5fd" />
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+        <circle cx="100" cy="100" r="38" fill="rgba(17,26,53,0.8)" stroke="url(#r)" stroke-width="1.5" />
+        <circle cx="100" cy="100" r="12" fill="#fff" />
+        {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+          const a = ((-90 + (i * 360) / 7) * Math.PI) / 180;
+          const x = 100 + 80 * Math.cos(a);
+          const y = 100 + 80 * Math.sin(a);
+          return (
+            <g>
+              <line x1="100" y1="100" x2={x} y2={y} stroke="rgba(124,139,255,0.45)" stroke-dasharray="3 4" />
+              <circle cx={x} cy={y} r="7" fill="#111a35" stroke="#7c8bff" stroke-width="1.5" />
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  html,
+  body {
+    margin: 0;
+    background: #070a16;
+  }
+</style>
+
+<style>
+  .card {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    padding: 72px 80px;
+    box-sizing: border-box;
+    background: #070a16;
+    color: #f3f5fc;
+    font-family: "Inter Variable", system-ui, sans-serif;
+  }
+
+  .glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(45% 60% at 82% 50%, rgba(91, 108, 255, 0.35), transparent 70%),
+      radial-gradient(30% 40% at 95% 5%, rgba(139, 92, 246, 0.3), transparent 70%);
+  }
+
+  .card :global(.brand) {
+    position: relative;
+    font-size: 26px;
+  }
+
+  .card :global(.logo__mark) {
+    width: 40px;
+    height: 40px;
+  }
+
+  h1 {
+    position: relative;
+    margin: 72px 0 0;
+    font-size: 72px;
+    font-weight: 650;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, #5b6cff 0%, #8b5cf6 55%, #c084fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .tag {
+    position: relative;
+    margin: 36px 0 0;
+    color: #a6aec8;
+    font-size: 28px;
+  }
+
+  .tag em {
+    color: #f3f5fc;
+    font-family: "Instrument Serif", serif;
+  }
+
+  .ring {
+    position: absolute;
+    top: 115px;
+    right: 40px;
+    width: 380px;
+    height: 380px;
+  }
+</style>

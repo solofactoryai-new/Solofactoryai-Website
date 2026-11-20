@@ -1,0 +1,118 @@
+---
+---
+
+<section class="section dark vision" id="vision" aria-labelledby="vision-title">
+  <div class="vision__backdrop" aria-hidden="true"></div>
+  <div class="container vision__inner">
+    <p class="eyebrow" data-reveal>Our vision</p>
+    <h2 class="vision__title" id="vision-title" data-reveal>
+      A World Where Anyone Can Own a Company <span class="gradient-text">That Pays Them.</span>
+    </h2>
+    <p class="vision__lines" data-reveal>
+      <span>With or without a job.</span>
+      <span>With or without a team.</span>
+      <span>With the leverage of AI.</span>
+    </p>
+    <p class="lead vision__lead" data-reveal>
+      So everyone has the freedom to spend more time living the life they love.
+    </p>
+
+    <div class="vision__statements">
+      <div class="vision__statement" data-reveal>
+        <p class="vision__label">Vision</p>
+        <p>
+          A world where anyone can build, own and operate a sustainable company with the power of
+          AI, creating financial independence and the freedom to live life on their own terms.
+        </p>
+      </div>
+      <div class="vision__statement" data-reveal>
+        <p class="vision__label">Mission</p>
+        <p>
+          Empower entrepreneurs to discover opportunities, validate problems, build products,
+          acquire customers, generate sustainable revenue and grow independent businesses through
+          AI.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .vision {
+    overflow: hidden;
+    padding: clamp(112px, 14vw, 200px) 0;
+  }
+
+  .vision__backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(50% 60% at 50% 0%, rgba(91, 108, 255, 0.3), transparent 70%),
+      radial-gradient(45% 50% at 50% 100%, rgba(139, 92, 246, 0.22), transparent 70%);
+    pointer-events: none;
+  }
+
+  .vision__inner {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .vision__title {
+    max-width: 16ch;
+    font-size: clamp(40px, 6.4vw, 84px);
+    font-weight: 650;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  .vision__lines {
+    display: grid;
+    gap: 4px;
+    margin-top: clamp(32px, 4vw, 48px);
+    font-family: var(--font-serif);
+    font-size: clamp(26px, 3vw, 38px);
+    font-style: italic;
+    line-height: 1.25;
+  }
+
+  .vision__lead {
+    margin-top: 28px;
+  }
+
+  .vision__statements {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    max-width: 980px;
+    margin-top: clamp(64px, 8vw, 104px);
+    overflow: hidden;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-lg);
+    background: var(--line-dark);
+    text-align: left;
+  }
+
+  .vision__statement {
+    padding: clamp(28px, 3.5vw, 40px);
+    background: rgba(11, 17, 36, 0.92);
+    color: var(--text-on-dark);
+    font-size: 17px;
+  }
+
+  .vision__label {
+    margin-bottom: 12px;
+    color: #a5acff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .vision__statements {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

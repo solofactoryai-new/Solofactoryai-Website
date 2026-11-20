@@ -1,0 +1,163 @@
+---
+import Icon, { type IconName } from "./Icon.astro";
+
+/* "early": a first version exists in SoloFactory AI's early access today.
+   "roadmap": part of the platform's direction, not available yet. */
+const workers: { name: string; icon: IconName; text: string; stage: "early" | "roadmap" }[] = [
+  {
+    name: "Research Worker",
+    icon: "search",
+    text: "Studies your market and who your customers could be, and brings back findings with their sources.",
+    stage: "early",
+  },
+  {
+    name: "Product Worker",
+    icon: "package",
+    text: "Turns what customers tell you into clear plans for the next feature, product or offer to build.",
+    stage: "early",
+  },
+  {
+    name: "Marketing Worker",
+    icon: "megaphone",
+    text: "Helps you shape your message and reach the people who need what you make.",
+    stage: "roadmap",
+  },
+  {
+    name: "Sales Worker",
+    icon: "target",
+    text: "Finds prospects, prepares outreach for you to send and keeps every conversation moving.",
+    stage: "roadmap",
+  },
+  {
+    name: "Finance Worker",
+    icon: "wallet",
+    text: "Keeps an eye on cash flow, pricing and runway so you can decide with the numbers in front of you.",
+    stage: "roadmap",
+  },
+  {
+    name: "Operations Worker",
+    icon: "workflow",
+    text: "Takes care of the repeatable work that keeps a business running day to day.",
+    stage: "roadmap",
+  },
+  {
+    name: "Customer Success Worker",
+    icon: "life-buoy",
+    text: "Helps you look after customers, answer them well and keep them coming back.",
+    stage: "roadmap",
+  },
+];
+---
+
+<section class="section workforce" id="workforce" aria-labelledby="workforce-title">
+  <div class="container workforce__grid">
+    <div class="section-head workforce__head" data-reveal>
+      <p class="eyebrow">The AI workforce</p>
+      <h2 class="h2" id="workforce-title">
+        Every Entrepreneur <span class="serif">Deserves a Team.</span>
+      </h2>
+      <p class="lead">
+        Specialised AI Workers, each focused on one part of the business, all guided by the same
+        Brain. They prepare, research and execute the work you authorise. You make the calls.
+      </p>
+      <ul class="workforce__legend" aria-label="What the labels mean">
+        <li><span class="chip chip--live">In early access</span> A first version is available today.</li>
+        <li><span class="chip">On our roadmap</span> Where the platform is going. Not available yet.</li>
+      </ul>
+    </div>
+
+    <ul class="workforce__list">
+      {workers.map((w) => (
+        <li class="workforce__item" data-reveal>
+          <span class="workforce__icon"><Icon name={w.icon} size={22} /></span>
+          <div class="workforce__body">
+            <div class="workforce__title">
+              <h3 class="h3">{w.name}</h3>
+              <span class:list={["chip", { "chip--live": w.stage === "early" }]}>
+                {w.stage === "early" ? "In early access" : "On our roadmap"}
+              </span>
+            </div>
+            <p class="muted">{w.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .workforce__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .workforce__head {
+    position: sticky;
+    top: 120px;
+    margin-bottom: 0;
+  }
+
+  .workforce__legend {
+    display: grid;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .workforce__legend li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+  }
+
+  .workforce__list {
+    display: grid;
+  }
+
+  .workforce__item {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 20px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .workforce__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .workforce__icon {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--indigo-soft);
+    color: var(--indigo-strong);
+  }
+
+  .workforce__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-bottom: 6px;
+  }
+
+  .workforce__body .muted {
+    font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .workforce__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .workforce__head {
+      position: static;
+    }
+  }
+</style>

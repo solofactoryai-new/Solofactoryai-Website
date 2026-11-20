@@ -1,0 +1,82 @@
+---
+import Logo from "./Logo.astro";
+
+const year = new Date().getFullYear();
+const links = [
+  { href: "#vision", label: "Vision" },
+  { href: "#how-it-works", label: "How It Works" },
+  { href: "#workforce", label: "AI Workforce" },
+  { href: "#ecosystem", label: "Ecosystem" },
+  { href: "#join", label: "Join Waitlist" },
+];
+---
+
+<footer class="footer dark">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <Logo />
+      <p class="muted">One Entrepreneur. One Brain. An Entire AI Workforce.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="footer__links">
+        {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer__base">
+    <p>© {year} SoloFactory AI. All rights reserved.</p>
+    <p>Illustrations on this page show concepts, not screenshots of the product.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 64px 0 32px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .footer__brand {
+    display: grid;
+    gap: 14px;
+  }
+
+  .footer__brand .muted {
+    font-size: 15px;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+
+  .footer__links a {
+    color: var(--muted-on-dark);
+    font-size: 15px;
+    text-decoration: none;
+  }
+
+  .footer__links a:hover {
+    color: var(--text-on-dark);
+  }
+
+  .footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-dark);
+    color: var(--muted-on-dark);
+    font-size: 13px;
+  }
+</style>

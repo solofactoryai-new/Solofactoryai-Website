@@ -1,0 +1,25 @@
+{
+  "name": "solofactoryai-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The SoloFactory AI website: one page, static, built with Astro.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0",
+    "astro": "5.18.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.4",
+    "typescript": "5.8.3"
+  }
+}

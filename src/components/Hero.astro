@@ -1,0 +1,123 @@
+---
+import HeroVisual from "./HeroVisual.astro";
+import Icon from "./Icon.astro";
+---
+
+<section class="hero dark" id="top" aria-labelledby="hero-title">
+  <div class="hero__backdrop" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="hero__tag">One Entrepreneur. One Brain. An Entire AI Workforce.</p>
+      <h1 class="display hero__title" id="hero-title">
+        Build Your Business. <span class="hero__accent">Not Your Team.</span>
+      </h1>
+      <p class="lead hero__lead">
+        Your AI-powered workforce to build, operate and grow a sustainable business. One
+        entrepreneur. One intelligent Brain. An entire AI workforce.
+      </p>
+      <div class="hero__ctas">
+        <a class="button button--primary" href="#join">Get Early Access <Icon name="arrow-right" /></a>
+        <a class="button button--ghost" href="#problem">Discover SoloFactory</a>
+      </div>
+      <p class="hero__for">
+        For founders of software, AI, physical products, ecommerce, services, agencies and more.
+      </p>
+    </div>
+    <div class="hero__visual">
+      <HeroVisual />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    margin-top: -68px;
+    padding: calc(68px + clamp(56px, 8vw, 112px)) 0 clamp(72px, 9vw, 128px);
+  }
+
+  .hero__backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 55% at 78% 45%, rgba(91, 108, 255, 0.26), transparent 70%),
+      radial-gradient(40% 40% at 92% 10%, rgba(139, 92, 246, 0.22), transparent 70%),
+      radial-gradient(50% 60% at 0% 100%, rgba(59, 130, 246, 0.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero__backdrop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(70% 70% at 60% 40%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(70% 70% at 60% 40%, #000 30%, transparent 75%);
+  }
+
+  .hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(40px, 5vw, 72px);
+  }
+
+  .hero__tag {
+    display: inline-flex;
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #c7ccff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .hero__title {
+    max-width: 13ch;
+    font-size: clamp(42px, 6.2vw, 80px);
+  }
+
+  .hero__accent {
+    display: block;
+    background: var(--glow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero__lead {
+    margin-top: 28px;
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .hero__for {
+    margin-top: 28px;
+    color: var(--muted-on-dark);
+    font-size: 14px;
+  }
+
+  @media (max-width: 960px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__visual {
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+</style>

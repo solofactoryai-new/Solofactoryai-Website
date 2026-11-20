@@ -1,0 +1,92 @@
+---
+const challenges = [
+  ["Finding the right problem to solve.", "Most ideas fail because they solve something nobody urgently needs."],
+  ["Identifying and refining the ideal customer profile.", "Knowing exactly who you serve changes everything that follows."],
+  ["Validating ideas with real prospects.", "Opinions are cheap. Evidence from real conversations is not."],
+  ["Building the right product.", "Software, a physical product or a service: the hard part is building what people will pay for."],
+  ["Finding and acquiring customers.", "A great offer still needs people to discover it and say yes."],
+  ["Managing sales, marketing and operations.", "Every function competes for the same hours in your day."],
+  ["Managing cash flow and surviving financially.", "Runway decides how long you get to keep trying."],
+  ["Growing without a large team.", "The work grows faster than one person can."],
+];
+---
+
+<section class="section problem" id="problem" aria-labelledby="problem-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">The problem</p>
+      <h2 class="h2" id="problem-title">
+        Starting a business is hard. <span class="serif">Running it alone is harder.</span>
+      </h2>
+    </div>
+
+    <ol class="problem__list">
+      {challenges.map(([title, detail], i) => (
+        <li class="problem__item" data-reveal>
+          <span class="problem__num">{String(i + 1).padStart(2, "0")}</span>
+          <div>
+            <h3 class="h3">{title}</h3>
+            <p class="muted">{detail}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <blockquote class="problem__close" data-reveal>
+      <p>
+        Entrepreneurs don't lack ambition. They lack the resources, time and team to turn their
+        ambition into a <span class="gradient-text">sustainable business.</span>
+      </p>
+    </blockquote>
+  </div>
+</section>
+
+<style>
+  .problem__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(32px, 6vw, 96px);
+    counter-reset: none;
+  }
+
+  .problem__item {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 8px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .problem__item p {
+    margin-top: 6px;
+    font-size: 16px;
+  }
+
+  .problem__num {
+    color: var(--indigo);
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.9;
+  }
+
+  .problem__close {
+    max-width: 30ch;
+    margin: clamp(56px, 8vw, 104px) 0 0;
+    font-size: clamp(28px, 3.6vw, 44px);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+  }
+
+  @media (max-width: 760px) {
+    .problem__list {
+      grid-template-columns: 1fr;
+    }
+
+    .problem__item {
+      grid-template-columns: 40px minmax(0, 1fr);
+      padding: 22px 0;
+    }
+  }
+</style>

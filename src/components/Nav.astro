@@ -1,0 +1,200 @@
+---
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+
+const links = [
+  { href: "#vision", label: "Vision" },
+  { href: "#how-it-works", label: "How It Works" },
+  { href: "#workforce", label: "AI Workforce" },
+  { href: "#ecosystem", label: "Ecosystem" },
+];
+---
+
+<header class="nav dark" data-nav>
+  <div class="container nav__inner">
+    <a class="nav__brand" href="#top" aria-label="SoloFactory AI, back to the top"><Logo /></a>
+    <nav class="nav__menu" id="nav-menu" aria-label="Main">
+      <ul class="nav__links">
+        {links.map((link) => <li><a class="nav__link" href={link.href}>{link.label}</a></li>)}
+      </ul>
+      <a class="button button--primary nav__cta" href="#join">Join Waitlist</a>
+    </nav>
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-controls="nav-menu"
+      aria-expanded="false"
+      data-nav-toggle
+    >
+      <span class="visually-hidden" data-nav-label>Open menu</span>
+      <Icon name="menu" class="nav__icon-open" />
+      <Icon name="x" class="nav__icon-close" />
+    </button>
+  </div>
+</header>
+
+<script>
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const label = document.querySelector<HTMLElement>("[data-nav-label]");
+
+  const setOpen = (open: boolean) => {
+    nav?.classList.toggle("is-open", open);
+    toggle?.setAttribute("aria-expanded", String(open));
+    if (label) label.textContent = open ? "Close menu" : "Open menu";
+  };
+
+  toggle?.addEventListener("click", () => setOpen(!nav?.classList.contains("is-open")));
+  nav?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && nav?.classList.contains("is-open")) {
+      setOpen(false);
+      toggle?.focus();
+    }
+  });
+
+  const onScroll = () => nav?.classList.toggle("is-scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(7, 10, 22, 0.72);
+    border-bottom: 1px solid transparent;
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .nav.is-scrolled {
+    background: rgba(7, 10, 22, 0.86);
+    border-bottom-color: var(--line-dark);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 68px;
+  }
+
+  .nav__brand {
+    text-decoration: none;
+  }
+
+  .nav__menu {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .nav__links {
+    display: flex;
+    gap: 6px;
+  }
+
+  .nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 12px;
+    border-radius: 999px;
+    color: var(--muted-on-dark);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .nav__link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-on-dark);
+  }
+
+  .nav__cta {
+    min-height: 42px;
+    padding: 0 18px;
+    font-size: 15px;
+  }
+
+  .nav__toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-on-dark);
+    cursor: pointer;
+  }
+
+  /* The icons are rendered by Icon.astro, outside this component's scope. */
+  .nav__toggle :global(.nav__icon-close) {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .nav__toggle {
+      display: grid;
+    }
+
+    .nav__menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      padding: 12px var(--gutter) 24px;
+      background: var(--ink);
+      border-bottom: 1px solid var(--line-dark);
+    }
+
+    .nav__links {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .nav__link {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 4px;
+      border-radius: 0;
+      border-bottom: 1px solid var(--line-dark);
+      color: var(--text-on-dark);
+      font-size: 18px;
+    }
+
+    .nav__link:hover {
+      background: transparent;
+    }
+
+    .nav.is-open .nav__menu {
+      display: flex;
+    }
+
+    .nav.is-open :global(.nav__icon-open) {
+      display: none;
+    }
+
+    .nav.is-open :global(.nav__icon-close) {
+      display: block;
+    }
+
+    .nav__cta {
+      min-height: 50px;
+    }
+  }
+</style>
