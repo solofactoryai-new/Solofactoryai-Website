@@ -1,21 +1,28 @@
 ---
 /* Why the founder is building SoloFactory AI, in the founder's own words (2026-11-20).
-   Only facts the founder gave go here. The blockers list is still to come from the founder:
-   until then it shows a marked placeholder, and this section must not be published. */
+   Only facts the founder gave go here. The goal beside the photo is the founder's ambition,
+   not a result. */
 ---
 
 <section class="section founder" id="founder" aria-labelledby="founder-title">
   <div class="container founder__inner">
-    <figure class="founder__photo" data-reveal>
-      <img
-        src="/founder/rajesh-dayalan.webp"
-        alt="Rajesh Dayalan, founder of SoloFactory AI"
-        width="1024"
-        height="1536"
-        loading="lazy"
-        decoding="async"
-      />
-    </figure>
+    <div class="founder__side" data-reveal>
+      <figure class="founder__photo">
+        <img
+          src="/founder/rajesh-dayalan.webp"
+          alt="Rajesh Dayalan, founder of SoloFactory AI"
+          width="1024"
+          height="1536"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+      <p class="founder__goal">
+        <span class="founder__goal-label">My goal</span>
+        <span class="founder__goal-number">1 million</span>
+        <span class="founder__goal-text">sustainable businesses, built by independent entrepreneurs.</span>
+      </p>
+    </div>
 
     <div class="founder__copy" data-reveal>
       <p class="eyebrow">Why I'm building SoloFactory AI</p>
@@ -24,15 +31,14 @@
       </h2>
 
       <div class="founder__letter">
-        <p>
-          For four years, I bootstrapped a startup. But I wasn't able to make it a sustainable
-          business.
+        <p>For four years, I bootstrapped a startup.</p>
+        <p class="founder__strong">
+          I spent my whole savings. I sold my gold. I sold my property.
         </p>
-        <p>Looking back, I can see what blocked me:</p>
-        <p class="founder__todo">[To add: the two or three things that blocked you, in your words.]</p>
+        <p>Still, I wasn't able to make it a sustainable business. But I know exactly what blocked me.</p>
         <p>
-          I want to solve these problems for the new generation of entrepreneurs. That is why I am
-          building SoloFactory AI.
+          I want to solve exactly that problem for the new generation of entrepreneurs, and help
+          create 1 million sustainable businesses. That is why I am building SoloFactory AI.
         </p>
       </div>
 
@@ -83,12 +89,39 @@
     line-height: 1.65;
   }
 
-  .founder__todo {
-    padding: 12px 16px;
-    border: 1px dashed var(--danger);
-    border-radius: var(--radius-md);
-    background: var(--danger-bg);
-    color: var(--danger);
+  .founder__side {
+    display: grid;
+    gap: 16px;
+  }
+
+  .founder__strong {
+    font-weight: 600;
+  }
+
+  .founder__goal {
+    display: grid;
+    gap: 2px;
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+  }
+
+  .founder__goal-label {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 550;
+  }
+
+  .founder__goal-number {
+    font-size: clamp(32px, 3.4vw, 44px);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .founder__goal-text {
+    color: var(--text-secondary);
     font-size: 15px;
   }
 
@@ -115,9 +148,9 @@
       grid-template-columns: 1fr;
     }
 
-    .founder__photo {
+    .founder__side {
       width: 100%;
-      max-width: 300px;
+      max-width: 340px;
     }
   }
 </style>
