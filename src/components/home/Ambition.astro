@@ -11,7 +11,6 @@ const steps = [
 ---
 
 <section class="section section--alt ambition" aria-labelledby="ambition-title">
-  <div class="ambition__glow" aria-hidden="true"></div>
   <div class="container">
     <div class="ambition__head" data-reveal>
       <p class="eyebrow">Our long-term ambition</p>
@@ -58,17 +57,6 @@ const steps = [
     overflow: hidden;
   }
 
-  .ambition__glow {
-    position: absolute;
-    top: -20%;
-    left: 50%;
-    width: 900px;
-    height: 600px;
-    background: radial-gradient(closest-side, rgba(91, 140, 255, 0.16), transparent);
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-
   .ambition__head {
     position: relative;
     margin-bottom: clamp(48px, 6vw, 80px);
@@ -82,11 +70,8 @@ const steps = [
     letter-spacing: -0.04em;
   }
 
-  .ambition__number {
-    background: linear-gradient(90deg, var(--accent-2), var(--accent-strong));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .ambition__title span + span {
+    color: var(--text-secondary);
   }
 
   .ambition__grid {
@@ -132,8 +117,8 @@ const steps = [
 
   .steps__item--now::before {
     border: 0;
-    background: var(--success);
-    box-shadow: 0 0 0 5px var(--success-bg);
+    background: var(--text);
+    box-shadow: 0 0 0 5px var(--accent-soft);
   }
 
   .steps__item--goal::before {
@@ -151,7 +136,7 @@ const steps = [
   }
 
   .steps__item--now .steps__when {
-    color: var(--success);
+    color: var(--text);
   }
 
   .steps__item--goal .steps__when {

@@ -1,42 +1,43 @@
-/* SoloFactory AI website, dark prototype (2026-11-22, the website rebuild brief): a deep
-   midnight base, soft white text, one electric-blue accent and a restrained cyan, used for the
-   connected Brain only. Every colour is a token here, so the look can be tuned in one place. */
+/* SoloFactory AI website (the rebuild brief, 2026-11-22), in the product's three colours:
+   black, white and light grey. Every colour is a token here, so the look can be tuned in one
+   place. */
 
 :root {
-  color-scheme: dark;
+  /* The product's three colours (PRD 2.10, D-107), kept by the founder on 2026-11-22: a black
+     top bar, white pages and light grey. Black is also the one emphasis colour; there is no
+     other accent. */
+  --bg: #ffffff;
+  --bg-secondary: #f1f1f1;
+  --surface: #ffffff;
+  --surface-2: #f1f1f1;
+  --hover: #e7e7e7;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d4;
+  --text: #171717;
+  --text-secondary: #636363;
+  --text-tertiary: #8a8a8a;
 
-  --bg: #070a12;
-  --bg-secondary: #0b101b;
-  --surface: #0f1522;
-  --surface-2: #141c2c;
-  --hover: #1a2336;
-  --border: rgba(148, 163, 184, 0.14);
-  --border-strong: rgba(148, 163, 184, 0.26);
-  --text: #eef1f7;
-  --text-secondary: #94a0b4;
-  --text-tertiary: #66728a;
+  --accent: #171717;
+  --accent-strong: #171717;
+  --accent-soft: rgba(8, 8, 8, 0.05);
+  --accent-2: #636363;
+  --accent-2-soft: rgba(8, 8, 8, 0.06);
 
-  --accent: #5b8cff;
-  --accent-strong: #7aa2ff;
-  --accent-soft: rgba(91, 140, 255, 0.14);
-  --accent-2: #3dd6e8;
-  --accent-2-soft: rgba(61, 214, 232, 0.12);
+  --action: #080808;
+  --action-text: #ffffff;
+  --action-hover: #2b2b2b;
 
-  --action: #eef1f7;
-  --action-text: #070a12;
-  --action-hover: #ffffff;
+  --topbar: #080808;
+  --topbar-text: #ffffff;
+  --topbar-hover: #1f1f1f;
 
-  --topbar: rgba(7, 10, 18, 0.78);
-  --topbar-text: #eef1f7;
-  --topbar-hover: rgba(148, 163, 184, 0.12);
+  --danger: #b42318;
+  --danger-bg: #fef3f2;
+  --success: #067647;
+  --success-bg: #ecfdf3;
 
-  --danger: #ff8a80;
-  --danger-bg: rgba(255, 138, 128, 0.1);
-  --success: #5ee0a0;
-  --success-bg: rgba(94, 224, 160, 0.1);
-
-  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-2: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --shadow-1: 0 1px 2px rgba(8, 8, 8, 0.06);
+  --shadow-2: 0 12px 32px rgba(8, 8, 8, 0.1);
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -122,7 +123,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent-strong);
+  outline: 2px solid var(--text);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
@@ -191,7 +192,7 @@ a {
 
 .eyebrow {
   margin-bottom: 20px;
-  color: var(--accent-strong);
+  color: var(--text-secondary);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -318,20 +319,20 @@ a {
 
 .button--secondary {
   border-color: var(--border-strong);
-  background: transparent;
+  background: var(--bg);
   color: var(--text);
 }
 
 .button--secondary:hover {
   border-color: var(--text-secondary);
-  background: var(--topbar-hover);
+  background: var(--bg-secondary);
 }
 
 .text-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--accent-strong);
+  color: var(--text);
   font-weight: 600;
   text-decoration: none;
 }
@@ -355,6 +356,7 @@ a {
   padding: 3px 10px;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
+  background: var(--bg);
   color: var(--text-secondary);
   font-size: 12px;
   font-weight: 600;
@@ -372,9 +374,9 @@ a {
 }
 
 .status--live {
-  border-color: rgba(94, 224, 160, 0.35);
-  background: var(--success-bg);
-  color: var(--success);
+  border-color: var(--action);
+  background: var(--action);
+  color: var(--action-text);
 }
 
 .status--planned {

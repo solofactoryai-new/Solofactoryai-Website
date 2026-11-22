@@ -56,17 +56,9 @@
     overflow: hidden;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    background: var(--surface);
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-1);
     aspect-ratio: 4 / 5;
-  }
-
-  /* A soft fade into the page at the bottom, so the photo sits in the dark design. */
-  .founder__photo::after {
-    content: "";
-    position: absolute;
-    inset: 55% 0 0;
-    background: linear-gradient(180deg, transparent, rgba(7, 10, 18, 0.55));
-    pointer-events: none;
   }
 
   .founder__photo img {

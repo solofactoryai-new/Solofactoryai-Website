@@ -53,13 +53,15 @@ import { workers, stageLabel } from "../../data/workers";
   }
 
   .worker--live {
-    border: 1px solid rgba(91, 140, 255, 0.45);
-    background: linear-gradient(180deg, rgba(91, 140, 255, 0.1), var(--surface));
+    border: 1px solid var(--text);
+    background: var(--bg);
+    box-shadow: var(--shadow-1);
   }
 
   .worker--live .icon-tile {
-    border-color: rgba(91, 140, 255, 0.45);
-    color: var(--accent-strong);
+    border-color: var(--text);
+    background: var(--text);
+    color: var(--bg);
   }
 
   .worker:not(.worker--live) .h3 {
@@ -78,7 +80,7 @@ import { workers, stageLabel } from "../../data/workers";
     align-content: space-between;
     gap: 20px;
     border: 1px solid var(--border);
-    background: var(--surface);
+    background: var(--bg-secondary);
   }
 
   .worker__cta-text {

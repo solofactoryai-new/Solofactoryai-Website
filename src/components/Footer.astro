@@ -1,7 +1,7 @@
 ---
-/* The footer of the dark prototype: the logo and mission, links to the homepage sections, and
-   the closing statement. Only links that lead somewhere real: no privacy, terms or social links
-   until those pages and accounts exist (brief: footer). */
+/* The footer, on light grey as in the product: the logo and mission, links to the homepage
+   sections, and the closing statement. Only links that lead somewhere real: no privacy, terms
+   or social links until those pages and accounts exist (brief: footer). */
 import Logo from "./Logo.astro";
 
 const year = new Date().getFullYear();
@@ -66,7 +66,7 @@ const groups = [
   .footer {
     padding: clamp(64px, 8vw, 104px) 0 0;
     border-top: 1px solid var(--border);
-    background: var(--bg);
+    background: var(--bg-secondary);
   }
 
   .footer__statement {
@@ -133,7 +133,7 @@ const groups = [
     container-type: inline-size;
     overflow: hidden;
     margin-top: 32px;
-    color: #121a2a;
+    color: #dcdcdc;
   }
 
   .footer__giant-row {
