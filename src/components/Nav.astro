@@ -1,13 +1,15 @@
 ---
-/* The black top bar, as in the product (PRD 2.10): the white logo, white links that turn
-   #1F1F1F on hover, and nothing else in black on the page. */
+/* The top bar of the dark prototype: a see-through midnight bar that stays at the top, the
+   logo, five links to the homepage sections (the brief's pages come later) and one call to
+   action. On phones the links fold into a menu. */
 import Logo from "./Logo.astro";
 
 const links = [
-  { href: "#vision", label: "Vision" },
+  { href: "#platform", label: "Platform" },
   { href: "#how-it-works", label: "How It Works" },
   { href: "#workforce", label: "AI Workforce" },
-  { href: "#ecosystem", label: "Ecosystem" },
+  { href: "#vision", label: "Vision" },
+  { href: "#founder", label: "About" },
 ];
 ---
 
@@ -18,7 +20,7 @@ const links = [
       <ul class="topbar__links">
         {links.map((link) => <li><a class="topbar__link" href={link.href}>{link.label}</a></li>)}
       </ul>
-      <a class="topbar__cta" href="#join">Join Waitlist</a>
+      <a class="topbar__cta" href="#join">Get Early Access</a>
     </nav>
     <button
       class="topbar__toggle"
@@ -58,12 +60,11 @@ const links = [
     position: sticky;
     top: 0;
     z-index: 50;
+    border-bottom: 1px solid var(--border);
     background: var(--topbar);
     color: var(--topbar-text);
-  }
-
-  .topbar :focus-visible {
-    outline-color: var(--topbar-text);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
   }
 
   .topbar__inner {
@@ -102,7 +103,7 @@ const links = [
     border: 0;
     border-radius: var(--radius-md);
     background: none;
-    color: var(--topbar-text);
+    color: var(--text-secondary);
     font: inherit;
     font-size: 15px;
     font-weight: 500;
@@ -114,6 +115,7 @@ const links = [
   .topbar__toggle:hover,
   .topbar__toggle[aria-expanded="true"] {
     background: var(--topbar-hover);
+    color: var(--text);
   }
 
   /* The one call to action in the bar: white, so it stands out on black. */
@@ -122,16 +124,16 @@ const links = [
     align-items: center;
     min-height: 36px;
     padding: 0 14px;
-    border-radius: var(--radius-md);
-    background: var(--topbar-text);
-    color: var(--text);
+    border-radius: 999px;
+    background: var(--action);
+    color: var(--action-text);
     font-size: 15px;
-    font-weight: 550;
+    font-weight: 600;
     text-decoration: none;
   }
 
   .topbar__cta:hover {
-    background: var(--hover);
+    background: var(--action-hover);
   }
 
   .topbar__cta:focus-visible {
@@ -160,7 +162,8 @@ const links = [
       max-height: calc(100vh - var(--topbar-height));
       overflow-y: auto;
       padding: 8px var(--gutter) 20px;
-      background: var(--topbar);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
     }
 
     .topbar__links {

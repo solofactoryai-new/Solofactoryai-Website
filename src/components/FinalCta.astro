@@ -22,18 +22,17 @@ const businessTypes = [
 ];
 ---
 
-<section class="section section--grey join" id="join" aria-labelledby="join-title">
+<section class="section join" id="join" aria-labelledby="join-title">
   <div class="container join__grid">
     <div class="join__copy" data-reveal>
-      <p class="eyebrow">Join the journey</p>
-      <h2 class="h2" id="join-title">
-        Your Business. Your Ownership. <span class="soft">Your Future.</span>
-      </h2>
-      <p class="lead">
-        The next generation of entrepreneurs won't need to build traditional teams to build
-        meaningful businesses. They'll have AI on their side.
-      </p>
-      <p class="join__line">Be among the entrepreneurs shaping the future of one-person businesses.</p>
+      <p class="eyebrow">Start your journey</p>
+      <h2 class="h2" id="join-title">The future belongs to those who build.</h2>
+      <div class="prose">
+        <p>You have an idea. You have an ambition. You have something worth creating.</p>
+        <p>We are building a new way to turn that ambition into a business.</p>
+        <p><strong>Start your journey with SoloFactory AI.</strong></p>
+      </div>
+      <a class="text-link" href="#platform">Explore the Platform <Icon name="arrow-right" /></a>
     </div>
 
     <form
@@ -47,7 +46,7 @@ const businessTypes = [
       aria-labelledby="join-form-title"
       data-reveal
     >
-      <h3 class="h3" id="join-form-title">Join the SoloFactory AI Journey</h3>
+      <h3 class="h3" id="join-form-title">Get Early Access</h3>
       <p class="muted join__intro">Get early access as new parts of the platform open.</p>
 
       <div class="field">
@@ -89,7 +88,7 @@ const businessTypes = [
       </div>
 
       <button class="button join__submit" type="submit" data-submit>
-        <span data-submit-label>Join the SoloFactory AI Journey</span>
+        <span data-submit-label>Get Early Access</span>
         <Icon name="arrow-right" />
       </button>
 
@@ -119,19 +118,14 @@ const businessTypes = [
     gap: 22px;
   }
 
-  .join__line {
-    color: var(--text);
-    font-weight: 600;
-  }
-
   .join__form {
     display: grid;
     gap: 18px;
     padding: clamp(28px, 4vw, 44px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    background: var(--bg);
-    box-shadow: var(--shadow-1);
+    background: var(--surface);
+    box-shadow: var(--shadow-2);
   }
 
   .join__intro {
@@ -163,6 +157,7 @@ const businessTypes = [
     border-radius: 12px;
     background: var(--bg);
     color: var(--text);
+    color-scheme: dark;
     font: inherit;
     font-size: 16px;
     transition:
@@ -195,8 +190,8 @@ const businessTypes = [
 
   .field input:focus,
   .field select:focus {
-    border-color: var(--text);
-    outline: 2px solid var(--text);
+    border-color: var(--accent);
+    outline: 2px solid var(--accent);
     outline-offset: 0;
   }
 
@@ -206,7 +201,7 @@ const businessTypes = [
   }
 
   .field__error {
-    color: #b42318;
+    color: var(--danger);
     font-size: 14px;
   }
 
@@ -239,13 +234,13 @@ const businessTypes = [
   }
 
   .join__status[data-tone="success"] {
-    background: #ecfdf3;
-    color: #05603a;
+    background: var(--success-bg);
+    color: var(--success);
   }
 
   .join__status[data-tone="error"] {
-    background: #fef3f2;
-    color: #b42318;
+    background: var(--danger-bg);
+    color: var(--danger);
   }
 
   .join__status[data-tone="info"] {

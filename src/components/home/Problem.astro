@@ -1,0 +1,152 @@
+---
+/* Section 3: the problem, followed down to its root cause by asking "why?" (the storytelling
+   principles in the brief, part 8), and the many jobs one founder has to do. */
+const roles = ["Researcher", "Product builder", "Marketer", "Salesperson", "Operator", "Decision-maker"];
+const whys = [
+  { q: "Why do so many new businesses never become sustainable?", a: "The founder runs out of money, time or energy before the business can pay for itself." },
+  { q: "Why does that happen?", a: "Every part of a business needs a capability: research, product, marketing, sales, finance, operations." },
+  { q: "And why is that so hard?", a: "Until now, each capability meant hiring a person. The team had to exist before the business could earn." },
+];
+---
+
+<section class="section section--alt problem" aria-labelledby="problem-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">The entrepreneurship gap</p>
+      <h2 class="h2" id="problem-title">
+        Great ideas are everywhere. <span class="soft">The resources to build them are not.</span>
+      </h2>
+    </div>
+
+    <div class="problem__grid">
+      <div class="prose" data-reveal>
+        <p>An entrepreneur has to become all of these at once:</p>
+        <ul class="problem__roles" aria-label="The jobs one entrepreneur has to do">
+          {roles.map((r) => <li>{r}</li>)}
+        </ul>
+        <p>Every new responsibility creates another barrier.</p>
+        <p>
+          You need expertise before you can execute. You need resources before you can grow. You
+          need a team before you can scale many activities.
+        </p>
+        <p>
+          And the distance between having an idea and running a sustainable business becomes
+          overwhelming.
+        </p>
+      </div>
+
+      <ol class="problem__whys" data-reveal aria-label="Following the problem to its root">
+        {whys.map((w, i) => (
+          <li class="problem__why">
+            <span class="problem__n">Why {i + 1}</span>
+            <p class="problem__q">{w.q}</p>
+            <p class="problem__a">{w.a}</p>
+          </li>
+        ))}
+        <li class="problem__root">
+          <span class="problem__n">The root cause</span>
+          <p>Business capability has been locked behind hiring.</p>
+        </li>
+      </ol>
+    </div>
+
+    <p class="closing" data-reveal>
+      We believe access to business-building capabilities should not be limited to people who can
+      afford a large team.
+    </p>
+  </div>
+</section>
+
+<style>
+  .problem__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .problem__roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .problem__roles li {
+    padding: 6px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 15px;
+  }
+
+  .problem__whys {
+    display: grid;
+    gap: 0;
+    border-left: 1px solid var(--border-strong);
+  }
+
+  .problem__why,
+  .problem__root {
+    position: relative;
+    display: grid;
+    gap: 6px;
+    padding: 0 0 28px 28px;
+  }
+
+  .problem__why::before,
+  .problem__root::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: -5px;
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid var(--text-secondary);
+    border-radius: 50%;
+    background: var(--bg-secondary);
+  }
+
+  .problem__n {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .problem__q {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .problem__a {
+    color: var(--text-secondary);
+  }
+
+  .problem__root {
+    padding-bottom: 0;
+  }
+
+  .problem__root::before {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-soft);
+  }
+
+  .problem__root .problem__n {
+    color: var(--accent-strong);
+  }
+
+  .problem__root p {
+    color: var(--text);
+    font-size: clamp(20px, 2vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 900px) {
+    .problem__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

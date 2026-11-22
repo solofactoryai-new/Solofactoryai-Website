@@ -1,35 +1,38 @@
 ---
+/* The homepage, dark prototype (website rebuild brief, part 3, 2026-11-22), in the brief's
+   order: hero, the future, the problem, the platform and its three layers, how it works, the
+   AI workforce, the connected Brain, the founder, the ambition, and early access. */
 import Base from "../layouts/Base.astro";
-import Ecosystem from "../components/Ecosystem.astro";
 import FinalCta from "../components/FinalCta.astro";
-import Founder from "../components/Founder.astro";
 import Footer from "../components/Footer.astro";
-import Hero from "../components/Hero.astro";
-import Journey from "../components/Journey.astro";
 import Nav from "../components/Nav.astro";
-import Ownership from "../components/Ownership.astro";
-import Problem from "../components/Problem.astro";
-import Solution from "../components/Solution.astro";
-import Vision from "../components/Vision.astro";
-import Workforce from "../components/Workforce.astro";
+import Ambition from "../components/home/Ambition.astro";
+import ConnectedBrain from "../components/home/ConnectedBrain.astro";
+import Founder from "../components/home/Founder.astro";
+import Future from "../components/home/Future.astro";
+import Hero from "../components/home/Hero.astro";
+import Journey from "../components/home/Journey.astro";
+import Platform from "../components/home/Platform.astro";
+import Problem from "../components/home/Problem.astro";
+import Workforce from "../components/home/Workforce.astro";
 ---
 
 <Base
-  title="SoloFactory AI | Build Your Business. Not Your Team."
-  description="SoloFactory AI is an AI-powered business operating system for independent entrepreneurs: one intelligent Brain and an AI workforce to build, operate and grow a sustainable business."
+  title="SoloFactory AI — Build Your Business. Not Your Team."
+  description="One entrepreneur. One connected Brain. An entire AI workforce. Discover how SoloFactory AI is building a new way to turn ideas into businesses."
 >
   <a class="skip-link" href="#main">Skip to content</a>
   <Nav />
   <main id="main">
     <Hero />
+    <Future />
     <Problem />
-    <Solution />
+    <Platform />
     <Journey />
     <Workforce />
-    <Ecosystem />
-    <Ownership />
-    <Vision />
+    <ConnectedBrain />
     <Founder />
+    <Ambition />
     <FinalCta />
   </main>
   <Footer />
@@ -54,5 +57,12 @@ import Workforce from "../components/Workforce.astro";
       );
       items.forEach((el) => observer.observe(el));
     }
+
+    // Analytics hooks (brief 6.5). No analytics tool is installed: links marked data-track
+    // only announce a "sf:track" event on the page, ready for whichever tool is chosen later.
+    document.addEventListener("click", (event) => {
+      const el = (event.target as HTMLElement).closest<HTMLElement>("[data-track]");
+      if (el) window.dispatchEvent(new CustomEvent("sf:track", { detail: { event: el.dataset.track } }));
+    });
   </script>
 </Base>

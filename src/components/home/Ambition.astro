@@ -1,0 +1,176 @@
+---
+/* Section 10: the long-term ambition, and the stepping stones from today to it (the brief's
+   storytelling principles: show the path from A to B). "Today" is what the product has now;
+   everything after it is direction, not a promise or a date. */
+const steps = [
+  { when: "Today", title: "Discover and validate", text: "The Business Brain with the Research and Product Workers, in early access." },
+  { when: "Next", title: "Reach customers", text: "Marketing, Sales and Finance Workers join the same Brain." },
+  { when: "Then", title: "Run the whole business", text: "A Founder Brain, a connected workforce across every function, and the tools around it." },
+  { when: "Ambition", title: "One million sustainable businesses", text: "Built by independent entrepreneurs." },
+];
+---
+
+<section class="section section--alt ambition" aria-labelledby="ambition-title">
+  <div class="ambition__glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="ambition__head" data-reveal>
+      <p class="eyebrow">Our long-term ambition</p>
+      <h2 class="ambition__title" id="ambition-title">
+        <span class="ambition__number">One million</span>
+        <span>sustainable businesses.</span>
+      </h2>
+    </div>
+
+    <div class="ambition__grid">
+      <div class="prose" data-reveal>
+        <p>
+          We imagine a world where more people can create businesses that provide value, create
+          livelihoods and improve lives. Our ambition is to help make one million sustainable
+          businesses possible.
+        </p>
+        <p>
+          <strong>Not simply more companies.</strong> More people with the opportunity to build
+          something of their own. More useful products and services. More independent
+          entrepreneurs. More value created for communities.
+        </p>
+        <p>
+          We believe technology should expand the number of people who can participate in
+          entrepreneurship.
+        </p>
+        <p class="ambition__fine">An ambition, not a result we can promise.</p>
+      </div>
+
+      <ol class="steps" data-reveal aria-label="From today to the ambition">
+        {steps.map((s, i) => (
+          <li class:list={["steps__item", { "steps__item--now": i === 0, "steps__item--goal": i === steps.length - 1 }]}>
+            <span class="steps__when">{s.when}</span>
+            <span class="steps__title">{s.title}</span>
+            <span class="steps__text">{s.text}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ambition {
+    overflow: hidden;
+  }
+
+  .ambition__glow {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    width: 900px;
+    height: 600px;
+    background: radial-gradient(closest-side, rgba(91, 140, 255, 0.16), transparent);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .ambition__head {
+    position: relative;
+    margin-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .ambition__title {
+    display: grid;
+    font-size: clamp(40px, 6.5vw, 88px);
+    font-weight: 650;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .ambition__number {
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-strong));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .ambition__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .ambition__fine {
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  .steps {
+    display: grid;
+    border-left: 1px solid var(--border-strong);
+  }
+
+  .steps__item {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    padding: 0 0 32px 32px;
+  }
+
+  .steps__item:last-child {
+    padding-bottom: 0;
+  }
+
+  .steps__item::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -6px;
+    width: 11px;
+    height: 11px;
+    border: 1.5px dashed var(--text-secondary);
+    border-radius: 50%;
+    background: var(--bg-secondary);
+  }
+
+  .steps__item--now::before {
+    border: 0;
+    background: var(--success);
+    box-shadow: 0 0 0 5px var(--success-bg);
+  }
+
+  .steps__item--goal::before {
+    border: 0;
+    background: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-soft);
+  }
+
+  .steps__when {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .steps__item--now .steps__when {
+    color: var(--success);
+  }
+
+  .steps__item--goal .steps__when {
+    color: var(--accent-strong);
+  }
+
+  .steps__title {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .steps__text {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 900px) {
+    .ambition__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+/* Section 7: the AI workforce, each worker with its true status (src/data/workers.ts). */
+import Icon from "../Icon.astro";
+import { workers, stageLabel } from "../../data/workers";
+---
+
+<section class="section workforce" id="workforce" aria-labelledby="workforce-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">The AI workforce</p>
+      <h2 class="h2" id="workforce-title">Meet the workforce behind your next business.</h2>
+      <p class="lead">
+        Different responsibilities require different capabilities. SoloFactory is building
+        specialised AI Workers that operate with shared business context. Two are in early access
+        today; the rest are planned.
+      </p>
+    </div>
+
+    <ul class="workforce__grid">
+      {workers.map((w) => (
+        <li class:list={["worker", { "worker--live": w.stage === "early" }]} data-reveal>
+          <div class="worker__top">
+            <span class="icon-tile"><Icon name={w.icon} /></span>
+            <span class:list={["status", w.stage === "early" ? "status--live" : "status--planned"]}>{stageLabel[w.stage]}</span>
+          </div>
+          <h3 class="h3">{w.name}</h3>
+          <p class="muted">{w.text}</p>
+        </li>
+      ))}
+      <li class="worker worker--cta" data-reveal>
+        <p class="worker__cta-text">One connected workforce. Built around the needs of your business.</p>
+        <a class="button" href="#join" data-track="cta_workforce_early_access">Get Early Access <Icon name="arrow-right" /></a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .workforce__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .worker {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 24px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: transparent;
+  }
+
+  .worker--live {
+    border: 1px solid rgba(91, 140, 255, 0.45);
+    background: linear-gradient(180deg, rgba(91, 140, 255, 0.1), var(--surface));
+  }
+
+  .worker--live .icon-tile {
+    border-color: rgba(91, 140, 255, 0.45);
+    color: var(--accent-strong);
+  }
+
+  .worker:not(.worker--live) .h3 {
+    color: var(--text-secondary);
+  }
+
+  .worker__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .worker--cta {
+    align-content: space-between;
+    gap: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .worker__cta-text {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .worker--cta .button {
+    justify-self: start;
+  }
+
+  @media (max-width: 1100px) {
+    .workforce__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .workforce__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

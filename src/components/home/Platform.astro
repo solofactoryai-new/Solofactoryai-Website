@@ -1,0 +1,235 @@
+---
+/* Sections 4 and 5: what SoloFactory is (you, the Brain, the workforce), then the three
+   layers with an honest status each. The product today has one Brain per business; a separate
+   Founder Brain is planned (checked against the product on 2026-11-22). */
+import Icon, { type IconName } from "../Icon.astro";
+
+const trio: { label: string; title: string; text: string; icon: IconName }[] = [
+  { label: "You", title: "The Entrepreneur", text: "The ambition, the ideas, the judgement and the decisions.", icon: "user" },
+  { label: "Brain", title: "Connected intelligence", text: "Memory and business context, in one place.", icon: "sparkles" },
+  { label: "Workforce", title: "Specialised AI Workers", text: "Coordinated execution of the work you authorise.", icon: "users" },
+];
+
+const layers: { name: string; status: string; tone: "live" | "planned"; lead: string; text: string }[] = [
+  {
+    name: "Founder Brain",
+    status: "Planned",
+    tone: "planned",
+    lead: "A dedicated intelligence layer that understands you.",
+    text: "Your goals, preferences, decisions and context help the platform work with you more effectively.",
+  },
+  {
+    name: "Business Brain",
+    status: "Early Access",
+    tone: "live",
+    lead: "A connected understanding of your business.",
+    text: "Your strategy, customers, products, workflows and business information become part of a shared business context.",
+  },
+  {
+    name: "AI Workforce",
+    status: "Early Access: 2 of 7 Workers",
+    tone: "live",
+    lead: "Specialised AI Workers help turn decisions into action.",
+    text: "From research and product development to marketing, sales and operations, the workforce is designed to support the activities required to build a business.",
+  },
+];
+---
+
+<section class="section platform" id="platform" aria-labelledby="platform-title">
+  <div class="container">
+    <div class="platform__intro">
+      <div data-reveal>
+        <p class="eyebrow">Introducing SoloFactory AI</p>
+        <h2 class="h2" id="platform-title">Your business deserves more than disconnected AI tools.</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>SoloFactory is building a connected Brain and AI workforce for entrepreneurs.</p>
+        <p>
+          Your Brain understands your goals and business context. Your AI Workers help research,
+          build, market, sell and operate. Your business information and workflows become
+          connected rather than scattered across disconnected tools.
+        </p>
+        <p><strong>You remain in control of decisions and authorised actions.</strong></p>
+      </div>
+    </div>
+
+    <ol class="trio" data-reveal aria-label="How SoloFactory fits together">
+      {trio.map((t, i) => (
+        <li class="trio__item">
+          <span class="icon-tile"><Icon name={t.icon} /></span>
+          <span class="trio__label">{t.label}</span>
+          <span class="trio__title">{t.title}</span>
+          <span class="trio__text">{t.text}</span>
+          {i < trio.length - 1 && <span class="trio__arrow" aria-hidden="true"><Icon name="arrow-right" /></span>}
+        </li>
+      ))}
+    </ol>
+    <p class="closing platform__motto" data-reveal>
+      You lead. Your Brain understands. Your AI Workers execute.
+    </p>
+
+    <div class="layers">
+      <h3 class="h2 layers__title" data-reveal>
+        An entire business, connected through one intelligence layer.
+      </h3>
+      <ul class="layers__list">
+        {layers.map((l) => (
+          <li class="layers__item" data-reveal>
+            <div class="layers__head">
+              <span class="layers__name">{l.name}</span>
+              <span class:list={["status", l.tone === "live" ? "status--live" : "status--planned"]}>{l.status}</span>
+            </div>
+            <p class="layers__lead">{l.lead}</p>
+            <p class="muted">{l.text}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="closing" data-reveal>Not more disconnected tools. A more connected way to build.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .platform__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(56px, 7vw, 96px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+
+  .trio__item {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    padding: clamp(24px, 3vw, 36px);
+  }
+
+  .trio__item + .trio__item {
+    border-left: 1px solid var(--border);
+  }
+
+  .trio__item .icon-tile {
+    margin-bottom: 12px;
+  }
+
+  .trio__label {
+    color: var(--accent-strong);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .trio__title {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .trio__text {
+    color: var(--text-secondary);
+  }
+
+  .trio__arrow {
+    position: absolute;
+    top: 50%;
+    right: -14px;
+    z-index: 1;
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--accent-strong);
+    transform: translateY(-50%);
+  }
+
+  .trio__arrow :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .platform__motto {
+    text-align: center;
+  }
+
+  .layers {
+    margin-top: clamp(88px, 11vw, 148px);
+  }
+
+  .layers__title {
+    max-width: 18ch;
+    margin-bottom: clamp(40px, 5vw, 64px);
+  }
+
+  .layers__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+  }
+
+  .layers__item {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: clamp(24px, 3vw, 36px);
+    background: var(--bg);
+  }
+
+  .layers__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .layers__name {
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .layers__lead {
+    color: var(--text);
+    font-weight: 550;
+  }
+
+  @media (max-width: 900px) {
+    .platform__intro,
+    .trio,
+    .layers__list {
+      grid-template-columns: 1fr;
+    }
+
+    .trio__item + .trio__item {
+      border-top: 1px solid var(--border);
+      border-left: 0;
+    }
+
+    .trio__arrow {
+      top: auto;
+      right: auto;
+      bottom: -14px;
+      left: 50%;
+      transform: translateX(-50%) rotate(90deg);
+    }
+  }
+</style>

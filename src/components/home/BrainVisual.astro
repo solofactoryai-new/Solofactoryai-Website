@@ -1,0 +1,235 @@
+---
+/* The hero's picture of the product's shape (brief 4.5): you at the centre, the connected
+   Brain around you, and the AI Workers around the Brain. Workers in early access are lit and
+   have work flowing to them; planned ones are drawn dashed. An illustration, not a screenshot.
+   The motion is CSS only and stops for people who ask for reduced motion. */
+import { workers } from "../../data/workers";
+
+const C = 300; // centre of the 600 x 600 drawing
+const ringR = 128; // the Brain ring
+const workerR = 238; // where the workers sit
+const nodes = workers.map((w, i) => {
+  const angle = (-90 + (i * 360) / workers.length) * (Math.PI / 180);
+  const x = C + workerR * Math.cos(angle);
+  const y = C + workerR * Math.sin(angle);
+  // Where the line from the Brain ring starts, on the ring towards this worker.
+  const sx = C + ringR * Math.cos(angle);
+  const sy = C + ringR * Math.sin(angle);
+  // Labels sit outside the node, above for the top half and below for the bottom half.
+  const below = Math.sin(angle) > 0.2;
+  const words = w.short.split(" ");
+  return { ...w, x, y, sx, sy, below, words };
+});
+---
+
+<figure class="brain" aria-labelledby="brain-caption">
+  <svg viewBox="0 0 600 600" role="img" aria-labelledby="brain-title brain-desc">
+    <title id="brain-title">You, your connected Brain, and your AI workforce</title>
+    <desc id="brain-desc">
+      At the centre is you. Around you is the connected Brain: the Founder Brain and the
+      Business Brain. Around the Brain are seven AI Workers. Research and Product are in early
+      access; Marketing, Sales, Finance, Operations and Customer Success are planned.
+    </desc>
+    <defs>
+      <radialGradient id="brain-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.32" />
+        <stop offset="60%" stop-color="var(--accent)" stop-opacity="0.06" />
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="ring-stroke" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="var(--accent-2)" />
+        <stop offset="100%" stop-color="var(--accent)" />
+      </linearGradient>
+    </defs>
+
+    <circle cx={C} cy={C} r="250" fill="url(#brain-glow)" />
+    <circle class="brain__orbit" cx={C} cy={C} r={workerR} />
+
+    {nodes.map((n) => (
+      <line
+        class:list={["brain__link", { "brain__link--live": n.stage === "early" }]}
+        x1={n.sx}
+        y1={n.sy}
+        x2={n.x}
+        y2={n.y}
+      />
+    ))}
+
+    <circle class="brain__ring" cx={C} cy={C} r={ringR} stroke="url(#ring-stroke)" />
+    <circle class="brain__ring-pulse" cx={C} cy={C} r={ringR} />
+    <text class="brain__ring-label" x={C} y={C - ringR + 30} text-anchor="middle">Founder Brain</text>
+    <text class="brain__ring-label" x={C} y={C + ringR - 20} text-anchor="middle">Business Brain</text>
+
+    <circle class="brain__you" cx={C} cy={C} r="50" />
+    <text class="brain__you-label" x={C} y={C + 6} text-anchor="middle">You</text>
+
+    {nodes.map((n) => (
+      <g class:list={["brain__worker", { "brain__worker--live": n.stage === "early" }]}>
+        <circle cx={n.x} cy={n.y} r="26" />
+        <circle class="brain__worker-dot" cx={n.x} cy={n.y} r="6" />
+        {n.words.map((word, i) => (
+          <text
+            class="brain__worker-label"
+            x={n.x}
+            y={n.below ? n.y + 50 + i * 19 : n.y - 40 - (n.words.length - 1 - i) * 19}
+            text-anchor="middle"
+          >
+            {word}
+          </text>
+        ))}
+      </g>
+    ))}
+  </svg>
+  <figcaption id="brain-caption" class="brain__legend">
+    <span><i class="brain__key brain__key--live"></i>Early Access</span>
+    <span><i class="brain__key"></i>Planned</span>
+    <span class="brain__note">Illustration</span>
+  </figcaption>
+</figure>
+
+<style>
+  .brain {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .brain svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .brain__orbit {
+    fill: none;
+    stroke: var(--border);
+    stroke-dasharray: 2 8;
+  }
+
+  .brain__link {
+    stroke: var(--border-strong);
+    stroke-width: 1.25;
+    stroke-dasharray: 4 6;
+  }
+
+  /* Work flowing from the Brain to a worker in early access. */
+  .brain__link--live {
+    stroke: var(--accent);
+    stroke-width: 1.75;
+    stroke-dasharray: 6 10;
+    animation: brain-flow 1.6s linear infinite;
+  }
+
+  @keyframes brain-flow {
+    to {
+      stroke-dashoffset: -32;
+    }
+  }
+
+  .brain__ring {
+    fill: rgba(91, 140, 255, 0.06);
+    stroke-width: 1.5;
+  }
+
+  .brain__ring-pulse {
+    fill: none;
+    stroke: var(--accent-2);
+    stroke-opacity: 0.5;
+    transform-origin: 300px 300px;
+    animation: brain-pulse 4s var(--ease) infinite;
+  }
+
+  @keyframes brain-pulse {
+    0% {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.32);
+    }
+  }
+
+  .brain__ring-label {
+    fill: var(--accent-2);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .brain__you {
+    fill: var(--text);
+  }
+
+  .brain__you-label {
+    fill: var(--bg);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .brain__worker circle:first-child {
+    fill: var(--surface);
+    stroke: var(--border-strong);
+    stroke-width: 1.25;
+    stroke-dasharray: 4 4;
+  }
+
+  .brain__worker-dot {
+    fill: var(--text-tertiary);
+  }
+
+  .brain__worker-label {
+    fill: var(--text-secondary);
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .brain__worker--live circle:first-child {
+    fill: var(--accent-soft);
+    stroke: var(--accent);
+    stroke-dasharray: none;
+  }
+
+  .brain__worker--live .brain__worker-dot {
+    fill: var(--accent-strong);
+  }
+
+  .brain__worker--live .brain__worker-label {
+    fill: var(--text);
+    font-weight: 600;
+  }
+
+  .brain__legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 20px;
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+
+  .brain__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .brain__key {
+    width: 12px;
+    height: 12px;
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 50%;
+  }
+
+  .brain__key--live {
+    border: 1.5px solid var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .brain__note {
+    color: var(--text-tertiary);
+  }
+</style>

@@ -1,0 +1,225 @@
+---
+/* Section 8: why one connected Brain matters, and the approval step that keeps the founder in
+   control. The small card is a simplified illustration of the product's real "Approve and run"
+   step (PRD 08), labelled as such; it is not a screenshot. No claim of perfect memory, every
+   integration, or work that runs without approval. */
+import Icon from "../Icon.astro";
+
+const principles = [
+  { title: "Remember relevant context", text: "What you decide and learn is kept, so you don't start from zero each time." },
+  { title: "Understand the business", text: "Strategy, customers and evidence are connected, not scattered across tools." },
+  { title: "Coordinate authorised work", text: "AI Workers act on work you approve, with the scope and cost shown first." },
+];
+---
+
+<section class="section section--alt brainsec" aria-labelledby="brainsec-title">
+  <div class="container brainsec__grid">
+    <div>
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Intelligence that grows with your business</p>
+        <h2 class="h2" id="brainsec-title">Your business shouldn't have to explain itself every time.</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>
+          Disconnected tools often mean disconnected context. Your strategy lives in one place.
+          Your customer information lives somewhere else. Your decisions are scattered across
+          conversations, documents and applications.
+        </p>
+        <p>
+          SoloFactory is designed around a connected Brain that progressively understands the
+          entrepreneur and each business. It brings together relevant context, permitted data,
+          memory and workflows, to help AI Workers act with a better understanding of the
+          business.
+        </p>
+      </div>
+      <ul class="brainsec__principles">
+        {principles.map((p, i) => (
+          <li data-reveal>
+            <span class="brainsec__n">{i + 1}</span>
+            <div>
+              <h3 class="h3">{p.title}</h3>
+              <p class="muted">{p.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <figure class="approve" data-reveal aria-label="Illustration: approving an AI Worker's run">
+      <div class="approve__card" aria-hidden="true">
+        <div class="approve__bar">
+          <span class="approve__dot"></span>
+          <span>Approve and run</span>
+        </div>
+        <div class="approve__body">
+          <p class="approve__worker"><Icon name="search" /> Research Worker</p>
+          <p class="approve__task">Find and describe 2 to 4 customer segments for your idea.</p>
+          <dl class="approve__facts">
+            <div><dt>Scope</dt><dd>Public web, up to 12 searches</dd></div>
+            <div><dt>Uses</dt><dd>Your brief and accepted evidence</dd></div>
+            <div><dt>Sends to anyone</dt><dd>Nothing</dd></div>
+          </dl>
+          <div class="approve__actions">
+            <span class="approve__btn approve__btn--primary"><Icon name="check" /> Approve and run</span>
+            <span class="approve__btn">Not now</span>
+          </div>
+        </div>
+      </div>
+      <figcaption class="approve__caption">
+        Illustration, simplified. Nothing runs until you approve it.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .brainsec__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .brainsec__principles {
+    display: grid;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .brainsec__principles li {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .brainsec__n {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border: 1px solid rgba(61, 214, 232, 0.4);
+    border-radius: 50%;
+    color: var(--accent-2);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .approve__card {
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-2);
+  }
+
+  .approve__bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .approve__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 0 4px var(--accent-2-soft);
+  }
+
+  .approve__body {
+    display: grid;
+    gap: 16px;
+    padding: 24px 20px;
+  }
+
+  .approve__worker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-strong);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .approve__worker :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .approve__task {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .approve__facts {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    font-size: 14px;
+  }
+
+  .approve__facts div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .approve__facts dt {
+    color: var(--text-secondary);
+  }
+
+  .approve__facts dd {
+    margin: 0;
+    text-align: right;
+  }
+
+  .approve__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .approve__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .approve__btn :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .approve__btn--primary {
+    border-color: var(--action);
+    background: var(--action);
+    color: var(--action-text);
+  }
+
+  .approve__caption {
+    margin-top: 14px;
+    color: var(--text-tertiary);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .brainsec__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

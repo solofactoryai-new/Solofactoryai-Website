@@ -1,0 +1,116 @@
+---
+/* Section 6: the eight-stage journey. It is the intended journey; the product today covers the
+   first two stages (Discover and Validate: research, customer discovery, evidence), so only
+   those carry the Early Access label. Checked against the product on 2026-11-22. */
+const stages: { name: string; text: string; live?: boolean }[] = [
+  { name: "Discover", text: "Find meaningful problems, opportunities and customers.", live: true },
+  { name: "Validate", text: "Test assumptions and understand whether a real market exists.", live: true },
+  { name: "Build", text: "Turn validated ideas into products and services." },
+  { name: "Connect", text: "Bring business tools, data and systems together." },
+  { name: "Acquire", text: "Reach customers and build demand." },
+  { name: "Operate", text: "Coordinate the activities that keep a business running." },
+  { name: "Grow", text: "Understand performance and identify opportunities to improve." },
+  { name: "Sustain", text: "Build a business capable of creating lasting value." },
+];
+---
+
+<section class="section section--alt journey" id="how-it-works" aria-labelledby="journey-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">How it works</p>
+      <h2 class="h2" id="journey-title">From an idea to a business. One connected journey.</h2>
+      <p class="lead">
+        Building a business is a journey, not a single task. SoloFactory is designed to support
+        the entrepreneur across the whole journey. Today it starts with the first two stages.
+      </p>
+    </div>
+
+    <ol class="journey__list">
+      {stages.map((s, i) => (
+        <li class:list={["journey__stage", { "journey__stage--live": s.live }]} data-reveal>
+          <div class="journey__top">
+            <span class="journey__n">{String(i + 1).padStart(2, "0")}</span>
+            <span class:list={["status", s.live ? "status--live" : "status--planned"]}>{s.live ? "Early Access" : "Planned"}</span>
+          </div>
+          <h3 class="h3">{s.name}</h3>
+          <p class="muted">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="journey__note" data-reveal>
+      This is the journey SoloFactory is being built for. Stages marked Planned are not available
+      yet.
+    </p>
+  </div>
+</section>
+
+<style>
+  .journey__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+    counter-reset: stage;
+  }
+
+  .journey__stage {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    min-height: 200px;
+    padding: 28px 24px;
+    background: var(--bg-secondary);
+  }
+
+  .journey__stage--live {
+    background: linear-gradient(180deg, rgba(91, 140, 255, 0.08), var(--bg-secondary) 70%);
+  }
+
+  .journey__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .journey__n {
+    color: var(--text-tertiary);
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .journey__stage--live .journey__n {
+    color: var(--accent-strong);
+  }
+
+  .journey__stage .h3 {
+    font-size: 22px;
+  }
+
+  .journey__note {
+    margin-top: 20px;
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  @media (max-width: 1000px) {
+    .journey__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .journey__list {
+      grid-template-columns: 1fr;
+    }
+
+    .journey__stage {
+      min-height: 0;
+    }
+  }
+</style>

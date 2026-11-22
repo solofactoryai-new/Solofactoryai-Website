@@ -1,34 +1,59 @@
 ---
+/* The footer of the dark prototype: the logo and mission, links to the homepage sections, and
+   the closing statement. Only links that lead somewhere real: no privacy, terms or social links
+   until those pages and accounts exist (brief: footer). */
 import Logo from "./Logo.astro";
 
 const year = new Date().getFullYear();
-const links = [
-  { href: "#vision", label: "Vision" },
-  { href: "#how-it-works", label: "How It Works" },
-  { href: "#workforce", label: "AI Workforce" },
-  { href: "#ecosystem", label: "Ecosystem" },
-  { href: "#join", label: "Join Waitlist" },
+const groups = [
+  {
+    title: "Platform",
+    links: [
+      { href: "#platform", label: "Platform" },
+      { href: "#how-it-works", label: "How It Works" },
+      { href: "#workforce", label: "AI Workforce" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { href: "#vision", label: "Our Vision" },
+      { href: "#founder", label: "About" },
+      { href: "#join", label: "Early Access" },
+    ],
+  },
 ];
 ---
 
 <footer class="footer">
-  <div class="container footer__inner">
-    <div class="footer__brand">
-      <Logo />
-      <p class="muted">One entrepreneur. One connected Brain. An entire AI workforce.</p>
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <Logo />
+        <p class="footer__statement">The future belongs to those who build.</p>
+        <p class="muted">
+          Making sustainable business ownership accessible to more people, with a connected Brain
+          and an AI workforce.
+        </p>
+      </div>
+      {groups.map((g) => (
+        <nav class="footer__group" aria-label={g.title}>
+          <p class="footer__title">{g.title}</p>
+          <ul>
+            {g.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          </ul>
+        </nav>
+      ))}
     </div>
-    <nav aria-label="Footer">
-      <ul class="footer__links">
-        {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
-      </ul>
-    </nav>
+
+    <div class="footer__base">
+      <p>© {year} SoloFactory AI. All rights reserved.</p>
+      <p>One entrepreneur. One connected Brain. An entire AI workforce.</p>
+      <p>Illustrations show concepts, not screenshots of the product.</p>
+    </div>
   </div>
-  <div class="container footer__base">
-    <p>© {year} SoloFactory AI. All rights reserved.</p>
-    <p>Illustrations on this page show concepts, not screenshots of the product.</p>
-  </div>
-  <!-- A large, quiet sign-off logo at the very end of the page. Decorative: the logo above
-       already names the company for screen readers. -->
+
+  <!-- A large, quiet sign-off logo. Decorative: the logo above already names the company. -->
   <div class="container footer__giant" aria-hidden="true">
     <div class="footer__giant-row">
       <span class="footer__giant-mark"></span>
@@ -39,41 +64,56 @@ const links = [
 
 <style>
   .footer {
-    padding: 64px 0 32px;
+    padding: clamp(64px, 8vw, 104px) 0 0;
     border-top: 1px solid var(--border);
-    background: var(--bg-secondary);
+    background: var(--bg);
+  }
+
+  .footer__statement {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .footer__inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+    gap: 40px;
   }
 
   .footer__brand {
     display: grid;
-    gap: 14px;
+    align-content: start;
+    gap: 16px;
+    max-width: 40ch;
   }
 
   .footer__brand .muted {
     font-size: 15px;
   }
 
-  .footer__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 24px;
+  .footer__title {
+    margin-bottom: 14px;
+    color: var(--text-tertiary);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
-  .footer__links a {
+  .footer__group ul {
+    display: grid;
+    gap: 10px;
+  }
+
+  .footer__group a {
     color: var(--text-secondary);
     font-size: 15px;
     text-decoration: none;
   }
 
-  .footer__links a:hover {
+  .footer__group a:hover {
     color: var(--text);
   }
 
@@ -82,38 +122,48 @@ const links = [
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 8px 24px;
-    margin-top: 48px;
+    margin-top: 56px;
     padding-top: 24px;
     border-top: 1px solid var(--border);
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     font-size: 13px;
   }
 
   .footer__giant {
     container-type: inline-size;
-    margin-top: clamp(40px, 6vw, 72px);
-    user-select: none;
+    overflow: hidden;
+    margin-top: 32px;
+    color: #121a2a;
   }
 
-  /* Sized against the container's width (cqi), so the row fills it at every screen size. */
   .footer__giant-row {
     display: flex;
     align-items: center;
-    gap: 0.16em;
-    color: #dcdcdc;
+    gap: 0.18em;
     font-size: 13.2cqi;
     font-weight: 700;
-    letter-spacing: -0.045em;
     line-height: 1;
+    letter-spacing: -0.045em;
     white-space: nowrap;
+    transform: translateY(18%);
   }
 
   .footer__giant-mark {
     flex: none;
-    width: 0.86em;
-    height: 0.86em;
+    width: 0.82em;
+    height: 0.82em;
     background: currentColor;
     -webkit-mask: url("/brand/mark.png") center / contain no-repeat;
     mask: url("/brand/mark.png") center / contain no-repeat;
+  }
+
+  @media (max-width: 720px) {
+    .footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
   }
 </style>

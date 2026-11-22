@@ -1,0 +1,47 @@
+---
+/* Section 2: the world that changes, before any feature. */
+---
+
+<section class="section future" id="vision" aria-labelledby="future-title">
+  <div class="container future__grid">
+    <div data-reveal>
+      <p class="eyebrow">A different way to build</p>
+      <h2 class="h2" id="future-title">
+        What if building a business didn't require building a team first?
+      </h2>
+    </div>
+    <div class="prose" data-reveal>
+      <p>
+        For generations, starting a business meant assembling people, finding expertise,
+        managing tools and coordinating countless activities.
+      </p>
+      <p><strong>The opportunity is changing.</strong></p>
+      <p>
+        Imagine a world where an individual can access the intelligence and execution
+        capabilities traditionally found across an entire company. A world where more people can
+        turn their knowledge, creativity and ambition into sustainable businesses.
+      </p>
+      <p class="future__end">That is the future we are building toward.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .future__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .future__end {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .future__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
