@@ -1,0 +1,423 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  SoloFactory AI website: a private S3 bucket served over HTTPS at solofactory.ai, by CloudFront
+  or, until AWS verifies the account for CloudFront (D-86), by API Gateway. Deployed in ap-south-1
+  (README, "Deploying").
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: solofactory.ai
+  Frontend:
+    Type: String
+    Default: cloudfront
+    AllowedValues: [cloudfront, apigateway]
+    Description: >-
+      What serves the bucket. "cloudfront" is the aim. "apigateway" is the stand-in while
+      CloudFront is blocked: a regional REST API that reads the bucket with its own role. Switching
+      changes the addresses the domain's DNS records point to (stack outputs).
+  CertificateArn:
+    Type: String
+    Default: ""
+    Description: >-
+      CloudFront only: ACM certificate in us-east-1 for the domain and www. Empty serves only on
+      the distribution's cloudfront.net address.
+  RegionalCertificateArn:
+    Type: String
+    Default: ""
+    Description: >-
+      API Gateway only: ACM certificate in ap-south-1 for the domain and www. Empty serves only on
+      the API's execute-api address.
+  AllowIndexing:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: '"false" sends X-Robots-Tag: noindex, so search engines do not list the site.'
+
+Conditions:
+  UseCloudFront: !Equals [!Ref Frontend, cloudfront]
+  UseApiGateway: !Equals [!Ref Frontend, apigateway]
+  HasCertificate: !Not [!Equals [!Ref CertificateArn, ""]]
+  ApiHasDomain: !And [!Condition UseApiGateway, !Not [!Equals [!Ref RegionalCertificateArn, ""]]]
+  NoIndex: !Equals [!Ref AllowIndexing, "false"]
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub "solofactory-website-${AWS::AccountId}"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules: [{ObjectOwnership: BucketOwnerEnforced}]
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      Tags:
+        - {Key: Project, Value: SoloFactory}
+        - {Key: Purpose, Value: website}
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - !If
+            - UseCloudFront
+            - Sid: CloudFrontReadsTheSite
+              Effect: Allow
+              Principal: {Service: cloudfront.amazonaws.com}
+              Action: s3:GetObject
+              Resource: !Sub "${Bucket.Arn}/*"
+              Condition:
+                StringEquals:
+                  AWS:SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${Distribution}"
+            - !Ref AWS::NoValue
+          - Sid: HttpsOnly
+            Effect: Deny
+            Principal: "*"
+            Action: "s3:*"
+            Resource: [!GetAtt Bucket.Arn, !Sub "${Bucket.Arn}/*"]
+            Condition:
+              Bool: {aws:SecureTransport: "false"}
+
+  # ---------------------------------------------------------------- CloudFront
+
+  OriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Condition: UseCloudFront
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub "${AWS::StackName}-oac"
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  # Runs on every request: sends www to the bare domain, and maps a folder path such as
+  # /og-card/ to its index.html (the S3 origin has no index documents of its own).
+  RequestFunction:
+    Type: AWS::CloudFront::Function
+    Condition: UseCloudFront
+    Properties:
+      Name: !Sub "${AWS::StackName}-request"
+      AutoPublish: true
+      FunctionConfig:
+        Comment: www to apex redirect; folder index
+        Runtime: cloudfront-js-2.0
+      FunctionCode: !Sub |
+        function handler(event) {
+          var request = event.request;
+          var host = request.headers.host ? request.headers.host.value : "";
+          if (host === "www.${DomainName}") {
+            var qs = Object.keys(request.querystring).length ? "?" + Object.keys(request.querystring).map(function (k) {
+              return k + "=" + request.querystring[k].value;
+            }).join("&") : "";
+            return {
+              statusCode: 301,
+              statusDescription: "Moved Permanently",
+              headers: { location: { value: "https://${DomainName}" + request.uri + qs } }
+            };
+          }
+          if (request.uri.endsWith("/")) {
+            request.uri += "index.html";
+          } else if (request.uri.split("/").pop().indexOf(".") === -1) {
+            request.uri += "/index.html";
+          }
+          return request;
+        }
+
+  HeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Condition: UseCloudFront
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub "${AWS::StackName}-headers"
+        SecurityHeadersConfig:
+          StrictTransportSecurity:
+            AccessControlMaxAgeSec: 31536000
+            IncludeSubdomains: false
+            Preload: false
+            Override: true
+          ContentTypeOptions: {Override: true}
+          FrameOptions: {FrameOption: DENY, Override: true}
+          ReferrerPolicy: {ReferrerPolicy: strict-origin-when-cross-origin, Override: true}
+        CustomHeadersConfig:
+          Items:
+            - Header: X-Robots-Tag
+              Value: !If [NoIndex, "noindex, nofollow", "all"]
+              Override: true
+            - Header: Permissions-Policy
+              Value: "camera=(), microphone=(), geolocation=()"
+              Override: true
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Condition: UseCloudFront
+    Properties:
+      DistributionConfig:
+        Comment: SoloFactory AI website
+        Enabled: true
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_200
+        DefaultRootObject: index.html
+        Aliases: !If
+          - HasCertificate
+          - [!Ref DomainName, !Sub "www.${DomainName}"]
+          - !Ref AWS::NoValue
+        ViewerCertificate: !If
+          - HasCertificate
+          - AcmCertificateArn: !Ref CertificateArn
+            SslSupportMethod: sni-only
+            MinimumProtocolVersion: TLSv1.2_2021
+          - CloudFrontDefaultCertificate: true
+        Origins:
+          - Id: site
+            DomainName: !GetAtt Bucket.RegionalDomainName
+            OriginAccessControlId: !GetAtt OriginAccessControl.Id
+            S3OriginConfig: {OriginAccessIdentity: ""}
+        DefaultCacheBehavior:
+          TargetOriginId: site
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD]
+          Compress: true
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # Managed-CachingOptimized
+          ResponseHeadersPolicyId: !Ref HeadersPolicy
+          FunctionAssociations:
+            - EventType: viewer-request
+              FunctionARN: !GetAtt RequestFunction.FunctionMetadata.FunctionARN
+        # S3 answers 403 for a missing file (the bucket cannot be listed): show the page instead.
+        CustomErrorResponses:
+          - {ErrorCode: 403, ResponseCode: 404, ResponsePagePath: /index.html, ErrorCachingMinTTL: 60}
+          - {ErrorCode: 404, ResponseCode: 404, ResponsePagePath: /index.html, ErrorCachingMinTTL: 60}
+      Tags:
+        - {Key: Project, Value: SoloFactory}
+        - {Key: Purpose, Value: website}
+
+  # ---------------------------------------------------------------- API Gateway (stand-in)
+  # A regional REST API reads files from the private bucket with its own role (S3 integration).
+  # Every file type passes through as binary ("*/*") with S3's Content-Type and Cache-Control.
+  # It has no plain-HTTP address, and www shows the site rather than redirecting.
+
+  ApiRole:
+    Type: AWS::IAM::Role
+    Condition: UseApiGateway
+    Properties:
+      # No aws:SourceAccount condition: API Gateway does not send it when it takes an
+      # integration's role, and the role then cannot be used at all (tried 2026-11-22).
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: {Service: apigateway.amazonaws.com}
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: read-website-bucket
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "${Bucket.Arn}/*"
+      Tags:
+        - {Key: Project, Value: SoloFactory}
+        - {Key: Purpose, Value: website}
+
+  Api:
+    Type: AWS::ApiGateway::RestApi
+    Condition: UseApiGateway
+    Properties:
+      Name: !Ref AWS::StackName
+      Description: SoloFactory AI website (stand-in for CloudFront, D-86)
+      EndpointConfiguration: {Types: [REGIONAL]}
+      BinaryMediaTypes: ["*/*"]
+      Tags:
+        - {Key: Project, Value: SoloFactory}
+        - {Key: Purpose, Value: website}
+
+  ApiFiles:
+    Type: AWS::ApiGateway::Resource
+    Condition: UseApiGateway
+    Properties:
+      RestApiId: !Ref Api
+      ParentId: !GetAtt Api.RootResourceId
+      PathPart: "{proxy+}"
+
+  ApiRootGet:
+    Type: AWS::ApiGateway::Method
+    Condition: UseApiGateway
+    Properties:
+      RestApiId: !Ref Api
+      ResourceId: !GetAtt Api.RootResourceId
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: GET
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:s3:path/${Bucket}/index.html"
+        Credentials: !GetAtt ApiRole.Arn
+        PassthroughBehavior: WHEN_NO_MATCH
+        IntegrationResponses:
+          - StatusCode: "200"
+            ResponseParameters:
+              method.response.header.Content-Type: integration.response.header.Content-Type
+              method.response.header.Cache-Control: integration.response.header.Cache-Control
+              method.response.header.Strict-Transport-Security: "'max-age=31536000'"
+              method.response.header.X-Content-Type-Options: "'nosniff'"
+              method.response.header.X-Frame-Options: "'DENY'"
+              method.response.header.Referrer-Policy: "'strict-origin-when-cross-origin'"
+              method.response.header.Permissions-Policy: "'camera=(), microphone=(), geolocation=()'"
+              method.response.header.X-Robots-Tag: !If [NoIndex, "'noindex, nofollow'", "'all'"]
+          - {StatusCode: "404", SelectionPattern: "4\\d{2}"}
+          - {StatusCode: "500", SelectionPattern: "5\\d{2}"}
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseParameters:
+            method.response.header.Content-Type: true
+            method.response.header.Cache-Control: true
+            method.response.header.Strict-Transport-Security: true
+            method.response.header.X-Content-Type-Options: true
+            method.response.header.X-Frame-Options: true
+            method.response.header.Referrer-Policy: true
+            method.response.header.Permissions-Policy: true
+            method.response.header.X-Robots-Tag: true
+        - StatusCode: "404"
+        - StatusCode: "500"
+
+  ApiFileGet:
+    Type: AWS::ApiGateway::Method
+    Condition: UseApiGateway
+    Properties:
+      RestApiId: !Ref Api
+      ResourceId: !Ref ApiFiles
+      HttpMethod: GET
+      AuthorizationType: NONE
+      RequestParameters:
+        method.request.path.proxy: true
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: GET
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:s3:path/${Bucket}/{key}"
+        Credentials: !GetAtt ApiRole.Arn
+        PassthroughBehavior: WHEN_NO_MATCH
+        RequestParameters:
+          integration.request.path.key: method.request.path.proxy
+        IntegrationResponses:
+          - StatusCode: "200"
+            ResponseParameters:
+              method.response.header.Content-Type: integration.response.header.Content-Type
+              method.response.header.Cache-Control: integration.response.header.Cache-Control
+              method.response.header.Strict-Transport-Security: "'max-age=31536000'"
+              method.response.header.X-Content-Type-Options: "'nosniff'"
+              method.response.header.X-Frame-Options: "'DENY'"
+              method.response.header.Referrer-Policy: "'strict-origin-when-cross-origin'"
+              method.response.header.Permissions-Policy: "'camera=(), microphone=(), geolocation=()'"
+              method.response.header.X-Robots-Tag: !If [NoIndex, "'noindex, nofollow'", "'all'"]
+          - {StatusCode: "404", SelectionPattern: "4\\d{2}"}
+          - {StatusCode: "500", SelectionPattern: "5\\d{2}"}
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseParameters:
+            method.response.header.Content-Type: true
+            method.response.header.Cache-Control: true
+            method.response.header.Strict-Transport-Security: true
+            method.response.header.X-Content-Type-Options: true
+            method.response.header.X-Frame-Options: true
+            method.response.header.Referrer-Policy: true
+            method.response.header.Permissions-Policy: true
+            method.response.header.X-Robots-Tag: true
+        - StatusCode: "404"
+        - StatusCode: "500"
+
+  # A Deployment is a snapshot: CloudFormation does not redeploy it when a method changes. After
+  # changing the methods above, rename this resource (ApiDeploymentV2, ...) so a new one is made.
+  ApiDeploymentV1:
+    Type: AWS::ApiGateway::Deployment
+    Condition: UseApiGateway
+    DependsOn: [ApiRootGet, ApiFileGet]
+    Properties:
+      RestApiId: !Ref Api
+
+  ApiStage:
+    Type: AWS::ApiGateway::Stage
+    Condition: UseApiGateway
+    Properties:
+      RestApiId: !Ref Api
+      DeploymentId: !Ref ApiDeploymentV1
+      StageName: live
+      # A cap so a flood of requests cannot run up the bill.
+      MethodSettings:
+        - {ResourcePath: "/*", HttpMethod: "*", ThrottlingRateLimit: 50, ThrottlingBurstLimit: 100}
+      Tags:
+        - {Key: Project, Value: SoloFactory}
+        - {Key: Purpose, Value: website}
+
+  ApexDomain:
+    Type: AWS::ApiGateway::DomainName
+    Condition: ApiHasDomain
+    Properties:
+      DomainName: !Ref DomainName
+      RegionalCertificateArn: !Ref RegionalCertificateArn
+      EndpointConfiguration: {Types: [REGIONAL]}
+      SecurityPolicy: TLS_1_2
+      Tags:
+        - {Key: Project, Value: SoloFactory}
+        - {Key: Purpose, Value: website}
+
+  WwwDomain:
+    Type: AWS::ApiGateway::DomainName
+    Condition: ApiHasDomain
+    Properties:
+      DomainName: !Sub "www.${DomainName}"
+      RegionalCertificateArn: !Ref RegionalCertificateArn
+      EndpointConfiguration: {Types: [REGIONAL]}
+      SecurityPolicy: TLS_1_2
+      Tags:
+        - {Key: Project, Value: SoloFactory}
+        - {Key: Purpose, Value: website}
+
+  ApexMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Condition: ApiHasDomain
+    Properties:
+      DomainName: !Ref ApexDomain
+      RestApiId: !Ref Api
+      Stage: !Ref ApiStage
+
+  WwwMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Condition: ApiHasDomain
+    Properties:
+      DomainName: !Ref WwwDomain
+      RestApiId: !Ref Api
+      Stage: !Ref ApiStage
+
+Outputs:
+  BucketName:
+    Value: !Ref Bucket
+  DistributionId:
+    Condition: UseCloudFront
+    Value: !Ref Distribution
+  DistributionDomainName:
+    Condition: UseCloudFront
+    Description: Point solofactory.ai (ALIAS) and www (CNAME) here at the registrar.
+    Value: !GetAtt Distribution.DomainName
+  ApiAddress:
+    Condition: UseApiGateway
+    Description: The site on the API's own address, for testing before DNS.
+    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/live/"
+  ApexTarget:
+    Condition: ApiHasDomain
+    Description: Point solofactory.ai (ALIAS) here at the registrar.
+    Value: !GetAtt ApexDomain.RegionalDomainName
+  WwwTarget:
+    Condition: ApiHasDomain
+    Description: Point www.solofactory.ai (CNAME) here at the registrar.
+    Value: !GetAtt WwwDomain.RegionalDomainName

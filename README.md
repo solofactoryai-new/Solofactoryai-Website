@@ -119,13 +119,45 @@ chrome --headless=new --hide-scrollbars --window-size=1200,630 --screenshot=publ
 
 ## Deploying
 
-`npm run build` writes everything to `dist/`. Any static host works:
+`npm run build` writes everything to `dist/`.
 
-- **GitHub Pages:** a workflow that runs `npm ci && npm run build` and publishes `dist/` (Astro's
-  guide: https://docs.astro.build/en/guides/deploy/github/). Set `SITE_URL` to the Pages or custom
-  address.
-- **AWS (S3 and CloudFront), Netlify, Vercel or Cloudflare Pages:** build command `npm run build`,
-  output folder `dist`.
+The site lives on AWS, in the SoloFactory AI account (Mumbai, `ap-south-1`), approved by the founder
+on 2026-11-21:
+
+- **`infra/website.yaml`** (CloudFormation stack `solofactory-website`): a private S3 bucket and
+  what serves it over HTTPS, chosen by `Frontend`. About $0 to $1 a month.
+  - **`apigateway` (live since 2026-11-22):** a regional REST API that reads the bucket with its own
+    role. A stand-in, because AWS has not yet verified the account for CloudFront (the error asks
+    for an AWS Support case). It has no plain-HTTP address (`http://solofactory.ai` does not
+    answer; browsers go to https), and `www` shows the site instead of redirecting. Requests are
+    capped at 50 a second.
+  - **`cloudfront` (the aim):** CloudFront in front of the bucket, with a small function that
+    sends `www` to the bare domain and plain HTTP to HTTPS. Switch once AWS verifies the account,
+    then point the two DNS records at the distribution.
+- **Certificates** for `solofactory.ai` and `www.solofactory.ai`, requested with the AWS CLI outside
+  the stack and proved with two CNAME records at Hostinger (the same records serve both): one in
+  `ap-south-1` for API Gateway (`RegionalCertificateArn`) and one in `us-east-1` for CloudFront
+  (`CertificateArn`).
+- **Search engines:** `AllowIndexing=true` since the early-access form works (2026-11-22, the
+  founder's choice). `false` sends `X-Robots-Tag: noindex`.
+- **DNS at Hostinger:** `solofactory.ai` is a CNAME at `@` (Hostinger stores it as an ALIAS) to the
+  stack output `ApexTarget`, and `www` a CNAME to `WwwTarget`. Leave the MX and TXT records alone:
+  they carry the domain's email at Hostinger.
+
+To publish a new version, with the AWS CLI profile `solofactory` signed in (`aws login --remote
+--profile solofactory-login --region ap-south-1`):
+
+```bash
+bash scripts/publish-aws.sh
+```
+
+To change the stack itself:
+
+```bash
+aws cloudformation deploy --profile solofactory --region ap-south-1 --stack-name solofactory-website \
+  --template-file infra/website.yaml --capabilities CAPABILITY_IAM \
+  --parameter-overrides Frontend=apigateway RegionalCertificateArn=<ap-south-1 arn> AllowIndexing=true
+```
 
 ## Content rules
 
