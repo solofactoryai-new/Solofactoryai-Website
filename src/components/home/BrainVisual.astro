@@ -57,8 +57,10 @@ const nodes = workers.map((w, i) => {
 
     <circle class="brain__ring" cx={C} cy={C} r={ringR} stroke="url(#ring-stroke)" />
     <circle class="brain__ring-pulse" cx={C} cy={C} r={ringR} />
-    <text class="brain__ring-label" x={C} y={C - ringR + 30} text-anchor="middle">Founder Brain</text>
-    <text class="brain__ring-label" x={C} y={C + ringR - 20} text-anchor="middle">Business Brain</text>
+    {/* Both labels sit inside the ring, the same distance above and below "You" (its circle has
+        radius 50), well clear of the ring's line. dominant-baseline centres each on its y. */}
+    <text class="brain__ring-label" x={C} y={C - 78} text-anchor="middle" dominant-baseline="central">Founder Brain</text>
+    <text class="brain__ring-label" x={C} y={C + 78} text-anchor="middle" dominant-baseline="central">Business Brain</text>
 
     <circle class="brain__you" cx={C} cy={C} r="50" />
     <text class="brain__you-label" x={C} y={C + 6} text-anchor="middle">You</text>
