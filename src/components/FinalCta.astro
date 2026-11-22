@@ -79,9 +79,13 @@ const businessTypes = [
         <p class="field__error" id="wl-website-error" data-error-for="website"></p>
       </div>
 
+      <!-- A trap for simple bots. Its name must not look like anything a browser autofills
+           ("company", "address", "phone"...): Chrome filled the old "company" field for a real
+           visitor on 2026-11-22, and the sign-up was dropped. display:none also keeps autofill
+           away from it. -->
       <div class="field field--trap" aria-hidden="true">
-        <label for="wl-company">Leave this empty</label>
-        <input id="wl-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        <label for="wl-hp">Leave this empty</label>
+        <input id="wl-hp" name="wl_hp_check" type="text" tabindex="-1" autocomplete="off" />
       </div>
 
       <button class="button join__submit" type="submit" data-submit>
@@ -211,11 +215,7 @@ const businessTypes = [
   }
 
   .field--trap {
-    position: absolute;
-    left: -10000px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
+    display: none;
   }
 
   .join__submit {

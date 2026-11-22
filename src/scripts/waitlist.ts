@@ -98,7 +98,7 @@ export function initWaitlist(form: HTMLFormElement): void {
     }
 
     // A filled hidden field means a bot: stop quietly, send nothing.
-    if (value("company")) return;
+    if (value("wl_hp_check")) return;
 
     if (!endpoint) {
       show(
