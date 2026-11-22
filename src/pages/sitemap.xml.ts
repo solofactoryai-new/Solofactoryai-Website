@@ -3,7 +3,7 @@
 import type { APIRoute } from "astro";
 import { sitemapPaths, routes } from "../config/site";
 
-const privacyIsDraft = true; // Keep in step with `draft` in src/pages/privacy.astro.
+const privacyIsDraft = false; // Keep in step with `draft` in src/pages/privacy.astro.
 
 export const GET: APIRoute = ({ site }) => {
   const base = (site ?? new URL("https://solofactory.ai")).origin;

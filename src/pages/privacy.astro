@@ -1,14 +1,15 @@
 ---
 /* The website's privacy notice: the website and the early-access list only (the app has its own,
-   approved notice). DRAFT, written 2026-11-22 for the founder's approval: the operator and
-   contact are the ones the founder confirmed for the app's legal texts (D-149, LEGAL_CONTACT_EMAIL).
-   Kept out of search engines while it is a draft. Set `draft` to false once approved. */
+   approved notice). Approved by the founder on 2026-11-22: the operator is the company's official
+   name, MindX Digital Softwares, Inc. (as in the app's legal texts, D-149), and the contact is
+   support@solofactory.ai. If it ever goes back to draft, set `draft` to true here and in
+   sitemap.xml.ts: the page then shows a notice and stays out of search engines. */
 import Page from "../layouts/Page.astro";
 import { routes } from "../config/site";
 
-const draft = true;
+const draft = false;
 const operator = "MindX Digital Softwares, Inc., 1111B S Governors Ave, STE 23511, Dover, DE 19904, USA";
-const contact = "support@themindx.ai";
+const contact = "support@solofactory.ai";
 const updated = "22 November 2026";
 ---
 
