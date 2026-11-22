@@ -77,8 +77,9 @@ address in the background. The form ID and question IDs are in `src/config/waitl
 Google does not let the page read its answer, and it drops a sign-up it does not accept without
 saying so. So the Google Form must accept everything the page sends:
 
-- No question may be required that the page does not send. The old Business type and Website
-  questions are no longer sent: they must not be required.
+- No question may be required that the page does not send. "Business stage" and "What are you
+  trying to build?" are the old Business type and Website questions, renamed on 2026-11-22 (same
+  IDs). There is no Consent question yet: the tick box is on the page only.
 - The stage question must be Short answer, or offer exactly the four stages in
   `src/config/waitlist.ts`. Change both together.
 - If a question is added, removed or recreated, its ID changes: update `src/config/waitlist.ts`.

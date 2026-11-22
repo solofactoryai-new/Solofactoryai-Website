@@ -12,8 +12,11 @@
    - change the stages here and in the Google Form together.
 
    The form fields changed on 2026-11-22 (the rebuild brief): name, email, stage, what you are
-   building, consent. The new questions' IDs are filled in once the founder adds them to the
-   Google Form; an empty ID is simply not sent.
+   building, consent. The founder renamed the old questions rather than adding new ones, so
+   "Business stage" (Short answer, required) is the old Business type question and "What are
+   you trying to build?" (Paragraph) is the old Website question: same IDs. There is no Consent
+   question yet (the founder will add it later); the tick box stays on the page, and an empty ID
+   is simply not sent.
 
    Leave formId empty to fall back to PUBLIC_WAITLIST_ENDPOINT (a JSON endpoint), or, with
    neither, to the honest "not connected yet" message. */
@@ -22,8 +25,8 @@ export const googleForm = {
   entries: {
     name: "entry.955318456",
     email: "entry.178023779",
-    stage: "",
-    building: "",
+    stage: "entry.388512311",
+    building: "entry.497021125",
     consent: "",
     source: "",
   },
