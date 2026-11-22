@@ -1,4 +1,5 @@
-/* The early-access form: validation in the page, then a JSON POST to the configured endpoint.
+/* The early-access form: validation in the page, then a POST to the founder's Google Form, or
+   a JSON POST to a configured endpoint (src/config/waitlist.ts).
    With no endpoint configured it never pretends: it says sign-up is not connected yet and that
    nothing was sent. */
 
@@ -109,19 +110,32 @@ export function initWaitlist(form: HTMLFormElement): void {
 
     if (submit) submit.disabled = true;
     if (label) label.textContent = "Sending…";
+    const entry = {
+      name: fields.name.trim(),
+      email: fields.email.trim(),
+      businessType: fields.businessType,
+      website: normaliseWebsite(fields.website),
+      source: "solofactory.ai",
+    };
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: fields.name.trim(),
-          email: fields.email.trim(),
-          businessType: fields.businessType,
-          website: normaliseWebsite(fields.website),
-          source: "solofactory.ai",
-        }),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (form.dataset.mode === "google-form") {
+        // Google Forms does not allow cross-origin reads, so the answer cannot be inspected:
+        // a network failure still lands in catch. The form's questions are all optional short
+        // answers (src/config/waitlist.ts), so Google accepts any sign-up this page lets through.
+        const ids = JSON.parse(form.dataset.entries ?? "{}") as Record<keyof typeof entry, string>;
+        const body = new URLSearchParams();
+        (Object.keys(entry) as (keyof typeof entry)[]).forEach((key) => {
+          if (ids[key]) body.append(ids[key], entry[key]);
+        });
+        await fetch(endpoint, { method: "POST", mode: "no-cors", body });
+      } else {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(entry),
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      }
       form.reset();
       setErrors({});
       show("success", `Thank you, ${fields.name.trim()}. You're on the SoloFactory AI early-access list.`);

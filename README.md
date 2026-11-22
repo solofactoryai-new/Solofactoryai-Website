@@ -63,12 +63,25 @@ Both are read at **build** time: rebuild after changing them.
 The form asks for name, email, business type and, optionally, a website. It checks every field in
 the browser before sending.
 
-**No sign-up service is connected yet.** Until `PUBLIC_WAITLIST_ENDPOINT` is set, the form still
-checks the fields, then tells the visitor plainly that sign-up is not connected yet and that nothing
-was sent. It never shows a false success message.
+**Sign-ups go to the founder's Google Form** "SoloFactory AI early access"
+(https://forms.gle/1R982dbffSKiDik79), set up on 2026-11-22. They appear in the form's Responses
+tab. The visitor stays on the site: the page posts the answers to the form's `formResponse`
+address in the background. The form ID and question IDs are in `src/config/waitlist.ts`.
 
-To connect it, set `PUBLIC_WAITLIST_ENDPOINT` to an address that accepts a `POST` with this JSON
-body and answers with a 2xx status:
+Google does not let the page read its answer, and it drops a sign-up it does not accept without
+saying so. So the Google Form must accept everything the page sends:
+
+- Only Name, Email and Business type may be required. Website stays optional.
+- Business type's choices must match the list in `FinalCta.astro` letter for letter. Change both
+  together.
+- If a question is added, removed or recreated, its ID changes: update `src/config/waitlist.ts`.
+  The IDs can be read from the form's public page (`FB_PUBLIC_LOAD_DATA_`).
+
+With no Google Form configured, the form can instead send JSON to `PUBLIC_WAITLIST_ENDPOINT`. With
+neither, it still checks the fields, then tells the visitor plainly that sign-up is not connected
+yet and that nothing was sent. It never shows a false success message.
+
+`PUBLIC_WAITLIST_ENDPOINT` must accept a `POST` with this JSON body and answer with a 2xx status:
 
 ```json
 {

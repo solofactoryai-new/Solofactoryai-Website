@@ -1,9 +1,14 @@
 ---
 import Icon from "./Icon.astro";
+import { googleForm } from "../config/waitlist";
 
-/* Where the form sends its JSON. Empty until a service is chosen (README, "The early-access
-   form"): the form then validates but says honestly that sign-up is not connected yet. */
-const endpoint = (import.meta.env.PUBLIC_WAITLIST_ENDPOINT ?? "").trim();
+/* Where the form sends sign-ups (src/config/waitlist.ts, README "The early-access form"): the
+   founder's Google Form when its ID is set, otherwise a JSON endpoint. With neither, the form
+   still validates but says honestly that sign-up is not connected yet. */
+const useGoogleForm = googleForm.formId !== "";
+const endpoint = useGoogleForm
+  ? `https://docs.google.com/forms/d/e/${googleForm.formId}/formResponse`
+  : (import.meta.env.PUBLIC_WAITLIST_ENDPOINT ?? "").trim();
 
 const businessTypes = [
   "Software or SaaS",
@@ -35,6 +40,8 @@ const businessTypes = [
       class="join__form"
       data-waitlist
       data-endpoint={endpoint}
+      data-mode={useGoogleForm ? "google-form" : "json"}
+      data-entries={useGoogleForm ? JSON.stringify(googleForm.entries) : undefined}
       action={endpoint || undefined}
       method="post"
       aria-labelledby="join-form-title"
