@@ -9,6 +9,10 @@ export default defineConfig({
   site,
   // No image processing is needed: every visual is SVG or a ready-made PNG.
   image: { service: passthroughImageService() },
-  build: { inlineStylesheets: "auto" },
+  // Pages are built as folders (/platform/index.html) and linked without a trailing slash
+  // (/platform). The publish scripts also store each page under its bare path, because the
+  // AWS front end does not look for index.html inside folders (README, "Deploying").
+  trailingSlash: "never",
+  build: { inlineStylesheets: "auto", format: "directory" },
   devToolbar: { enabled: false },
 });

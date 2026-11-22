@@ -1,0 +1,202 @@
+---
+/* How It Works (the rebuild brief, page 3): the entrepreneur's journey in eight stages, each
+   with what SoloFactory does today or plans to do (src/data/journey.ts). The intended journey,
+   not a claim that every stage is available or automated. */
+import Page from "../layouts/Page.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import CtaBand from "../components/ui/CtaBand.astro";
+import { journey } from "../data/journey";
+import { routes } from "../config/site";
+
+const liveCount = journey.filter((j) => j.stage === "early").length;
+---
+
+<Page
+  title="How It Works — SoloFactory AI"
+  description="The journey from an idea to a sustainable business in eight stages: Discover, Validate, Build, Connect, Acquire, Operate, Grow and Sustain. What SoloFactory AI does at each stage today, and what is planned."
+>
+  <PageHero
+    eyebrow="How it works"
+    title="From an idea to a business."
+    soft="One connected journey."
+    lead={`Building a business is a journey, not a single task. SoloFactory is designed to support you across all eight stages. Today it covers the first ${liveCount}; the rest are planned, and marked so.`}
+  >
+    <ol class="stage-jump" aria-label="The eight stages">
+      {journey.map((j, i) => (
+        <li>
+          <a class:list={{ "is-live": j.stage === "early" }} href={`#${j.name.toLowerCase()}`}>
+            <span>{String(i + 1).padStart(2, "0")}</span> {j.name}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </PageHero>
+
+  <section class="section stages" aria-label="The eight stages">
+    <div class="container">
+      <ol class="stages__list">
+        {journey.map((j, i) => (
+          <li class:list={["stage", { "stage--live": j.stage === "early" }]} id={j.name.toLowerCase()} data-reveal>
+            <div class="stage__head">
+              <span class="stage__n">{String(i + 1).padStart(2, "0")}</span>
+              <h2 class="stage__name">{j.name}</h2>
+              <span class:list={["status", j.stage === "early" ? "status--live" : "status--planned"]}>{j.stage === "early" ? "Early Access" : "Planned"}</span>
+            </div>
+            <div class="stage__body">
+              <p class="stage__short">{j.short}</p>
+              <p class="muted">{j.about}</p>
+              {j.today && (
+                <div class="stage__box stage__box--today">
+                  <p class="stage__label">What SoloFactory does today</p>
+                  <p>{j.today}</p>
+                </div>
+              )}
+              <div class="stage__box">
+                <p class="stage__label">{j.today ? "Next" : "Planned"}</p>
+                <p>{j.planned}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="stages__note" data-reveal>
+        You stay in charge at every stage: AI Workers run only after you approve, and their work
+        becomes part of your business only when you accept it. SoloFactory cannot promise that a
+        business will succeed; it is built to make the work of building one more accessible.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand track="cta_how_it_works" secondary={{ href: routes.workforce, label: "Meet the AI Workforce" }} />
+</Page>
+
+<style>
+  .stage-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .stage-jump a {
+    display: inline-flex;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px dashed var(--border-strong);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .stage-jump a span {
+    color: var(--text-tertiary);
+  }
+
+  .stage-jump a.is-live {
+    border-style: solid;
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  .stage-jump a:hover {
+    background: var(--bg-secondary);
+  }
+
+  .stages__list {
+    display: grid;
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(24px, 5vw, 80px);
+    padding: clamp(40px, 5vw, 64px) 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .stage:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .stage__head {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: 10px;
+  }
+
+  .stage__n {
+    color: var(--text-tertiary);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .stage__name {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 650;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  .stage:not(.stage--live) .stage__name {
+    color: var(--text-secondary);
+  }
+
+  .stage__body {
+    display: grid;
+    gap: 16px;
+    font-size: 17px;
+  }
+
+  .stage__short {
+    font-size: clamp(20px, 1.8vw, 24px);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+
+  .stage__box {
+    display: grid;
+    gap: 6px;
+    padding: 18px 20px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+
+  .stage__box--today {
+    border: 1px solid var(--text);
+    color: var(--text);
+  }
+
+  .stage__label {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .stage__box--today .stage__label {
+    color: var(--text);
+  }
+
+  .stages__note {
+    max-width: 70ch;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-tertiary);
+    font-size: 15px;
+  }
+
+  @media (max-width: 800px) {
+    .stage {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

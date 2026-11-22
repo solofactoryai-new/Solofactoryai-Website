@@ -1,0 +1,179 @@
+---
+/* Early Access (the rebuild brief, page 7): what SoloFactory is building, who early access is
+   for, the form, what happens after, and privacy. Every promise here is one the founder can
+   keep: places are offered by email as they open; no date or guarantee is given. */
+import Page from "../layouts/Page.astro";
+import EarlyAccessForm from "../components/EarlyAccessForm.astro";
+import { routes } from "../config/site";
+
+const forWho = [
+  "You have an idea and want to find out if it is worth building.",
+  "You are building alone, or with a very small team.",
+  "You have a job and want to build something of your own alongside it.",
+  "You already run a small business and want more capability without more hiring.",
+];
+
+const next = [
+  { title: "You're on the list", text: "Your answers go to our early-access list. We read them to understand who we are building for." },
+  { title: "We invite in small groups", text: "As places open, we email people whose stage and plans fit what SoloFactory can do today." },
+  { title: "You start building", text: "You get an account in the SoloFactory app and begin with the Business Brain and the Research and Product Workers." },
+];
+---
+
+<Page
+  title="Get Early Access — SoloFactory AI"
+  description="Apply for early access to SoloFactory AI: a connected Brain and AI workforce to help you turn an idea into a business. Research and Product Workers are available in early access today."
+>
+  <section class="ea" aria-labelledby="page-title">
+    <div class="container ea__grid">
+      <div class="ea__copy">
+        <p class="eyebrow">Early access</p>
+        <h1 class="ea__title" id="page-title">Your next business could start here.</h1>
+        <p class="lead ea__lead">
+          SoloFactory AI is building a connected Brain and an AI workforce, so one person with an
+          idea can build, launch and operate a business. Early access starts with the Business
+          Brain and the Research and Product Workers.
+        </p>
+
+        <div class="ea__block">
+          <h2 class="h3">Who early access is for</h2>
+          <ul class="ea__list">
+            {forWho.map((w) => <li>{w}</li>)}
+          </ul>
+        </div>
+
+        <div class="ea__block">
+          <h2 class="h3">What happens after you apply</h2>
+          <ol class="ea__steps">
+            {next.map((n, i) => (
+              <li>
+                <span class="ea__n">{i + 1}</span>
+                <div>
+                  <p class="ea__step-title">{n.title}</p>
+                  <p class="muted">{n.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div class="ea__form">
+        <EarlyAccessForm />
+        <p class="ea__privacy">
+          We use your details only to contact you about early access to SoloFactory AI. We never
+          sell them. <a href={routes.privacy}>Read how we use your details</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .ea {
+    padding: clamp(48px, 7vw, 104px) 0 var(--section-y);
+  }
+
+  .ea__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .ea__title {
+    max-width: 14ch;
+    font-size: clamp(40px, 5.6vw, 76px);
+    font-weight: 650;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .ea__lead {
+    margin-top: 24px;
+  }
+
+  .ea__block {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+
+  .ea__block .h3 {
+    margin-bottom: 16px;
+  }
+
+  .ea__list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .ea__list li {
+    position: relative;
+    padding-left: 24px;
+    color: var(--text-secondary);
+  }
+
+  .ea__list li::before {
+    content: "";
+    position: absolute;
+    top: 0.75em;
+    left: 0;
+    width: 10px;
+    height: 2px;
+    background: var(--text);
+  }
+
+  .ea__steps {
+    display: grid;
+    gap: 18px;
+  }
+
+  .ea__steps li {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .ea__n {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .ea__step-title {
+    font-weight: 600;
+  }
+
+  .ea__form {
+    position: sticky;
+    top: calc(var(--topbar-height) + 24px);
+  }
+
+  .ea__privacy {
+    margin-top: 16px;
+    color: var(--text-tertiary);
+    font-size: 13px;
+  }
+
+  .ea__privacy a {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 900px) {
+    .ea__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ea__form {
+      position: static;
+      order: -1;
+    }
+  }
+</style>

@@ -1,0 +1,280 @@
+---
+/* The early-access form (the rebuild brief, page 7): name, email, business stage, what you are
+   trying to build, and consent, as the founder agreed on 2026-11-22. It checks every field in
+   the page, then sends to the founder's Google Form (src/config/waitlist.ts), or a JSON endpoint,
+   or says honestly that sign-up is not connected. It never shows a false success. */
+import Icon from "./Icon.astro";
+import { googleForm, stages } from "../config/waitlist";
+import { routes } from "../config/site";
+
+const useGoogleForm = googleForm.formId !== "";
+const endpoint = useGoogleForm
+  ? `https://docs.google.com/forms/d/e/${googleForm.formId}/formResponse`
+  : (import.meta.env.PUBLIC_WAITLIST_ENDPOINT ?? "").trim();
+---
+
+<form
+  class="ea-form"
+  data-waitlist
+  data-endpoint={endpoint}
+  data-mode={useGoogleForm ? "google-form" : "json"}
+  data-entries={useGoogleForm ? JSON.stringify(googleForm.entries) : undefined}
+  action={endpoint || undefined}
+  method="post"
+  aria-labelledby="ea-form-title"
+>
+  <h2 class="ea-form__title" id="ea-form-title">Apply for early access</h2>
+  <p class="muted ea-form__intro">It takes about a minute.</p>
+
+  <div class="field">
+    <label for="wl-name">Name</label>
+    <input id="wl-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="wl-name-error" />
+    <p class="field__error" id="wl-name-error" data-error-for="name"></p>
+  </div>
+
+  <div class="field">
+    <label for="wl-email">Email</label>
+    <input id="wl-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="wl-email-error" />
+    <p class="field__error" id="wl-email-error" data-error-for="email"></p>
+  </div>
+
+  <fieldset class="field">
+    <legend>Where are you with your business?</legend>
+    <div class="ea-form__stages">
+      {stages.map((s, i) => (
+        <label class="choice">
+          <input type="radio" name="stage" value={s} required={i === 0} aria-describedby="wl-stage-error" />
+          <span>{s}</span>
+        </label>
+      ))}
+    </div>
+    <p class="field__error" id="wl-stage-error" data-error-for="stage"></p>
+  </fieldset>
+
+  <div class="field">
+    <label for="wl-building">What are you trying to build?</label>
+    <textarea
+      id="wl-building"
+      name="building"
+      rows="3"
+      required
+      maxlength="600"
+      placeholder="For example: a bakery that sells online, an app for tutors, a consulting practice"
+      aria-describedby="wl-building-error"
+    ></textarea>
+    <p class="field__error" id="wl-building-error" data-error-for="building"></p>
+  </div>
+
+  <!-- A trap for simple bots. Its name must not look like anything a browser autofills
+       ("company", "address", "phone"...): Chrome filled an old "company" field for a real
+       visitor on 2026-11-22, and the sign-up was dropped. display:none keeps autofill away. -->
+  <div class="field field--trap" aria-hidden="true">
+    <label for="wl-hp">Leave this empty</label>
+    <input id="wl-hp" name="wl_hp_check" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="field">
+    <label class="consent">
+      <input type="checkbox" name="consent" value="Yes" required aria-describedby="wl-consent-error" />
+      <span>
+        I agree that SoloFactory AI may email me about early access. I can ask to stop at any time.
+        <a href={routes.privacy}>How we use your details</a>.
+      </span>
+    </label>
+    <p class="field__error" id="wl-consent-error" data-error-for="consent"></p>
+  </div>
+
+  <button class="button ea-form__submit" type="submit" data-submit>
+    <span data-submit-label>Apply for early access</span>
+    <Icon name="arrow-right" />
+  </button>
+
+  <p class="ea-form__status" role="status" aria-live="polite" data-status></p>
+</form>
+
+<script>
+  import { initWaitlist } from "../scripts/waitlist";
+  document.querySelectorAll<HTMLFormElement>("[data-waitlist]").forEach(initWaitlist);
+</script>
+
+<style>
+  .ea-form {
+    display: grid;
+    gap: 20px;
+    padding: clamp(24px, 4vw, 40px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+    box-shadow: var(--shadow-2);
+  }
+
+  .ea-form__title {
+    font-size: 24px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .ea-form__intro {
+    margin-top: -12px;
+    font-size: 15px;
+  }
+
+  .field {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .field label,
+  .field legend {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .field legend {
+    margin-bottom: 8px;
+  }
+
+  .field input[type="text"],
+  .field input[type="email"],
+  .field textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 16px;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .field textarea {
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--text);
+    outline: 2px solid var(--text);
+    outline-offset: 0;
+  }
+
+  .field [aria-invalid="true"] {
+    border-color: var(--danger) !important;
+  }
+
+  .ea-form__stages {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .choice {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .choice input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .choice span {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 550;
+  }
+
+  .choice input:checked + span {
+    border-color: var(--text);
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  .choice input:focus-visible + span {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+
+  .consent {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+    color: var(--text-secondary);
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .consent input {
+    width: 20px;
+    height: 20px;
+    margin: 1px 0 0;
+    accent-color: var(--text);
+  }
+
+  .field__error {
+    color: var(--danger);
+    font-size: 14px;
+  }
+
+  .field__error:empty {
+    display: none;
+  }
+
+  .field--trap {
+    display: none;
+  }
+
+  .ea-form__submit {
+    margin-top: 4px;
+  }
+
+  .ea-form__submit[disabled] {
+    cursor: progress;
+    opacity: 0.7;
+  }
+
+  .ea-form__status:empty {
+    display: none;
+  }
+
+  .ea-form__status {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    font-size: 15px;
+  }
+
+  .ea-form__status[data-tone="success"] {
+    background: var(--success-bg);
+    color: var(--success);
+  }
+
+  .ea-form__status[data-tone="error"] {
+    background: var(--danger-bg);
+    color: var(--danger);
+  }
+
+  @media (max-width: 420px) {
+    .ea-form__stages {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,401 @@
+---
+/* Platform (the rebuild brief, page 2): how the three layers work together, what is shared,
+   how work flows, what connects to the outside, how the founder stays in control, and an honest
+   table of what exists today. Checked against the live product on 2026-11-22: the Business
+   Brain holds the brief, research, evidence, decisions and outcomes, and gives advice; work runs
+   only after "Approve and run"; SoloFactory sends nothing and connects to no mail, messaging
+   or payment account; research reads the public web. */
+import Page from "../layouts/Page.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import CtaBand from "../components/ui/CtaBand.astro";
+import { routes } from "../config/site";
+import { workers } from "../data/workers";
+
+const live = workers.filter((w) => w.stage === "early").length;
+
+const layers = [
+  {
+    id: "founder-brain",
+    name: "Founder Brain",
+    status: "Planned",
+    tone: "planned",
+    lead: "A dedicated intelligence layer that understands you.",
+    points: [
+      "Understands your goals, preferences and the way you work.",
+      "Keeps your context and memory across every business you run.",
+      "Helps you think, decide and prioritise.",
+    ],
+    today: "Not available yet. Today, the Business Brain holds what you tell SoloFactory about each business.",
+  },
+  {
+    id: "business-brain",
+    name: "Business Brain",
+    status: "Early Access",
+    tone: "live",
+    lead: "A connected understanding of each business.",
+    points: [
+      "Holds your business's context: the idea, the problem, the customers and the strategy.",
+      "Connects the research, customer evidence, decisions and results that matter.",
+      "Helps identify problems, opportunities and the next sensible step.",
+    ],
+    today: "In early access: it keeps your brief, research, accepted customer evidence, decisions and outcomes, and gives advice you can turn into tasks.",
+  },
+  {
+    id: "ai-workforce",
+    name: "AI Workforce",
+    status: `Early Access: ${live} of ${workers.length} Workers`,
+    tone: "live",
+    lead: "Specialised AI Workers that perform defined business tasks.",
+    points: [
+      "Each Worker focuses on one part of the business.",
+      "Workers use the same shared, permitted context.",
+      "Every action needs your approval first.",
+    ],
+    today: "In early access: the Research Worker and the Product Worker. Marketing, Sales, Finance, Operations and Customer Success are planned.",
+  },
+];
+
+const flow = [
+  { step: "Advice", text: "The Brain suggests a next step, based on what it knows about your business." },
+  { step: "Your choice", text: "You decide: make it a task, keep it for later, or dismiss it." },
+  { step: "Approve and run", text: "Before a Worker starts, you see exactly what it will do, what it will use and what it may cost." },
+  { step: "Result", text: "The Worker's result comes back to you to review, change or accept." },
+  { step: "Memory", text: "What you accept, and what happened, becomes part of the Brain for next time." },
+];
+
+const control = [
+  { title: "Nothing runs without approval", text: "A Worker starts only when you choose Approve and run, after seeing its scope and estimated cost." },
+  { title: "Nothing is sent for you", text: "SoloFactory does not send email or messages on your behalf. Drafts are yours to send, or not." },
+  { title: "You decide what counts", text: "A Worker's findings become evidence only when you accept them. You can change them first." },
+  { title: "Your data stays yours", text: "Each business's information stays in its own workspace, used only for that business." },
+];
+
+const table: { area: string; today: string; next: string; status: "live" | "planned" }[] = [
+  { area: "Business Brain", today: "Brief, research, evidence, decisions, outcomes and advice", next: "Deeper understanding of performance", status: "live" },
+  { area: "Research Worker", today: "Customer segments, ideal customer profile, companies to approach", next: "Market and competitor research", status: "live" },
+  { area: "Product Worker", today: "Features and PRDs for your build tool", next: "More of the build itself", status: "live" },
+  { area: "Founder Brain", today: "Not yet", next: "Your goals, preferences and context across businesses", status: "planned" },
+  { area: "Marketing, Sales, Finance, Operations and Customer Success Workers", today: "Not yet", next: "Specialised Workers on the same Brain", status: "planned" },
+  { area: "Integrations", today: "Public web for research", next: "The tools you already use, with your permission", status: "planned" },
+];
+---
+
+<Page
+  title="Platform — SoloFactory AI"
+  description="How SoloFactory AI works: a Founder Brain, a Business Brain and an AI Workforce, connected through shared context and your approval. What exists today and what is planned."
+>
+  <PageHero
+    eyebrow="Platform"
+    title="One connected Brain."
+    soft="An entire AI workforce."
+    lead="SoloFactory brings three layers together, so the intelligence, memory and work of your business live in one place, with you in control."
+  >
+    <nav class="layer-jump" aria-label="The three layers">
+      {layers.map((l) => <a href={`#${l.id}`}>{l.name}</a>)}
+    </nav>
+  </PageHero>
+
+  {layers.map((l, i) => (
+    <section class:list={["section layer", { "section--alt": i % 2 === 1 }]} id={l.id} aria-labelledby={`${l.id}-title`}>
+      <div class="container layer__grid">
+        <div data-reveal>
+          <p class="eyebrow">Layer {i + 1}</p>
+          <h2 class="h2" id={`${l.id}-title`}>{l.name}</h2>
+          <span class:list={["status", l.tone === "live" ? "status--live" : "status--planned"]}>{l.status}</span>
+        </div>
+        <div data-reveal>
+          <p class="layer__lead">{l.lead}</p>
+          <ul class="layer__points">
+            {l.points.map((p) => <li>{p}</li>)}
+          </ul>
+          <p class="layer__today"><strong>Today:</strong> {l.today}</p>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section section--line" aria-labelledby="shared-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Shared intelligence and memory</p>
+        <h2 class="h2" id="shared-title">Every Worker starts from what your business already knows.</h2>
+        <p class="lead">
+          Disconnected tools each keep their own small piece of your business. In SoloFactory, the
+          Brain is shared: Workers use the same permitted context, and what they learn comes back
+          to it. Your business does not have to explain itself again.
+        </p>
+      </div>
+      <ol class="flow" data-reveal aria-label="How work flows through SoloFactory">
+        {flow.map((f, i) => (
+          <li class="flow__step">
+            <span class="flow__n">{String(i + 1).padStart(2, "0")}</span>
+            <span class="flow__name">{f.step}</span>
+            <span class="flow__text">{f.text}</span>
+          </li>
+        ))}
+      </ol>
+      <p class="flow__note" data-reveal>This connected workflow runs today for research and product work.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="integrations-title">
+    <div class="container two-col">
+      <div data-reveal>
+        <p class="eyebrow">Integrations and external systems</p>
+        <h2 class="h2" id="integrations-title">Connected where it helps. Never without permission.</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>
+          SoloFactory keeps your business's intelligence, memory and workflows in one place, and
+          is designed to connect to the tools you already use where that is useful: email,
+          documents, payments, customer lists.
+        </p>
+        <p>
+          <strong>Today, SoloFactory works inside its own workspace.</strong> Research reads the
+          public web. It connects to no email, messaging or payment account, and sends nothing on
+          your behalf. Integrations are planned, and each will ask for your permission.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="control-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Human approval and control</p>
+        <h2 class="h2" id="control-title">You lead. The workforce follows.</h2>
+      </div>
+      <ul class="control" data-reveal>
+        {control.map((c) => (
+          <li>
+            <h3 class="h3">{c.title}</h3>
+            <p class="muted">{c.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="now-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Current capabilities and roadmap</p>
+        <h2 class="h2" id="now-title">What exists today, and what is planned.</h2>
+        <p class="lead">We would rather be clear than impressive. This is where SoloFactory is now.</p>
+      </div>
+      <div class="table-wrap" data-reveal>
+        <table class="roadmap">
+          <thead>
+            <tr><th scope="col">Part of the platform</th><th scope="col">Today</th><th scope="col">Planned</th><th scope="col">Status</th></tr>
+          </thead>
+          <tbody>
+            {table.map((r) => (
+              <tr>
+                <th scope="row">{r.area}</th>
+                <td>{r.today}</td>
+                <td>{r.next}</td>
+                <td><span class:list={["status", r.status === "live" ? "status--live" : "status--planned"]}>{r.status === "live" ? "Early Access" : "Planned"}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand track="cta_platform" secondary={{ href: routes.workforce, label: "Meet the AI Workforce" }} />
+</Page>
+
+<style>
+  .layer-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .layer-jump a {
+    padding: 8px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .layer-jump a:hover {
+    background: var(--bg-secondary);
+  }
+
+  .layer__grid,
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .layer__grid .h2 {
+    margin-bottom: 16px;
+  }
+
+  .layer__lead {
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  .layer__points {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .layer__points li {
+    position: relative;
+    padding-left: 24px;
+    color: var(--text-secondary);
+    font-size: 17px;
+  }
+
+  .layer__points li::before {
+    content: "";
+    position: absolute;
+    top: 0.7em;
+    left: 0;
+    width: 10px;
+    height: 2px;
+    background: var(--text);
+  }
+
+  .layer__today {
+    margin-top: 28px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  .layer__today strong {
+    color: var(--text);
+  }
+
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+  }
+
+  .flow__step {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: 24px 20px;
+    background: var(--bg);
+  }
+
+  .flow__n {
+    color: var(--text-tertiary);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .flow__name {
+    font-size: 18px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .flow__text {
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  .flow__note {
+    margin-top: 16px;
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  .control {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .control li {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding-top: 20px;
+    border-top: 2px solid var(--text);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+  }
+
+  .roadmap {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  .roadmap th,
+  .roadmap td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .roadmap thead th {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .roadmap tbody tr:last-child th,
+  .roadmap tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .roadmap tbody th {
+    font-weight: 600;
+  }
+
+  .roadmap td {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 1000px) {
+    .flow {
+      grid-template-columns: 1fr;
+    }
+
+    .control {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 800px) {
+    .layer__grid,
+    .two-col,
+    .control {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

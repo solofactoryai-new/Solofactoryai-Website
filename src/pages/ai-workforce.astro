@@ -1,0 +1,234 @@
+---
+/* AI Workforce (the rebuild brief, page 4): what specialised AI Workers are, how they work, and
+   each Worker with its true status (src/data/workers.ts). The "today" lines for the two Workers
+   in early access describe the live product as checked on 2026-11-22; planned Workers are never
+   described as available. */
+import Page from "../layouts/Page.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import CtaBand from "../components/ui/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import { workers, stageLabel } from "../data/workers";
+import { routes } from "../config/site";
+
+const today: Record<string, string[]> = {
+  "Research Worker": [
+    "Proposes customer segments and an ideal customer profile from the public web, with its sources.",
+    "Lists companies worth approaching, checked against what it finds.",
+    "Prepares interview guides and turns your conversation notes into statements you can accept as evidence.",
+  ],
+  "Product Worker": [
+    "Turns your evidence into features, each small enough to build in a day.",
+    "Writes a product requirements document (PRD) for each feature, ready for your own build tool.",
+    "Records what you shipped, so the Brain learns from it.",
+  ],
+};
+
+const principles = [
+  { title: "One shared Brain", text: "Every Worker starts from the same understanding of your business, so nothing has to be explained twice." },
+  { title: "A defined job", text: "Each Worker focuses on one part of the business and does it well, instead of one assistant trying to do everything." },
+  { title: "Your approval first", text: "Before a Worker runs, you see what it will do, what it will use and what it may cost. Nothing runs without you." },
+  { title: "Your judgement last", text: "A Worker's findings become part of your business only when you accept them. You can change them first." },
+];
+---
+
+<Page
+  title="AI Workforce — SoloFactory AI"
+  description="Specialised AI Workers for research, product, marketing, sales, finance, operations and customer success, working from one shared Brain with your approval. Research and Product Workers are in early access; the others are planned."
+>
+  <PageHero
+    eyebrow="AI Workforce"
+    title="Meet the workforce"
+    soft="behind your next business."
+    lead="Different responsibilities need different capabilities. SoloFactory is building specialised AI Workers that share your business's context and work with your approval. Two are in early access today; five are planned."
+  />
+
+  <section class="section" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">How AI Workers work</p>
+        <h2 class="h2" id="how-title">Not a chatbot. A team that knows your business.</h2>
+      </div>
+      <ul class="principles" data-reveal>
+        {principles.map((p, i) => (
+          <li>
+            <span class="principles__n">{i + 1}</span>
+            <h3 class="h3">{p.title}</h3>
+            <p class="muted">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="workers-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">The Workers</p>
+        <h2 class="h2" id="workers-title">Seven Workers. Two at work today.</h2>
+      </div>
+      <ul class="roster">
+        {workers.map((w) => (
+          <li class:list={["member", { "member--live": w.stage === "early" }]} data-reveal>
+            <div class="member__head">
+              <span class="icon-tile"><Icon name={w.icon} /></span>
+              <h3 class="member__name">{w.name}</h3>
+              <span class:list={["status", w.stage === "early" ? "status--live" : "status--planned"]}>{stageLabel[w.stage]}</span>
+            </div>
+            <p class="member__text">{w.text}</p>
+            {today[w.name] ? (
+              <div class="member__today">
+                <p class="member__label">What it does today</p>
+                <ul>
+                  {today[w.name].map((t) => <li>{t}</li>)}
+                </ul>
+              </div>
+            ) : (
+              <p class="member__planned">Planned. Not available yet.</p>
+            )}
+          </li>
+        ))}
+      </ul>
+      <p class="roster__close" data-reveal>One connected workforce. Built around the needs of your business.</p>
+    </div>
+  </section>
+
+  <CtaBand track="cta_workforce_page" secondary={{ href: routes.howItWorks, label: "See How It Works" }} />
+</Page>
+
+<style>
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .principles li {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+  }
+
+  .principles__n {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .roster {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .member {
+    display: grid;
+    align-content: start;
+    gap: 14px;
+    padding: clamp(24px, 3vw, 32px);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+  }
+
+  .member--live {
+    border: 1px solid var(--text);
+    box-shadow: var(--shadow-1);
+  }
+
+  .member--live .icon-tile {
+    border-color: var(--text);
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  .member__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 14px;
+  }
+
+  .member__name {
+    flex: 1;
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .member:not(.member--live) .member__name {
+    color: var(--text-secondary);
+  }
+
+  .member__text {
+    font-size: 17px;
+  }
+
+  .member__today {
+    display: grid;
+    gap: 10px;
+    padding: 18px 20px;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+  }
+
+  .member__label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .member__today ul {
+    display: grid;
+    gap: 8px;
+  }
+
+  .member__today li {
+    position: relative;
+    padding-left: 20px;
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  .member__today li::before {
+    content: "";
+    position: absolute;
+    top: 0.7em;
+    left: 0;
+    width: 8px;
+    height: 2px;
+    background: var(--text);
+  }
+
+  .member__planned {
+    color: var(--text-tertiary);
+    font-size: 15px;
+  }
+
+  .roster__close {
+    margin-top: 40px;
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  @media (max-width: 1000px) {
+    .principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .principles,
+    .roster {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

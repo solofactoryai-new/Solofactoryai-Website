@@ -1,26 +1,25 @@
 ---
-/* The black top bar, as in the product (PRD 2.10): the white logo, five links to the homepage
-   sections (the brief's other pages come later) and one white call to action. On phones the
-   links fold into a menu. */
+/* The black top bar, as in the product (PRD 2.10): the white logo, the five main pages (the
+   current one marked) and one white call to action. On phones the links fold into a menu. */
 import Logo from "./Logo.astro";
+import { HOME, mainNav, routes } from "../config/site";
 
-const links = [
-  { href: "#platform", label: "Platform" },
-  { href: "#how-it-works", label: "How It Works" },
-  { href: "#workforce", label: "AI Workforce" },
-  { href: "#vision", label: "Vision" },
-  { href: "#founder", label: "About" },
-];
+const here = Astro.url.pathname.replace(/\/$/, "") || "/";
+const links = mainNav;
 ---
 
 <header class="topbar" data-nav>
   <div class="container topbar__inner">
-    <a class="topbar__brand" href="#top" aria-label="SoloFactory AI, back to the top"><Logo /></a>
+    <a class="topbar__brand" href={HOME} aria-label="SoloFactory AI, home"><Logo /></a>
     <nav class="topbar__menu" id="nav-menu" aria-label="Main">
       <ul class="topbar__links">
-        {links.map((link) => <li><a class="topbar__link" href={link.href}>{link.label}</a></li>)}
+        {links.map((link) => (
+          <li>
+            <a class="topbar__link" href={link.href} aria-current={here === link.href ? "page" : undefined}>{link.label}</a>
+          </li>
+        ))}
       </ul>
-      <a class="topbar__cta" href="#join">Get Early Access</a>
+      <a class="topbar__cta" href={routes.earlyAccess} data-track="cta_nav_early_access">Get Early Access</a>
     </nav>
     <button
       class="topbar__toggle"
@@ -110,6 +109,10 @@ const links = [
     font-weight: 500;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .topbar__link[aria-current="page"] {
+    background: var(--topbar-hover);
   }
 
   .topbar__link:hover,

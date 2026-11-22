@@ -2,6 +2,7 @@
 /* Section 7: the AI workforce, each worker with its true status (src/data/workers.ts). */
 import Icon from "../Icon.astro";
 import { workers, stageLabel } from "../../data/workers";
+import { routes } from "../../config/site";
 ---
 
 <section class="section workforce" id="workforce" aria-labelledby="workforce-title">
@@ -29,7 +30,8 @@ import { workers, stageLabel } from "../../data/workers";
       ))}
       <li class="worker worker--cta" data-reveal>
         <p class="worker__cta-text">One connected workforce. Built around the needs of your business.</p>
-        <a class="button" href="#join" data-track="cta_workforce_early_access">Get Early Access <Icon name="arrow-right" /></a>
+        <a class="text-link" href={routes.workforce}>Meet every AI Worker <Icon name="arrow-right" /></a>
+        <a class="button" href={routes.earlyAccess} data-track="cta_workforce_early_access">Get Early Access <Icon name="arrow-right" /></a>
       </li>
     </ul>
   </div>

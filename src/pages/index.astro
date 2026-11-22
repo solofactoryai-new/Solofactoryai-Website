@@ -1,11 +1,10 @@
 ---
-/* The homepage, dark prototype (website rebuild brief, part 3, 2026-11-22), in the brief's
-   order: hero, the future, the problem, the platform and its three layers, how it works, the
-   AI workforce, the connected Brain, the founder, the ambition, and early access. */
-import Base from "../layouts/Base.astro";
-import FinalCta from "../components/FinalCta.astro";
-import Footer from "../components/Footer.astro";
-import Nav from "../components/Nav.astro";
+/* The homepage (website rebuild brief, part 3, 2026-11-22), in the brief's order: hero, the
+   vision, the problem, the platform and its three layers, how it works, the AI workforce, the
+   connected Brain, the founder, the ambition, and the call to action. The sign-up form lives on
+   /early-access. */
+import Page from "../layouts/Page.astro";
+import CtaBand from "../components/ui/CtaBand.astro";
 import Ambition from "../components/home/Ambition.astro";
 import ConnectedBrain from "../components/home/ConnectedBrain.astro";
 import Founder from "../components/home/Founder.astro";
@@ -17,52 +16,18 @@ import Problem from "../components/home/Problem.astro";
 import Workforce from "../components/home/Workforce.astro";
 ---
 
-<Base
+<Page
   title="SoloFactory AI — Build Your Business. Not Your Team."
   description="One entrepreneur. One connected Brain. An entire AI workforce. Discover how SoloFactory AI is building a new way to turn ideas into businesses."
 >
-  <a class="skip-link" href="#main">Skip to content</a>
-  <Nav />
-  <main id="main">
-    <Hero />
-    <Future />
-    <Problem />
-    <Platform />
-    <Journey />
-    <Workforce />
-    <ConnectedBrain />
-    <Founder />
-    <Ambition />
-    <FinalCta />
-  </main>
-  <Footer />
-  <script>
-    // Sections fade in once as they scroll into view. Without scripts, or with reduced motion,
-    // everything is simply visible.
-    const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || !("IntersectionObserver" in window)) {
-      items.forEach((el) => el.classList.add("is-visible"));
-    } else {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
-      );
-      items.forEach((el) => observer.observe(el));
-    }
-
-    // Analytics hooks (brief 6.5). No analytics tool is installed: links marked data-track
-    // only announce a "sf:track" event on the page, ready for whichever tool is chosen later.
-    document.addEventListener("click", (event) => {
-      const el = (event.target as HTMLElement).closest<HTMLElement>("[data-track]");
-      if (el) window.dispatchEvent(new CustomEvent("sf:track", { detail: { event: el.dataset.track } }));
-    });
-  </script>
-</Base>
+  <Hero />
+  <Future />
+  <Problem />
+  <Platform />
+  <Journey />
+  <Workforce />
+  <ConnectedBrain />
+  <Founder />
+  <Ambition />
+  <CtaBand track="cta_home_final" />
+</Page>

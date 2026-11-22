@@ -1,0 +1,138 @@
+---
+/* The website's privacy notice: the website and the early-access list only (the app has its own,
+   approved notice). DRAFT, written 2026-11-22 for the founder's approval: the operator and
+   contact are the ones the founder confirmed for the app's legal texts (D-149, LEGAL_CONTACT_EMAIL).
+   Kept out of search engines while it is a draft. Set `draft` to false once approved. */
+import Page from "../layouts/Page.astro";
+import { routes } from "../config/site";
+
+const draft = true;
+const operator = "MindX Digital Softwares, Inc., 1111B S Governors Ave, STE 23511, Dover, DE 19904, USA";
+const contact = "support@themindx.ai";
+const updated = "22 November 2026";
+---
+
+<Page
+  title="Privacy — SoloFactory AI"
+  description="How SoloFactory AI uses the details you give on this website and the early-access list."
+  noindex={draft}
+>
+  <article class="legal">
+    <div class="container container--narrow">
+      {draft && (
+        <p class="legal__draft" role="note">
+          Draft for review. This notice has not been approved yet.
+        </p>
+      )}
+      <p class="eyebrow">Privacy</p>
+      <h1 class="legal__title">How we use your details</h1>
+      <p class="muted">This website and the early-access list. Last updated {updated}.</p>
+
+      <h2>Who we are</h2>
+      <p>
+        SoloFactory AI is operated by {operator} ("we", "us"). If you have a question about your
+        details, email <a href={`mailto:${contact}`}>{contact}</a>.
+      </p>
+
+      <h2>What we collect</h2>
+      <p>When you apply for early access, we collect only what you type into the form:</p>
+      <ul>
+        <li>your name and email address;</li>
+        <li>where you are with your business, and what you are trying to build;</li>
+        <li>your agreement that we may email you about early access.</li>
+      </ul>
+      <p>This website sets no cookies and uses no advertising or analytics trackers.</p>
+
+      <h2>Why we use it</h2>
+      <p>
+        To contact you about early access to SoloFactory AI, and to understand who we are building
+        for. We do not sell your details, and we do not use them for advertising.
+      </p>
+
+      <h2>Where it is kept</h2>
+      <p>
+        Your answers go from your browser to a Google Form that we use to keep the early-access
+        list, so Google stores them for us. The website itself is hosted by Amazon Web Services,
+        which may record technical details of each visit, such as your IP address, to keep the
+        service running and secure.
+      </p>
+
+      <h2>How long we keep it</h2>
+      <p>
+        Until early access ends, or until you ask us to delete it, whichever comes first.
+      </p>
+
+      <h2>Your choices</h2>
+      <p>
+        You can ask us to show, correct or delete your details, or to stop emailing you, at any
+        time: email <a href={`mailto:${contact}`}>{contact}</a>.
+      </p>
+
+      <h2>The SoloFactory AI app</h2>
+      <p>
+        If you create an account in the SoloFactory AI app, the app's own privacy notice applies
+        to everything you do there. You will see it when you sign up.
+      </p>
+
+      <h2>Changes</h2>
+      <p>If we change this notice, we will update the date at the top of this page.</p>
+
+      <p class="legal__back"><a href={routes.earlyAccess}>Back to early access</a></p>
+    </div>
+  </article>
+</Page>
+
+<style>
+  .legal {
+    padding: clamp(48px, 7vw, 96px) 0 var(--section-y);
+  }
+
+  .legal__draft {
+    margin-bottom: 32px;
+    padding: 12px 16px;
+    border: 1px dashed var(--danger);
+    border-radius: var(--radius-md);
+    background: var(--danger-bg);
+    color: var(--danger);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .legal__title {
+    margin-bottom: 12px;
+    font-size: clamp(36px, 4.6vw, 56px);
+    font-weight: 650;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  .legal h2 {
+    margin: 40px 0 12px;
+    font-size: 20px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .legal p,
+  .legal li {
+    color: var(--text-secondary);
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .legal ul {
+    display: grid;
+    gap: 6px;
+    margin: 12px 0;
+    padding-left: 22px;
+    list-style: disc;
+  }
+
+  .legal p + p {
+    margin-top: 12px;
+  }
+
+  .legal__back {
+    margin-top: 48px;
+  }
+</style>

@@ -1,4 +1,7 @@
 ---
+import Icon from "../Icon.astro";
+import { routes } from "../../config/site";
+
 /* Section 9: why the founder is building SoloFactory AI, in the founder's own words
    (2026-11-20; kept exactly, the founder confirmed on 2026-11-22). Only facts the founder gave.
    This is also the "counter-vision": what happens when the problem stays unsolved. */
@@ -39,6 +42,7 @@
         <span class="founder__name">Rajesh Dayalan</span>
         <span class="founder__role">Founder, SoloFactory AI</span>
       </p>
+      <a class="text-link founder__more" href={routes.about}>Read our story <Icon name="arrow-right" /></a>
     </div>
   </div>
 </section>
@@ -90,6 +94,10 @@
     margin-top: 36px;
     padding-top: 24px;
     border-top: 1px solid var(--border);
+  }
+
+  .founder__more {
+    margin-top: 24px;
   }
 
   .founder__name {

@@ -3,23 +3,25 @@
    sections, and the closing statement. Only links that lead somewhere real: no privacy, terms
    or social links until those pages and accounts exist (brief: footer). */
 import Logo from "./Logo.astro";
+import { routes } from "../config/site";
 
 const year = new Date().getFullYear();
 const groups = [
   {
     title: "Platform",
     links: [
-      { href: "#platform", label: "Platform" },
-      { href: "#how-it-works", label: "How It Works" },
-      { href: "#workforce", label: "AI Workforce" },
+      { href: routes.platform, label: "Platform" },
+      { href: routes.howItWorks, label: "How It Works" },
+      { href: routes.workforce, label: "AI Workforce" },
     ],
   },
   {
     title: "Company",
     links: [
-      { href: "#vision", label: "Our Vision" },
-      { href: "#founder", label: "About" },
-      { href: "#join", label: "Early Access" },
+      { href: routes.vision, label: "Our Vision" },
+      { href: routes.about, label: "About" },
+      { href: routes.earlyAccess, label: "Early Access" },
+      { href: routes.privacy, label: "Privacy" },
     ],
   },
 ];

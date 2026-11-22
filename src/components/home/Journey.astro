@@ -1,17 +1,11 @@
 ---
-/* Section 6: the eight-stage journey. It is the intended journey; the product today covers the
-   first two stages (Discover and Validate: research, customer discovery, evidence), so only
-   those carry the Early Access label. Checked against the product on 2026-11-22. */
-const stages: { name: string; text: string; live?: boolean }[] = [
-  { name: "Discover", text: "Find meaningful problems, opportunities and customers.", live: true },
-  { name: "Validate", text: "Test assumptions and understand whether a real market exists.", live: true },
-  { name: "Build", text: "Turn validated ideas into products and services." },
-  { name: "Connect", text: "Bring business tools, data and systems together." },
-  { name: "Acquire", text: "Reach customers and build demand." },
-  { name: "Operate", text: "Coordinate the activities that keep a business running." },
-  { name: "Grow", text: "Understand performance and identify opportunities to improve." },
-  { name: "Sustain", text: "Build a business capable of creating lasting value." },
-];
+import Icon from "../Icon.astro";
+import { routes } from "../../config/site";
+
+/* Section 6: the eight-stage journey (src/data/journey.ts). The product today covers the first
+   three stages; the rest carry the Planned label. */
+import { journey } from "../../data/journey";
+const stages = journey.map((j) => ({ name: j.name, text: j.short, live: j.stage === "early" }));
 ---
 
 <section class="section section--alt journey" id="how-it-works" aria-labelledby="journey-title">
@@ -21,7 +15,7 @@ const stages: { name: string; text: string; live?: boolean }[] = [
       <h2 class="h2" id="journey-title">From an idea to a business. One connected journey.</h2>
       <p class="lead">
         Building a business is a journey, not a single task. SoloFactory is designed to support
-        the entrepreneur across the whole journey. Today it starts with the first two stages.
+        the entrepreneur across the whole journey. Today it covers the first three stages.
       </p>
     </div>
 
@@ -41,6 +35,7 @@ const stages: { name: string; text: string; live?: boolean }[] = [
       This is the journey SoloFactory is being built for. Stages marked Planned are not available
       yet.
     </p>
+    <a class="text-link journey__more" href={routes.howItWorks} data-track="cta_journey_how_it_works">Explore How It Works <Icon name="arrow-right" /></a>
   </div>
 </section>
 
@@ -90,6 +85,10 @@ const stages: { name: string; text: string; live?: boolean }[] = [
 
   .journey__stage .h3 {
     font-size: 22px;
+  }
+
+  .journey__more {
+    margin-top: 24px;
   }
 
   .journey__note {

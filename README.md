@@ -21,8 +21,12 @@ npm run preview    # serves dist/ to check the production build
 
 | Path | What it is |
 |---|---|
-| `src/pages/index.astro` | The page: the sections in order |
-| `src/components/` | One component per section (`Hero`, `Problem`, `Solution`, `Journey`, `Workforce`, `Ecosystem`, `Ownership`, `Vision`, `FinalCta`), plus `Nav`, `Footer`, `Logo`, `Icon` and `HeroVisual` |
+| `src/pages/` | The pages: `index` (home), `platform`, `how-it-works`, `ai-workforce`, `vision`, `about`, `early-access`, `privacy` (a draft until approved), and `sitemap.xml` |
+| `src/components/home/` | The homepage sections, in the order of the rebuild brief (2026-11-22) |
+| `src/components/` | `Nav`, `Footer`, `Logo`, `Icon`, `EarlyAccessForm`, and `ui/` (`PageHero`, `CtaBand`) |
+| `src/data/` | What exists today and what is planned: `workers.ts` (the AI Workers) and `journey.ts` (the eight stages). Check the live product before marking anything Early Access |
+| `src/config/` | `site.ts` (every page's address, the menu, the sitemap) and `waitlist.ts` (the Google Form) |
+| `src/layouts/Page.astro` | Every page: top bar, footer, reveal-on-scroll and the analytics hooks |
 | `src/styles/global.css` | Design tokens (colours, type, spacing) and shared styles |
 | `src/scripts/waitlist.ts` | The early-access form: validation and sending |
 | `src/layouts/Base.astro` | Page title, description, Open Graph and Twitter cards, structured data |
@@ -35,7 +39,8 @@ third-party font service.
 
 ## Design
 
-The website looks exactly like the SoloFactory AI product (PRD 2.10). `global.css` uses the
+The website looks like the SoloFactory AI product (PRD 2.10); the founder kept these three colours
+over a dark design on 2026-11-22. `global.css` uses the
 product's tokens: white and light grey (`#F1F1F1`) backgrounds, `#171717` text, `#636363`
 secondary text, `#E5E5E5` borders, black (`#080808`) buttons, 6/8/12 px corners, and Inter.
 The only black area is the top bar. Sections alternate white and light grey, as the product's
@@ -60,8 +65,9 @@ Both are read at **build** time: rebuild after changing them.
 
 ## The early-access form
 
-The form asks for name, email, business type and, optionally, a website. It checks every field in
-the browser before sending.
+The form, on `/early-access`, asks for name, email, the business stage (Idea, Exploring, Building,
+Already operating), what the person is trying to build, and consent to be emailed (the rebuild
+brief, 2026-11-22). It checks every field in the browser before sending.
 
 **Sign-ups go to the founder's Google Form** "SoloFactory AI early access"
 (https://forms.gle/1R982dbffSKiDik79), set up on 2026-11-22. They appear in the form's Responses
@@ -71,9 +77,10 @@ address in the background. The form ID and question IDs are in `src/config/waitl
 Google does not let the page read its answer, and it drops a sign-up it does not accept without
 saying so. So the Google Form must accept everything the page sends:
 
-- Only Name, Email and Business type may be required. Website stays optional.
-- Business type's choices must match the list in `FinalCta.astro` letter for letter. Change both
-  together.
+- No question may be required that the page does not send. The old Business type and Website
+  questions are no longer sent: they must not be required.
+- The stage question must be Short answer, or offer exactly the four stages in
+  `src/config/waitlist.ts`. Change both together.
 - If a question is added, removed or recreated, its ID changes: update `src/config/waitlist.ts`.
   The IDs can be read from the form's public page (`FB_PUBLIC_LOAD_DATA_`).
 
@@ -87,13 +94,14 @@ yet and that nothing was sent. It never shows a false success message.
 {
   "name": "Ada Founder",
   "email": "ada@example.com",
-  "businessType": "Ecommerce or D2C",
-  "website": "https://example.com",
+  "stage": "Exploring",
+  "building": "An online bakery",
+  "consent": "Yes",
   "source": "solofactory.ai"
 }
 ```
 
-`website` is an empty string when not given. The endpoint must allow cross-origin requests from the
+The endpoint must allow cross-origin requests from the
 site's address (CORS), or the browser blocks the request. Options:
 
 - **A form service** such as Formspree, Basin or Getform: create a form and use its endpoint URL.
@@ -103,8 +111,7 @@ site's address (CORS), or the browser blocks the request. Options:
 - **A serverless function** (AWS Lambda behind API Gateway, or a Cloudflare Worker) that writes to a
   table or a mailing list.
 
-Whichever you choose, the privacy notice must cover the details collected. The line under the form
-says they are used only to contact the person about early access.
+Whichever you choose, the privacy notice (`/privacy`) must cover the details collected.
 
 A hidden field catches simple bots: if it is filled in, nothing is sent.
 
@@ -144,12 +151,17 @@ on 2026-11-21:
   stack output `ApexTarget`, and `www` a CNAME to `WwwTarget`. Leave the MX and TXT records alone:
   they carry the domain's email at Hostinger.
 
-To publish a new version, with the AWS CLI profile `solofactory` signed in (`aws login --remote
---profile solofactory-login --region ap-south-1`):
+To publish, with the AWS CLI profile `solofactory` signed in (`aws login --remote --profile
+solofactory-login --region ap-south-1`):
 
 ```bash
-bash scripts/publish-aws.sh
+bash scripts/publish-aws.sh            # the live site
+bash scripts/publish-aws.sh preview    # the test link, hidden from search engines
 ```
+
+The test link is https://solofactory-ai-website-test.s3.ap-south-1.amazonaws.com/index.html.
+Pages are built as folders (`dist/platform/index.html`); the script also stores each one under its
+bare path (`platform`), because neither front end looks for `index.html` inside a folder.
 
 To change the stack itself:
 

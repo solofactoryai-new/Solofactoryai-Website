@@ -1,0 +1,226 @@
+---
+/* About (the rebuild brief, page 6): the founder's story in the founder's own words (2026-11-20,
+   kept exactly), the question behind SoloFactory, the mission and what the company believes.
+   No invented achievements, customers or testimonials. A mentor mention waits for the mentor's
+   agreement and the founder's wording. */
+import Page from "../layouts/Page.astro";
+import CtaBand from "../components/ui/CtaBand.astro";
+import { routes } from "../config/site";
+
+const beliefs = [
+  { title: "You stay in control", text: "AI Workers act only with your approval. Decisions, and responsibility, stay with the entrepreneur." },
+  { title: "Honest about today", text: "We say clearly what works now and what is planned. Early access means early." },
+  { title: "Sustainable over spectacular", text: "We care about businesses that pay their way and last, not about hype." },
+  { title: "Value first", text: "Help people build something useful, and the rest follows. Never the other way round." },
+];
+---
+
+<Page
+  title="About — SoloFactory AI"
+  description="Why Rajesh Dayalan is building SoloFactory AI: four years of bootstrapping, the sacrifices it took, and the question that followed. Our mission and what we believe."
+>
+  <section class="about-hero" aria-labelledby="page-title">
+    <div class="container about-hero__grid">
+      <div class="about-hero__copy">
+        <p class="eyebrow">About</p>
+        <h1 class="about-hero__title" id="page-title">
+          I've lived the problem <span class="soft">we're solving.</span>
+        </h1>
+        <div class="letter">
+          <p>For four years, I bootstrapped a startup.</p>
+          <p class="letter__strong">I spent my whole savings. I sold my gold. I sold my property.</p>
+          <p>Still, I wasn't able to make it a sustainable business. But I know exactly what blocked me.</p>
+          <p>
+            I want to solve exactly that problem for the new generation of entrepreneurs, and help
+            create 1 million sustainable businesses. That is why I am building SoloFactory AI.
+          </p>
+        </div>
+        <p class="sign">
+          <span class="sign__name">Rajesh Dayalan</span>
+          <span class="sign__role">Founder, SoloFactory AI</span>
+        </p>
+      </div>
+      <figure class="about-hero__photo">
+        <img
+          src="/founder/rajesh-dayalan.webp"
+          alt="Rajesh Dayalan, founder of SoloFactory AI"
+          width="1024"
+          height="1536"
+          decoding="async"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="question-title">
+    <div class="container container--narrow question" data-reveal>
+      <p class="eyebrow">The question that started it</p>
+      <h2 class="question__text" id="question-title">
+        What if the next generation of entrepreneurs had access to the capabilities they need,
+        <span class="soft">without having to build a large team first?</span>
+      </h2>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mission-title">
+    <div class="container two-col">
+      <div data-reveal>
+        <p class="eyebrow">Our mission</p>
+        <h2 class="h2" id="mission-title">Make sustainable business ownership accessible to more people.</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>
+          We give entrepreneurs the intelligence, capabilities and AI workforce they need to build
+          and operate businesses.
+        </p>
+        <p>
+          <strong>You lead. Your Brain understands. Your AI Workers execute, with you in control.</strong>
+        </p>
+        <p>
+          SoloFactory AI is early. The Research and Product Workers are in early access today, and
+          we are building the rest one honest step at a time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="beliefs-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What we believe</p>
+        <h2 class="h2" id="beliefs-title">How we build SoloFactory.</h2>
+      </div>
+      <ul class="beliefs" data-reveal>
+        {beliefs.map((b) => (
+          <li>
+            <h3 class="h3">{b.title}</h3>
+            <p class="muted">{b.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand track="cta_about" secondary={{ href: routes.vision, label: "Our Vision" }} />
+</Page>
+
+<style>
+  .about-hero {
+    padding: clamp(56px, 8vw, 112px) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(40px, 7vw, 112px);
+    align-items: center;
+  }
+
+  .about-hero__title {
+    max-width: 14ch;
+    font-size: clamp(40px, 5.6vw, 76px);
+    font-weight: 650;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .letter {
+    display: grid;
+    gap: 18px;
+    max-width: 58ch;
+    margin-top: 36px;
+    color: var(--text-secondary);
+    font-size: clamp(18px, 1.5vw, 20px);
+    line-height: 1.7;
+  }
+
+  .letter__strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .sign {
+    display: grid;
+    gap: 2px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .sign__name {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .sign__role {
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  .about-hero__photo {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-1);
+    aspect-ratio: 4 / 5;
+  }
+
+  .about-hero__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%;
+  }
+
+  .question {
+    text-align: center;
+  }
+
+  .question__text {
+    font-size: clamp(28px, 3.6vw, 48px);
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .beliefs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .beliefs li {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding-top: 20px;
+    border-top: 2px solid var(--text);
+  }
+
+  @media (max-width: 1000px) {
+    .beliefs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 800px) {
+    .about-hero__grid,
+    .two-col,
+    .beliefs {
+      grid-template-columns: 1fr;
+    }
+
+    .about-hero__photo {
+      max-width: 340px;
+    }
+  }
+</style>

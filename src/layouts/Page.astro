@@ -1,0 +1,55 @@
+---
+/* Every page: the top bar, the page's content, the footer, and two small scripts (sections fade
+   in as they scroll into view; links marked data-track announce analytics events). */
+import Base from "./Base.astro";
+import Footer from "../components/Footer.astro";
+import Nav from "../components/Nav.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex } = Astro.props;
+---
+
+<Base title={title} description={description} noindex={noindex}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <Nav />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+  <script>
+    // Sections fade in once as they scroll into view. Without scripts, or with reduced motion,
+    // everything is simply visible.
+    const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window)) {
+      items.forEach((el) => el.classList.add("is-visible"));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+      );
+      items.forEach((el) => observer.observe(el));
+    }
+
+    // Analytics hooks (brief 6.5). No analytics tool is installed: links marked data-track
+    // only announce an "sf:track" event on the page, ready for whichever tool is chosen later.
+    document.addEventListener("click", (event) => {
+      const el = (event.target as HTMLElement).closest<HTMLElement>("[data-track]");
+      if (el) window.dispatchEvent(new CustomEvent("sf:track", { detail: { event: el.dataset.track } }));
+    });
+    window.dispatchEvent(
+      new CustomEvent("sf:track", { detail: { event: "page_view", path: location.pathname } }),
+    );
+  </script>
+</Base>

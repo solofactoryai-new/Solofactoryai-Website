@@ -3,6 +3,7 @@
    layers with an honest status each. The product today has one Brain per business; a separate
    Founder Brain is planned (checked against the product on 2026-11-22). */
 import Icon, { type IconName } from "../Icon.astro";
+import { routes } from "../../config/site";
 
 const trio: { label: string; title: string; text: string; icon: IconName }[] = [
   { label: "You", title: "The Entrepreneur", text: "The ambition, the ideas, the judgement and the decisions.", icon: "user" },
@@ -85,6 +86,7 @@ const layers: { name: string; status: string; tone: "live" | "planned"; lead: st
         ))}
       </ul>
       <p class="closing" data-reveal>Not more disconnected tools. A more connected way to build.</p>
+      <a class="text-link platform__more" href={routes.platform} data-track="cta_home_platform">Explore the Platform <Icon name="arrow-right" /></a>
     </div>
   </div>
 </section>
@@ -163,6 +165,10 @@ const layers: { name: string; status: string; tone: "live" | "planned"; lead: st
 
   .platform__motto {
     text-align: center;
+  }
+
+  .platform__more {
+    margin-top: 16px;
   }
 
   .layers {

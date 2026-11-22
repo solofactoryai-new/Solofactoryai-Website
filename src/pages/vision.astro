@@ -1,0 +1,271 @@
+---
+/* Our Vision (the rebuild brief, page 5): the long-term ambition, told the way the brief's
+   storytelling principles ask: the world first, the root problem, what changes, the cost of not
+   solving it, the stepping stones, and people before money. Ambitions are worded as ambitions. */
+import Page from "../layouts/Page.astro";
+import CtaBand from "../components/ui/CtaBand.astro";
+import { routes } from "../config/site";
+
+const changes = [
+  { before: "Hire a researcher", after: "A Research Worker studies the market with you" },
+  { before: "Hire a product team", after: "A Product Worker turns evidence into plans" },
+  { before: "Hire marketing and sales", after: "Workers help you reach customers" },
+  { before: "Hire operations and finance", after: "Workers keep the business running" },
+];
+---
+
+<Page
+  title="Our Vision — SoloFactory AI"
+  description="Imagine a world where anyone can own a company that pays them. Why entrepreneurship is still so hard, what changes when intelligence and execution become accessible, and our ambition to help one million people build sustainable businesses."
+>
+  <section class="vhero" aria-labelledby="page-title">
+    <div class="container">
+      <p class="eyebrow">Our vision</p>
+      <h1 class="vhero__title" id="page-title">
+        Imagine a world where anyone can own a company <span class="soft">that pays them.</span>
+      </h1>
+      <p class="vhero__lines">
+        <span>With or without a job.</span>
+        <span>With or without a team.</span>
+        <span>With the leverage of AI.</span>
+      </p>
+      <p class="lead vhero__lead">
+        So everyone has the freedom to spend more time living the life they love.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="hard-title">
+    <div class="container two-col">
+      <div data-reveal>
+        <p class="eyebrow">Why it is still so hard</p>
+        <h2 class="h2" id="hard-title">The idea is rarely the problem.</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>
+          Ideas are everywhere. So is ambition. What is missing is everything in between: the
+          research, the product, the marketing, the sales, the operations, the finances.
+        </p>
+        <p>
+          Until now, every one of those capabilities meant hiring someone, so the team had to exist
+          before the business could earn. <strong>Business capability has been locked behind
+          hiring</strong>, and only people with capital, connections or a safety net could reach it.
+        </p>
+        <p>
+          And when it stays that way, the cost is real. Savings run out. Families carry the risk.
+          Good ideas that would have helped people are never built.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="change-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What changes</p>
+        <h2 class="h2" id="change-title">When intelligence and execution become accessible.</h2>
+        <p class="lead">
+          AI can now do real work, not just answer questions. Connect it to one understanding of a
+          business, keep a person in charge, and a single entrepreneur can reach capabilities that
+          used to need a team.
+        </p>
+      </div>
+      <ul class="changes" data-reveal aria-label="From hiring to a workforce">
+        {changes.map((c) => (
+          <li>
+            <span class="changes__before">{c.before}</span>
+            <span class="changes__arrow" aria-hidden="true">→</span>
+            <span class="changes__after">{c.after}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="changes__note" data-reveal>
+        The Research and Product Workers are in early access today. The others are planned.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="future-title">
+    <div class="container two-col">
+      <div data-reveal>
+        <p class="eyebrow">The entrepreneur of the future</p>
+        <h2 class="h2" id="future-title">One entrepreneur. One connected Brain. An entire AI workforce.</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>
+          The entrepreneur of the future brings what only a person can: the ambition, the ideas,
+          the judgement, the decisions and the responsibility.
+        </p>
+        <p>
+          SoloFactory brings the connected intelligence, the memory of the business and a
+          workforce that turns decisions into action.
+        </p>
+        <p>
+          <strong>We want to make it possible for anyone in the world to become an entrepreneur,
+          regardless of their access to capital, expertise or a traditional team.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="million-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Our measurable ambition</p>
+        <h2 class="million" id="million-title">
+          <span>One million people</span>
+          <span class="soft">building sustainable businesses.</span>
+        </h2>
+      </div>
+      <div class="two-col">
+        <div class="prose" data-reveal>
+          <p>
+            Not simply more companies. More people with something of their own. More useful
+            products and services. More livelihoods, and more value for the communities around
+            them.
+          </p>
+          <p class="fine">An ambition, not a result we can promise.</p>
+        </div>
+        <div class="prose" data-reveal>
+          <p><strong>A sustainable business, the way we mean it:</strong></p>
+          <p>
+            It pays its way. It serves its customers well. It does not depend on endless funding or
+            a team the founder cannot afford. It lasts.
+          </p>
+          <p>
+            We would rather help a million people build businesses like that than help a few build
+            something that burns out.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="invite-title">
+    <div class="container container--narrow invite" data-reveal>
+      <p class="eyebrow">An invitation</p>
+      <h2 class="h2" id="invite-title">Build this future with us.</h2>
+      <p class="lead">
+        If you have always wanted to build something of your own, you are who we are building for.
+        Join early access, tell us what you are building, and help shape what SoloFactory becomes.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand track="cta_vision" secondary={{ href: routes.about, label: "Read our story" }} />
+</Page>
+
+<style>
+  .vhero {
+    padding: clamp(56px, 8vw, 120px) 0 clamp(56px, 7vw, 104px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .vhero__title {
+    max-width: 17ch;
+    font-size: clamp(42px, 7vw, 96px);
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .vhero__lines {
+    display: grid;
+    gap: 4px;
+    margin-top: 40px;
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .vhero__lead {
+    margin-top: 24px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .changes {
+    display: grid;
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+  }
+
+  .changes li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1.3fr);
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--bg);
+    font-size: 17px;
+  }
+
+  .changes__before {
+    color: var(--text-tertiary);
+    text-decoration: line-through;
+    text-decoration-color: var(--border-strong);
+  }
+
+  .changes__arrow {
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  .changes__after {
+    font-weight: 600;
+  }
+
+  .changes__note {
+    margin-top: 16px;
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  .million {
+    display: grid;
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 650;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .fine {
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  .invite {
+    text-align: center;
+  }
+
+  .invite .h2 {
+    margin: 0 auto 20px;
+  }
+
+  .invite .lead {
+    margin: 0 auto;
+  }
+
+  @media (max-width: 800px) {
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+
+    .changes li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+
+    .changes__arrow {
+      display: none;
+    }
+  }
+</style>

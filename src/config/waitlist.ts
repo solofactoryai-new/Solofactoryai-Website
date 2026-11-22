@@ -1,15 +1,19 @@
 /* Where the early-access form sends sign-ups (README, "The early-access form").
 
-   googleForm: the founder's Google Form. The page posts each sign-up to the form's
-   formResponse address, and the answers appear in the form's Responses tab (and its linked
-   Sheet). These IDs are public: anyone can read them from the form's own page. Every question in
-   the Google Form must accept everything this page sends, or Google drops the sign-up without
-   telling anyone. So: only Name, Email and Business type may be required; Website must stay
-   optional; Business type's choices must match the list in FinalCta.astro letter for letter.
-   Change both together.
+   googleForm: the founder's Google Form "SoloFactory AI early access"
+   (https://forms.gle/1R982dbffSKiDik79). The page posts each sign-up to the form's
+   formResponse address, and the answers appear in the form's Responses tab. These IDs are public:
+   anyone can read them from the form's own page.
 
-   The form "SoloFactory AI early access" (https://forms.gle/1R982dbffSKiDik79) was made by the
-   founder on 2026-11-22. It has no Source question, so source is not sent.
+   Google drops a sign-up it does not accept, without telling anyone, so the Google Form must
+   accept everything this page sends:
+   - no question may be required that this page does not send;
+   - "Business stage" must be Short answer, or offer exactly the four stages below;
+   - change the stages here and in the Google Form together.
+
+   The form fields changed on 2026-11-22 (the rebuild brief): name, email, stage, what you are
+   building, consent. The new questions' IDs are filled in once the founder adds them to the
+   Google Form; an empty ID is simply not sent.
 
    Leave formId empty to fall back to PUBLIC_WAITLIST_ENDPOINT (a JSON endpoint), or, with
    neither, to the honest "not connected yet" message. */
@@ -18,8 +22,11 @@ export const googleForm = {
   entries: {
     name: "entry.955318456",
     email: "entry.178023779",
-    businessType: "entry.388512311",
-    website: "entry.497021125",
+    stage: "",
+    building: "",
+    consent: "",
     source: "",
   },
 };
+
+export const stages = ["Idea", "Exploring", "Building", "Already operating"];

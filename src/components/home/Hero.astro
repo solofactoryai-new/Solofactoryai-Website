@@ -7,6 +7,7 @@
    The headline spans the full width; the Brain picture sits beside the supporting lines. */
 import Icon from "../Icon.astro";
 import BrainVisual from "./BrainVisual.astro";
+import { routes } from "../../config/site";
 ---
 
 <section class="hero" id="top" aria-labelledby="hero-title">
@@ -25,8 +26,8 @@ import BrainVisual from "./BrainVisual.astro";
         </p>
         <p class="hero__brand">Build Your Business. Not Your Team.</p>
         <div class="hero__ctas">
-          <a class="button" href="#join" data-track="cta_hero_early_access">Get Early Access <Icon name="arrow-right" /></a>
-          <a class="button button--secondary" href="#platform" data-track="cta_hero_platform">Explore the Platform</a>
+          <a class="button" href={routes.earlyAccess} data-track="cta_hero_early_access">Get Early Access <Icon name="arrow-right" /></a>
+          <a class="button button--secondary" href={routes.platform} data-track="cta_hero_platform">Explore the Platform</a>
         </div>
         <p class="hero__closing">One entrepreneur. One connected Brain. An entire AI workforce.</p>
       </div>
